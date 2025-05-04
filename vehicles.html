@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Vehicles | Open Roads Motors</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">OPEN ROADS MOTORS</a>
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Vehicles <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="vehicles.html?type=suv">SUVs</a>
+                            <a href="vehicles.html?type=sedan">Sedans</a>
+                            <a href="vehicles.html?type=truck">Trucks</a>
+                            <a href="vehicles.html?type=luxury">Luxury</a>
+                            <a href="vehicles.html?type=bike">Bikes</a>
+                            <a href="vehicles.html">View All</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Real Estate <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="properties.html?type=apartments">Apartments</a>
+                            <a href="properties.html?type=houses">Houses</a>
+                            <a href="properties.html?type=commercial">Commercial</a>
+                            <a href="properties.html?type=land">Land</a>
+                            <a href="properties.html">View All</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="sell.html" class="sell-button"><i class="fas fa-tag"></i> Sell</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <button id="search-toggle"><i class="fas fa-search"></i></button>
+                <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button id="menu-toggle" class="mobile-only"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <div id="advanced-search" class="search-panel">
+        <div class="container">
+            <form id="search-form">
+                <div class="search-category">
+                    <label for="search-category">I'm looking for</label>
+                    <select id="search-category">
+                        <option value="vehicles" selected>Vehicles</option>
+                        <option value="real-estate">Real Estate</option>
+                    </select>
+                </div>
+
+                <div class="search-fields" id="vehicle-fields">
+                    <div class="field">
+                        <label for="vehicle-type">Type</label>
+                        <select id="vehicle-type">
+                            <option value="">All Types</option>
+                            <option value="suv">SUV</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="truck">Truck</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="bike">Bike</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="vehicle-make">Make</label>
+                        <select id="vehicle-make">
+                            <option value="">All Makes</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="bmw">BMW</option>
+                            <option value="audi">Audi</option>
+                            <option value="range-rover">Range Rover</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="year">Year</label>
+                        <select id="year">
+                            <option value="">Any Year</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="search-fields" id="real-estate-fields" style="display: none;">
+                    <div class="field">
+                        <label for="property-type">Type</label>
+                        <select id="property-type">
+                            <option value="">All Types</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house">House</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="land">Land</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="location">Location</label>
+                        <select id="location">
+                            <option value="">All Locations</option>
+                            <option value="nairobi">Nairobi</option>
+                            <option value="mombasa">Mombasa</option>
+                            <option value="kisumu">Kisumu</option>
+                            <option value="nakuru">Nakuru</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="property-price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="property-min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="property-max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="bedrooms">Bedrooms</label>
+                        <select id="bedrooms">
+                            <option value="">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'); background-size: cover; background-position: center; color: #fff;">
+            <div class="container">
+                <h1>Our Vehicle Collection</h1>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a> / <span>Vehicles</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Listing Controls -->
+        <section class="listing-controls">
+            <div class="container">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search by make, model or year...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="filter-sort">
+                    <div class="filter-btn">
+                        <button id="filter-toggle"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
+                    <div class="sort-dropdown">
+                        <select id="sort-select">
+                            <option value="featured">Featured</option>
+                            <option value="newest">Newest</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Active Filters -->
+        <section class="active-filters">
+            <div class="container">
+                <div id="active-filters-container">
+                    <!-- Filter tags will be added dynamically based on applied filters -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Vehicles Listing -->
+        <section class="listings">
+            <div class="container">
+                <div class="cards-container">
+                    <!-- Vehicle Card 1 -->
+                    <div class="card" data-id="vehicle-1" data-type="luxury" data-make="mercedes" data-year="2023" data-price="15500000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80" alt="Mercedes Benz S-Class">
+                            <div class="card-tag">New</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Mercedes Benz S-Class</h3>
+                            <p class="location">Nairobi, Kenya</p>
+                            <p class="price">KES 15,500,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-calendar-alt"></i> 2023</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 3,500 km</span>
+                                <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="vehicle-1"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80" alt="Mercedes Benz S-Class - Front View">
+                            <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Mercedes Benz S-Class - Side View">
+                            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Mercedes Benz S-Class - Interior">
+                            <img src="https://images.unsplash.com/photo-1549399542-7e8f2e928464?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Mercedes Benz S-Class - Rear View">
+                            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Mercedes Benz S-Class - Dashboard">
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Card 2 -->
+                    <div class="card" data-id="vehicle-2" data-type="suv" data-make="range-rover" data-year="2024" data-price="13900000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport">
+                            <div class="card-tag">Locally Used</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Range Rover Sport</h3>
+                            <p class="location">Mombasa, Kenya</p>
+                            <p class="price">KES 13,900,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-calendar-alt"></i> 2024</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 1,200 km</span>
+                                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="vehicle-2"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport - Front View">
+                            <img src="https://images.unsplash.com/photo-1669212932575-b30ad0501b3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Range Rover Sport - Side View">
+                            <img src="https://images.unsplash.com/photo-1574023278981-0b5ba9778c1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport - Interior">
+                            <img src="https://images.unsplash.com/photo-1575659894936-91204e956e05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport - Rear View">
+                            <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Range Rover Sport - Dashboard">
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Card 3 -->
+                    <div class="card" data-id="vehicle-3" data-type="suv" data-make="audi" data-year="2025" data-price="12750000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Audi Q8">
+                            <div class="card-tag">Imported</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Audi Q8</h3>
+                            <p class="location">Nairobi, Kenya</p>
+                            <p class="price">KES 12,750,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-calendar-alt"></i> 2025</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 500 km</span>
+                                <span><i class="fas fa-gas-pump"></i> Hybrid</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="vehicle-3"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Audi Q8 - Front View">
+                            <img src="https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Audi Q8 - Side View">
+                            <img src="https://images.unsplash.com/photo-1583267746897-2cf415887172?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Audi Q8 - Interior">
+                            <img src="https://images.unsplash.com/photo-1562959635-b63a1ee38c74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Audi Q8 - Rear View">
+                            <img src="https://images.unsplash.com/photo-1568844293986-ca3c5a056e8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1520&q=80" alt="Audi Q8 - Dashboard">
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Card 4 -->
+                    <div class="card" data-id="vehicle-4" data-type="sedan" data-make="bmw" data-year="2024" data-price="9500000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="BMW 5 Series">
+                            <div class="card-tag">New</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>BMW 5 Series</h3>
+                            <p class="location">Nairobi, Kenya</p>
+                            <p class="price">KES 9,500,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-calendar-alt"></i> 2024</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 2,100 km</span>
+                                <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="vehicle-4"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="BMW 5 Series - Front View">
+                            <img src="https://images.unsplash.com/photo-1520050206274-a1ae44613e6d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="BMW 5 Series - Side View">
+                            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="BMW 5 Series - Interior">
+                            <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="BMW 5 Series - Rear View">
+                            <img src="https://images.unsplash.com/photo-1543854589-fdd815f176e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="BMW 5 Series - Dashboard">
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Card 5 -->
+                    <div class="card" data-id="vehicle-5" data-type="truck" data-make="toyota" data-year="2023" data-price="7800000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1659579086102-02804fe2245d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Hilux">
+                            <div class="card-tag">Locally Used</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Toyota Hilux Double Cab</h3>
+                            <p class="location">Nakuru, Kenya</p>
+                            <p class="price">KES 7,800,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-calendar-alt"></i> 2023</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 5,600 km</span>
+                                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="vehicle-5"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1659579086102-02804fe2245d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Hilux - Front View">
+                            <img src="https://images.unsplash.com/photo-1551830820-330a71634c3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Hilux - Side View">
+                            <img src="https://images.unsplash.com/photo-1600752939768-1a78d4a59aea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Hilux - Interior">
+                            <img src="https://images.unsplash.com/photo-1601603309138-8e46c9cdc9c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Hilux - Rear View">
+                            <img src="https://images.unsplash.com/photo-1602775112551-fa7515d87dcf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80" alt="Toyota Hilux - Dashboard">
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Card 6 -->
+                    <div class="card" data-id="vehicle-6" data-type="sedan" data-make="toyota" data-year="2022" data-price="5200000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1626668893528-1e8d48c7e479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Camry">
+                            <div class="card-tag">Imported</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Toyota Camry Hybrid</h3>
+                            <p class="location">Mombasa, Kenya</p>
+                            <p class="price">KES 5,200,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-calendar-alt"></i> 2022</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 15,800 km</span>
+                                <span><i class="fas fa-gas-pump"></i> Hybrid</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="vehicle-6"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1626668893528-1e8d48c7e479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Camry - Front View">
+                            <img src="https://images.unsplash.com/photo-1621007690695-33cb6b4d1ed4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Camry - Side View">
+                            <img src="https://images.unsplash.com/photo-1621007690282-89026136d4b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Camry - Interior">
+                            <img src="https://images.unsplash.com/photo-1604951873981-3682f724d888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Toyota Camry - Rear View">
+                            <img src="https://images.unsplash.com/photo-1621007690406-f1b3b110da44?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Toyota Camry - Dashboard">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Results Message (hidden by default) -->
+                <div id="no-results" style="display: none;">
+                    <h3>No vehicles found</h3>
+                    <p>Try adjusting your filters to find the vehicle you're looking for.</p>
+                    <button id="clear-filters">Clear all filters</button>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="btn btn-outline active">1</button>
+                    <button class="btn btn-outline">2</button>
+                    <button class="btn btn-outline">3</button>
+                    <button class="btn btn-outline"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Open Roads Motors</h3>
+                    <p>Luxury vehicles and prime real estate for discerning clients in Kenya.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="vehicles.html">Vehicles</a></li>
+                        <li><a href="properties.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi, Kenya</li>
+                        <li><i class="fas fa-phone"></i> +254 712 345 678</li>
+                        <li><i class="fas fa-envelope"></i> info@openroadsmotors.co.ke</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive updates on our latest listings.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Open Roads Motors. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal">
+        <div class="gallery-content">
+            <div class="gallery-header">
+                <h3 class="gallery-title">Item Details</h3>
+                <button class="gallery-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="gallery-main">
+                <button class="gallery-arrow prev"><i class="fas fa-chevron-left"></i></button>
+                <img src="" alt="Gallery Image" class="gallery-image">
+                <button class="gallery-arrow next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="gallery-thumbnails"></div>
+            <div class="gallery-info">
+                <p class="gallery-price"></p>
+                <p class="gallery-description"></p>
+                <div class="gallery-actions">
+                    <button class="gallery-btn primary"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                    <button class="gallery-btn secondary"><i class="fas fa-phone"></i> Contact Seller</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal" id="filter-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Filter Vehicles</h3>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-group">
+                    <h4>Vehicle Type</h4>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="type" value="suv"> SUVs</label>
+                        <label><input type="checkbox" name="type" value="sedan"> Sedans</label>
+                        <label><input type="checkbox" name="type" value="truck"> Trucks</label>
+                        <label><input type="checkbox" name="type" value="luxury"> Luxury</label>
+                        <label><input type="checkbox" name="type" value="bike"> Bikes</label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Make</h4>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="make" value="toyota"> Toyota</label>
+                        <label><input type="checkbox" name="make" value="mercedes"> Mercedes</label>
+                        <label><input type="checkbox" name="make" value="bmw"> BMW</label>
+                        <label><input type="checkbox" name="make" value="audi"> Audi</label>
+                        <label><input type="checkbox" name="make" value="range-rover"> Range Rover</label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Year</h4>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="year" value="2025"> 2025</label>
+                        <label><input type="checkbox" name="year" value="2024"> 2024</label>
+                        <label><input type="checkbox" name="year" value="2023"> 2023</label>
+                        <label><input type="checkbox" name="year" value="2022"> 2022</label>
+                        <label><input type="checkbox" name="year" value="2021"> 2021 & Older</label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Price Range</h4>
+                    <div class="range-slider">
+                        <input type="range" id="price-slider" min="1000000" max="20000000" step="500000" value="20000000">
+                        <div class="range-values">
+                            <span>KES 1,000,000</span>
+                            <span id="price-value">KES 20,000,000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn-secondary" id="reset-filters">Reset</button>
+                    <button class="btn-primary" id="apply-filters">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter Modal
+            const filterModal = document.getElementById('filter-modal');
+            const filterToggle = document.getElementById('filter-toggle');
+            const modalClose = document.querySelector('.modal-close');
+            const applyFiltersBtn = document.getElementById('apply-filters');
+            const resetFiltersBtn = document.getElementById('reset-filters');
+            const priceSlider = document.getElementById('price-slider');
+            const priceValue = document.getElementById('price-value');
+            const activeFiltersContainer = document.getElementById('active-filters-container');
+            const clearFiltersBtn = document.getElementById('clear-filters');
+            const cards = document.querySelectorAll('.card');
+            const noResults = document.getElementById('no-results');
+            
+            // Search bar functionality
+            const searchBar = document.querySelector('.search-bar input');
+            const searchBtn = document.querySelector('.search-bar button');
+            
+            // Sort functionality
+            const sortSelect = document.getElementById('sort-select');
+            
+            // URL params handling
+            function getUrlParams() {
+                const params = new URLSearchParams(window.location.search);
+                return {
+                    type: params.get('type'),
+                    make: params.get('make'),
+                    minPrice: params.get('minPrice'),
+                    maxPrice: params.get('maxPrice'),
+                    year: params.get('year')
+                };
+            }
+            
+            // Apply URL params as filters on page load
+            function applyUrlParamsAsFilters() {
+                const params = getUrlParams();
+                
+                if (params.type) {
+                    document.querySelector(`input[name="type"][value="${params.type}"]`).checked = true;
+                    addFilterTag('type', params.type);
+                }
+                
+                if (params.make) {
+                    document.querySelector(`input[name="make"][value="${params.make}"]`).checked = true;
+                    addFilterTag('make', params.make);
+                }
+                
+                if (params.year) {
+                    document.querySelector(`input[name="year"][value="${params.year}"]`).checked = true;
+                    addFilterTag('year', params.year);
+                }
+                
+                if (params.maxPrice) {
+                    priceSlider.value = params.maxPrice;
+                    priceValue.textContent = formatPrice(params.maxPrice);
+                    addFilterTag('price', `Under ${formatPrice(params.maxPrice)}`);
+                }
+                
+                // Filter vehicles based on URL params
+                filterVehicles();
+            }
+            
+            // Format price with commas
+            function formatPrice(price) {
+                return `KES ${parseInt(price).toLocaleString()}`;
+            }
+            
+            // Update price slider value display
+            priceSlider.addEventListener('input', function() {
+                priceValue.textContent = formatPrice(this.value);
+            });
+            
+            // Open filter modal
+            filterToggle.addEventListener('click', function() {
+                filterModal.classList.add('active');
+            });
+            
+            // Close filter modal
+            modalClose.addEventListener('click', function() {
+                filterModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            filterModal.addEventListener('click', function(e) {
+                if (e.target === filterModal) {
+                    filterModal.classList.remove('active');
+                }
+            });
+            
+            // Add filter tag
+            function addFilterTag(type, value) {
+                // Check if filter already exists
+                const existingTag = document.querySelector(`.filter-tag[data-type="${type}"][data-value="${value}"]`);
+                if (existingTag) return;
+                
+                const displayValue = type === 'type' && value === 'suv' ? 'SUV' : 
+                                     value.charAt(0).toUpperCase() + value.slice(1);
+                
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                tag.setAttribute('data-type', type);
+                tag.setAttribute('data-value', value);
+                tag.innerHTML = `
+                    ${type === 'type' ? 'Type: ' : 
+                      type === 'make' ? 'Make: ' : 
+                      type === 'year' ? 'Year: ' : ''}${displayValue}
+                    <span class="remove"><i class="fas fa-times"></i></span>
+                `;
+                
+                // Remove tag on click
+                tag.querySelector('.remove').addEventListener('click', function() {
+                    tag.remove();
+                    
+                    // Uncheck corresponding checkbox
+                    if (type !== 'price') {
+                        const checkbox = document.querySelector(`input[name="${type}"][value="${value}"]`);
+                        if (checkbox) checkbox.checked = false;
+                    }
+                    
+                    // Reset price slider if removing price filter
+                    if (type === 'price') {
+                        priceSlider.value = priceSlider.max;
+                        priceValue.textContent = formatPrice(priceSlider.max);
+                    }
+                    
+                    // Re-filter vehicles
+                    filterVehicles();
+                });
+                
+                activeFiltersContainer.appendChild(tag);
+            }
+            
+            // Apply filters
+            applyFiltersBtn.addEventListener('click', function() {
+                // Clear existing filter tags
+                activeFiltersContainer.innerHTML = '';
+                
+                // Add tags for checked checkboxes
+                document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                    addFilterTag(checkbox.name, checkbox.value);
+                });
+                
+                // Add tag for price if not at max
+                if (priceSlider.value < priceSlider.max) {
+                    addFilterTag('price', `Under ${formatPrice(priceSlider.value)}`);
+                }
+                
+                // Close modal
+                filterModal.classList.remove('active');
+                
+                // Filter vehicles
+                filterVehicles();
+            });
+            
+            // Reset filters
+            resetFiltersBtn.addEventListener('click', function() {
+                // Uncheck all checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                // Reset price slider
+                priceSlider.value = priceSlider.max;
+                priceValue.textContent = formatPrice(priceSlider.max);
+            });
+            
+            // Clear all filters
+            clearFiltersBtn.addEventListener('click', function() {
+                // Clear filter tags
+                activeFiltersContainer.innerHTML = '';
+                
+                // Uncheck all checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                // Reset price slider
+                priceSlider.value = priceSlider.max;
+                priceValue.textContent = formatPrice(priceSlider.max);
+                
+                // Show all vehicles
+                filterVehicles();
+            });
+            
+            // Search functionality
+            searchBtn.addEventListener('click', function() {
+                const searchTerm = searchBar.value.toLowerCase().trim();
+                searchVehicles(searchTerm);
+            });
+            
+            searchBar.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = searchBar.value.toLowerCase().trim();
+                    searchVehicles(searchTerm);
+                }
+            });
+            
+            function searchVehicles(searchTerm) {
+                if (!searchTerm) {
+                    filterVehicles(); // Reset to normal filtering
+                    return;
+                }
+                
+                let visibleCount = 0;
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const make = card.getAttribute('data-make');
+                    const year = card.getAttribute('data-year');
+                    
+                    if (title.includes(searchTerm) || make.includes(searchTerm) || year.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+            
+            // Sort functionality
+            sortSelect.addEventListener('change', function() {
+                sortVehicles(this.value);
+            });
+            
+            function sortVehicles(sortBy) {
+                const cardsContainer = document.querySelector('.cards-container');
+                const cardArray = Array.from(cards);
+                
+                cardArray.sort((a, b) => {
+                    if (sortBy === 'price-low') {
+                        return parseInt(a.getAttribute('data-price')) - parseInt(b.getAttribute('data-price'));
+                    } else if (sortBy === 'price-high') {
+                        return parseInt(b.getAttribute('data-price')) - parseInt(a.getAttribute('data-price'));
+                    } else if (sortBy === 'newest') {
+                        return parseInt(b.getAttribute('data-year')) - parseInt(a.getAttribute('data-year'));
+                    } else {
+                        // Featured - just return to default order
+                        return Array.from(cards).indexOf(a) - Array.from(cards).indexOf(b);
+                    }
+                });
+                
+                // Reappend sorted cards
+                cardArray.forEach(card => {
+                    cardsContainer.appendChild(card);
+                });
+            }
+            
+            // Filter vehicles based on active filters
+            function filterVehicles() {
+                const activeFilters = document.querySelectorAll('.filter-tag');
+                const filterCriteria = {
+                    types: [],
+                    makes: [],
+                    years: [],
+                    maxPrice: priceSlider.max
+                };
+                
+                // Collect filter criteria
+                activeFilters.forEach(filter => {
+                    const type = filter.getAttribute('data-type');
+                    const value = filter.getAttribute('data-value');
+                    
+                    if (type === 'type') filterCriteria.types.push(value);
+                    if (type === 'make') filterCriteria.makes.push(value);
+                    if (type === 'year') filterCriteria.years.push(value);
+                    if (type === 'price') filterCriteria.maxPrice = parseInt(priceSlider.value);
+                });
+                
+                let visibleCount = 0;
+                
+                // Apply filters to cards
+                cards.forEach(card => {
+                    const cardType = card.getAttribute('data-type');
+                    const cardMake = card.getAttribute('data-make');
+                    const cardYear = card.getAttribute('data-year');
+                    const cardPrice = parseInt(card.getAttribute('data-price'));
+                    
+                    const typeMatch = filterCriteria.types.length === 0 || filterCriteria.types.includes(cardType);
+                    const makeMatch = filterCriteria.makes.length === 0 || filterCriteria.makes.includes(cardMake);
+                    const yearMatch = filterCriteria.years.length === 0 || filterCriteria.years.includes(cardYear);
+                    const priceMatch = cardPrice <= filterCriteria.maxPrice;
+                    
+                    if (typeMatch && makeMatch && yearMatch && priceMatch) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+            
+            // Initialize page with URL params
+            applyUrlParamsAsFilters();
+            
+            // Pagination (just for show - not functional in this demo)
+            const paginationButtons = document.querySelectorAll('.pagination button');
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    paginationButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Roads Motors | Premium Vehicles & Real Estate</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">OPEN ROADS MOTORS</a>
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Vehicles <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="vehicles.html?type=suv">SUVs</a>
+                            <a href="vehicles.html?type=sedan">Sedans</a>
+                            <a href="vehicles.html?type=truck">Trucks</a>
+                            <a href="vehicles.html?type=luxury">Luxury</a>
+                            <a href="vehicles.html?type=bike">Bikes</a>
+                            <a href="vehicles.html">View All</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Real Estate <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="properties.html?type=apartments">Apartments</a>
+                            <a href="properties.html?type=houses">Houses</a>
+                            <a href="properties.html?type=commercial">Commercial</a>
+                            <a href="properties.html?type=land">Land</a>
+                            <a href="properties.html">View All</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="sell.html" class="sell-button"><i class="fas fa-tag"></i> Sell</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <button id="search-toggle"><i class="fas fa-search"></i></button>
+                <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button id="menu-toggle" class="mobile-only"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <div id="advanced-search" class="search-panel">
+        <div class="container">
+            <form id="search-form">
+                <div class="search-category">
+                    <label for="search-category">I'm looking for</label>
+                    <select id="search-category">
+                        <option value="vehicles">Vehicles</option>
+                        <option value="real-estate">Real Estate</option>
+                    </select>
+                </div>
+
+                <div class="search-fields" id="vehicle-fields">
+                    <div class="field">
+                        <label for="vehicle-type">Type</label>
+                        <select id="vehicle-type">
+                            <option value="">All Types</option>
+                            <option value="suv">SUV</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="truck">Truck</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="vehicle-make">Make</label>
+                        <select id="vehicle-make">
+                            <option value="">All Makes</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="bmw">BMW</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="year">Year</label>
+                        <select id="year">
+                            <option value="">Any Year</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="search-fields" id="real-estate-fields" style="display: none;">
+                    <div class="field">
+                        <label for="property-type">Type</label>
+                        <select id="property-type">
+                            <option value="">All Types</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house">House</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="land">Land</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="location">Location</label>
+                        <select id="location">
+                            <option value="">All Locations</option>
+                            <option value="nairobi">Nairobi</option>
+                            <option value="mombasa">Mombasa</option>
+                            <option value="kisumu">Kisumu</option>
+                            <option value="nakuru">Nakuru</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="property-price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="property-min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="property-max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="bedrooms">Bedrooms</label>
+                        <select id="bedrooms">
+                            <option value="">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-slider">
+                <div class="slide active">
+                    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
+                </div>
+                <div class="slide">
+                    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
+                </div>
+                <div class="slide">
+                    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-subtitle">Kenya's Premier Marketplace</span>
+                    <h1>Discover Luxury Vehicles & Properties</h1>
+                    <p>Premium automobiles and exclusive real estate, all in one place</p>
+                    <div class="hero-buttons">
+                        <a href="vehicles.html" class="btn btn-primary">Explore Vehicles</a>
+                        <a href="properties.html" class="btn btn-secondary">Browse Properties</a>
+                        <a href="sell.html" class="btn btn-accent"><i class="fas fa-tag"></i> Sell With Us</a>
+                    </div>
+                </div>
+                <div class="slider-controls">
+                    <button class="slider-arrow prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="slider-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <button class="slider-arrow next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Vehicles Section -->
+        <section class="featured-section">
+            <div class="container">
+                <h2>Featured Vehicles</h2>
+                <div class="cards-container">
+                    <!-- Vehicle Card 1 -->
+                    <div class="card" data-id="vehicle-1">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80" alt="Mercedes Benz S-Class">
+                            <div class="card-tag">New</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Mercedes Benz S-Class</h3>
+                            <p class="location">Kilimani, Nairobi</p>
+                            <p class="price">KES 15,500,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-calendar-alt"></i> 2023</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 3,500 km</span>
+                                <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="vehicle-1"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80" alt="Mercedes Benz S-Class - Front View">
+                            <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Mercedes Benz S-Class - Side View">
+                            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Mercedes Benz S-Class - Interior">
+                            <img src="https://images.unsplash.com/photo-1549399542-7e8f2e928464?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Mercedes Benz S-Class - Rear View">
+                            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Mercedes Benz S-Class - Dashboard">
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Card 2 -->
+                    <div class="card" data-id="vehicle-2">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport">
+                            <div class="card-tag">Locally Used</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Range Rover Sport</h3>
+                            <p class="location">Mombasa, Kenya</p>
+                            <p class="price">KES 13,900,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-calendar-alt"></i> 2024</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 1,200 km</span>
+                                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="vehicle-2"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport - Front View">
+                            <img src="https://images.unsplash.com/photo-1669212932575-b30ad0501b3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" alt="Range Rover Sport - Side View">
+                            <img src="https://images.unsplash.com/photo-1574023278981-0b5ba9778c1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport - Interior">
+                            <img src="https://images.unsplash.com/photo-1575659894936-91204e956e05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport - Rear View">
+                            <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Range Rover Sport - Dashboard">
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Card 3 -->
+                    <div class="card" data-id="vehicle-3">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Audi Q8">
+                            <div class="card-tag">Imported</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Audi Q8</h3>
+                            <p class="location">Runda, Nairobi</p>
+                            <p class="price">KES 12,750,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-calendar-alt"></i> 2025</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 500 km</span>
+                                <span><i class="fas fa-gas-pump"></i> Hybrid</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="vehicle-3"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Audi Q8 - Front View">
+                            <img src="https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Audi Q8 - Side View">
+                            <img src="https://images.unsplash.com/photo-1583267746897-2cf415887172?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Audi Q8 - Interior">
+                            <img src="https://images.unsplash.com/photo-1562959635-b63a1ee38c74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Audi Q8 - Rear View">
+                            <img src="https://images.unsplash.com/photo-1568844293986-ca3c5a056e8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1520&q=80" alt="Audi Q8 - Dashboard">
+                        </div>
+                    </div>
+                </div>
+                <div class="view-all">
+                    <a href="vehicles.html" class="btn btn-outline">View All Vehicles</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Properties Section -->
+        <section class="featured-section">
+            <div class="container">
+                <h2>Featured Properties</h2>
+                <div class="cards-container">
+                    <!-- Property Card 1 -->
+                    <div class="card" data-id="property-1">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa">
+                            <div class="card-tag">Luxury</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Modern Villa with Pool</h3>
+                            <p class="location">Karen, Nairobi</p>
+                            <p class="price">KES 95,000,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-bed"></i> 5 beds</span>
+                                <span><i class="fas fa-bath"></i> 6 baths</span>
+                                <span><i class="fas fa-ruler-combined"></i> 650 m²</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="property-1"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Front View">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Pool Area">
+                            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Living Room">
+                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Kitchen">
+                            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Bedroom">
+                        </div>
+                    </div>
+
+                    <!-- Property Card 2 -->
+                    <div class="card" data-id="property-2">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment">
+                            <div class="card-tag">Featured</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Luxury Apartment with Ocean View</h3>
+                            <p class="location">Nyali, Mombasa</p>
+                            <p class="price">KES 45,500,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-bed"></i> 3 beds</span>
+                                <span><i class="fas fa-bath"></i> 3 baths</span>
+                                <span><i class="fas fa-ruler-combined"></i> 210 m²</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="property-2"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment - Living Room">
+                            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment - Bedroom">
+                            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment - Exterior">
+                            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment - Kitchen">
+                            <img src="https://images.unsplash.com/photo-1569597970494-7013ab10904c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Luxury Apartment - Bathroom">
+                        </div>
+                    </div>
+
+                    <!-- Property Card 3 -->
+                    <div class="card" data-id="property-3">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property">
+                            <div class="card-tag">Commercial</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Prime Commercial Building</h3>
+                            <p class="location">Westlands, Nairobi</p>
+                            <p class="price">KES 120,000,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-building"></i> 5 Floors</span>
+                                <span><i class="fas fa-parking"></i> 50 Parking</span>
+                                <span><i class="fas fa-ruler-combined"></i> 1200 m²</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="property-3"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property - Exterior">
+                            <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property - Reception">
+                            <img src="https://images.unsplash.com/photo-1497215842964-222b430dc094?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property - Office Space">
+                            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property - Conference Room">
+                            <img src="https://images.unsplash.com/photo-1536163493384-0199a061087a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" alt="Commercial Property - Parking">
+                        </div>
+                    </div>
+                </div>
+                <div class="view-all">
+                    <a href="properties.html" class="btn btn-outline">View All Properties</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section">
+            <div class="container">
+                <div class="about-content">
+                    <h2>Open Roads Motors</h2>
+                    <p>We are Kenya's premier destination for luxury vehicles and exclusive real estate. Since 2015, we have been connecting discerning clients with exceptional properties and premium automobiles.</p>
+                    <a href="about.html" class="btn btn-text">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <h3>10+</h3>
+                        <p>Years Experience</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>500+</</h3>
+                        <p>Vehicles Sold</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>300+</</h3>
+                        <p>Properties Sold</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>98%</h3>
+                        <p>Client Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Open Roads Motors</h3>
+                    <p>Luxury vehicles and prime real estate for discerning clients in Kenya.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="vehicles.html">Vehicles</a></li>
+                        <li><a href="properties.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi, Kenya</li>
+                        <li><i class="fas fa-phone"></i> +254 712 345 678</li>
+                        <li><i="fas fa-envelope"></i> info@openroadsmotors.co.ke</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive updates on our latest listings.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Open Roads Motors. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="gallery-modal">
+        <div class="gallery-content">
+            <div class="gallery-header">
+                <h3 class="gallery-title">Item Details</h3>
+                <button class="gallery-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="gallery-main">
+                <button class="gallery-arrow prev"><i class="fas fa-chevron-left"></i></button>
+                <img src="" alt="Gallery Image" class="gallery-image">
+                <button class="gallery-arrow next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="gallery-thumbnails"></div>
+            <div class="gallery-info">
+                <p class="gallery-price"></p>
+                <p class="gallery-description"></p>
+                <div class="gallery-actions">
+                    <button class="gallery-btn primary"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                    <button class="gallery-btn secondary"><i class="fas fa-phone"></i> Contact Seller</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

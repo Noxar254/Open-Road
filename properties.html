@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Properties | Open Roads Motors</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">OPEN ROADS MOTORS</a>
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Vehicles <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="vehicles.html?type=suv">SUVs</a>
+                            <a href="vehicles.html?type=sedan">Sedans</a>
+                            <a href="vehicles.html?type=truck">Trucks</a>
+                            <a href="vehicles.html?type=luxury">Luxury</a>
+                            <a href="vehicles.html?type=bike">Bikes</a>
+                            <a href="vehicles.html">View All</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Real Estate <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="properties.html?type=apartment">Apartments</a>
+                            <a href="properties.html?type=house">Houses</a>
+                            <a href="properties.html?type=commercial">Commercial</a>
+                            <a href="properties.html?type=land">Land</a>
+                            <a href="properties.html">View All</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="sell.html" class="sell-button"><i class="fas fa-tag"></i> Sell</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <button id="search-toggle"><i class="fas fa-search"></i></button>
+                <button id="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button id="menu-toggle" class="mobile-only"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <div id="advanced-search" class="search-panel">
+        <div class="container">
+            <form id="search-form">
+                <div class="search-category">
+                    <label for="search-category">I'm looking for</label>
+                    <select id="search-category">
+                        <option value="vehicles">Vehicles</option>
+                        <option value="real-estate" selected>Real Estate</option>
+                    </select>
+                </div>
+
+                <div class="search-fields" id="vehicle-fields" style="display: none;">
+                    <div class="field">
+                        <label for="vehicle-type">Type</label>
+                        <select id="vehicle-type">
+                            <option value="">All Types</option>
+                            <option value="suv">SUV</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="truck">Truck</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="bike">Bike</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="vehicle-make">Make</label>
+                        <select id="vehicle-make">
+                            <option value="">All Makes</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="bmw">BMW</option>
+                            <option value="audi">Audi</option>
+                            <option value="range-rover">Range Rover</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="year">Year</label>
+                        <select id="year">
+                            <option value="">Any Year</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="search-fields" id="real-estate-fields">
+                    <div class="field">
+                        <label for="property-type">Type</label>
+                        <select id="property-type">
+                            <option value="">All Types</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house">House</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="land">Land</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="location">Location</label>
+                        <select id="location">
+                            <option value="">All Locations</option>
+                            <option value="nairobi">Nairobi</option>
+                            <option value="mombasa">Mombasa</option>
+                            <option value="kisumu">Kisumu</option>
+                            <option value="nakuru">Nakuru</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="property-price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="property-min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="property-max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="bedrooms">Bedrooms</label>
+                        <select id="bedrooms">
+                            <option value="">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'); background-size: cover; background-position: center; color: #fff;">
+            <div class="container">
+                <h1>Our Property Collection</h1>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a> / <span>Properties</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Listing Controls -->
+        <section class="listing-controls">
+            <div class="container">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search by location, type or features...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+
+                <div class="filter-sort">
+                    <div class="filter-btn">
+                        <button id="filter-toggle"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
+                    <div class="sort-dropdown">
+                        <select id="sort-select">
+                            <option value="featured">Featured</option>
+                            <option value="newest">Newest</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Active Filters -->
+        <section class="active-filters">
+            <div class="container">
+                <div id="active-filters-container">
+                    <!-- Filter tags will be added dynamically based on applied filters -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Properties Listing -->
+        <section class="listings">
+            <div class="container">
+                <div class="cards-container">
+                    <!-- Property Card 1 -->
+                    <div class="card" data-id="property-1" data-type="house" data-location="nairobi" data-bedrooms="5" data-price="95000000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa">
+                            <div class="card-tag">Luxury</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Modern Villa with Pool</h3>
+                            <p class="location">Karen, Nairobi</p>
+                            <p class="price">KES 95,000,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-bed"></i> 5 beds</span>
+                                <span><i class="fas fa-bath"></i> 6 baths</span>
+                                <span><i class="fas fa-ruler-combined"></i> 650 m²</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="property-1"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Front View">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Pool Area">
+                            <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Living Room">
+                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Kitchen">
+                            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Modern Villa - Bedroom">
+                        </div>
+                    </div>
+
+                    <!-- Property Card 2 -->
+                    <div class="card" data-id="property-2" data-type="apartment" data-location="mombasa" data-bedrooms="3" data-price="45500000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment">
+                            <div class="card-tag">Featured</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Luxury Apartment with Ocean View</h3>
+                            <p class="location">Nyali, Mombasa</p>
+                            <p class="price">KES 45,500,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-bed"></i> 3 beds</span>
+                                <span><i class="fas fa-bath"></i> 3 baths</span>
+                                <span><i class="fas fa-ruler-combined"></i> 210 m²</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="property-2"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment - Living Room">
+                            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment - Bedroom">
+                            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment - Exterior">
+                            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Luxury Apartment - Kitchen">
+                            <img src="https://images.unsplash.com/photo-1569597970494-7013ab10904c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Luxury Apartment - Bathroom">
+                        </div>
+                    </div>
+
+                    <!-- Property Card 3 -->
+                    <div class="card" data-id="property-3" data-type="commercial" data-location="nairobi" data-bedrooms="0" data-price="120000000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property">
+                            <div class="card-tag">Commercial</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Prime Commercial Building</h3>
+                            <p class="location">Westlands, Nairobi</p>
+                            <p class="price">KES 120,000,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-building"></i> 5 Floors</span>
+                                <span><i class="fas fa-parking"></i> 50 Parking</span>
+                                <span><i class="fas fa-ruler-combined"></i> 1200 m²</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="property-3"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property - Exterior">
+                            <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property - Reception">
+                            <img src="https://images.unsplash.com/photo-1497215842964-222b430dc094?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property - Office Space">
+                            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Commercial Property - Conference Room">
+                            <img src="https://images.unsplash.com/photo-1536163493384-0199a061087a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" alt="Commercial Property - Parking">
+                        </div>
+                    </div>
+
+                    <!-- Property Card 4 -->
+                    <div class="card" data-id="property-4" data-type="house" data-location="nairobi" data-bedrooms="4" data-price="78500000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1576941089067-2de3c901e126?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Contemporary Home">
+                            <div class="card-tag">Premium</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Contemporary Home with Garden</h3>
+                            <p class="location">Lavington, Nairobi</p>
+                            <p class="price">KES 78,500,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-bed"></i> 4 beds</span>
+                                <span><i class="fas fa-bath"></i> 4.5 baths</span>
+                                <span><i class="fas fa-ruler-combined"></i> 450 m²</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="property-4"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1576941089067-2de3c901e126?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Contemporary Home - Front View">
+                            <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Contemporary Home - Living Room">
+                            <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Contemporary Home - Kitchen">
+                            <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Contemporary Home - Bedroom">
+                            <img src="https://images.unsplash.com/photo-1584622781564-1d987f7333c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Contemporary Home - Bathroom">
+                        </div>
+                    </div>
+
+                    <!-- Property Card 5 -->
+                    <div class="card" data-id="property-5" data-type="land" data-location="nairobi" data-bedrooms="0" data-price="35000000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Prime Land">
+                            <div class="card-tag">Land</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Prime Land for Development</h3>
+                            <p class="location">Kitengela, Nairobi</p>
+                            <p class="price">KES 35,000,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-ruler-combined"></i> 2 Acres</span>
+                                <span><i class="fas fa-road"></i> Tarmac Access</span>
+                                <span><i class="fas fa-bolt"></i> Utilities Ready</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="property-5"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Prime Land - Overview">
+                            <img src="https://images.unsplash.com/photo-1628624747186-a941c476b7ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Prime Land - View">
+                            <img src="https://images.unsplash.com/photo-1599940824399-b87987ceb72a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1527&q=80" alt="Prime Land - Road Access">
+                            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Prime Land - Aerial View">
+                            <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" alt="Prime Land - Boundary View">
+                        </div>
+                    </div>
+
+                    <!-- Property Card 6 -->
+                    <div class="card" data-id="property-6" data-type="apartment" data-location="kisumu" data-bedrooms="2" data-price="22500000">
+                        <div class="card-image">
+                            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Lake View Apartment">
+                            <div class="card-tag">Bestseller</div>
+                        </div>
+                        <div class="card-content">
+                            <h3>Lake View Apartment</h3>
+                            <p class="location">Milimani, Kisumu</p>
+                            <p class="price">KES 22,500,000</p>
+                            <div class="card-details">
+                                <span><i class="fas fa-bed"></i> 2 beds</span>
+                                <span><i class="fas fa-bath"></i> 2 baths</span>
+                                <span><i class="fas fa-ruler-combined"></i> 120 m²</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-view" data-target="property-6"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                            </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Lake View Apartment - Living Room">
+                            <img src="https://images.unsplash.com/photo-1551361415-69c87624334f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Lake View Apartment - Bedroom">
+                            <img src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Lake View Apartment - Kitchen">
+                            <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80" alt="Lake View Apartment - Bathroom">
+                            <img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Lake View Apartment - Balcony View">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No Results Message (hidden by default) -->
+                <div id="no-results" style="display: none;">
+                    <h3>No properties found</h3>
+                    <p>Try adjusting your filters to find the property you're looking for.</p>
+                    <button id="clear-filters">Clear all filters</button>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="btn btn-outline active">1</button>
+                    <button class="btn btn-outline">2</button>
+                    <button class="btn btn-outline">3</button>
+                    <button class="btn btn-outline"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Open Roads Motors</h3>
+                    <p>Luxury vehicles and prime real estate for discerning clients in Kenya.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="vehicles.html">Vehicles</a></li>
+                        <li><a href="properties.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Westlands, Nairobi, Kenya</li>
+                        <li><i class="fas fa-phone"></i> +254 712 345 678</li>
+                        <li><i class="fas fa-envelope"></i> info@openroadsmotors.co.ke</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive updates on our latest listings.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Open Roads Motors. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal">
+        <div class="gallery-content">
+            <div class="gallery-header">
+                <h3 class="gallery-title">Item Details</h3>
+                <button class="gallery-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="gallery-main">
+                <button class="gallery-arrow prev"><i class="fas fa-chevron-left"></i></button>
+                <img src="" alt="Gallery Image" class="gallery-image">
+                <button class="gallery-arrow next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="gallery-thumbnails"></div>
+            <div class="gallery-info">
+                <p class="gallery-price"></p>
+                <p class="gallery-description"></p>
+                <div class="gallery-actions">
+                    <button class="gallery-btn primary"><i class="fas fa-shopping-cart"></i> Buy Now</button>
+                    <button class="gallery-btn secondary"><i class="fas fa-phone"></i> Contact Seller</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal" id="filter-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Filter Properties</h3>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-group">
+                    <h4>Property Type</h4>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="type" value="apartment"> Apartments</label>
+                        <label><input type="checkbox" name="type" value="house"> Houses</label>
+                        <label><input type="checkbox" name="type" value="commercial"> Commercial</label>
+                        <label><input type="checkbox" name="type" value="land"> Land</label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Location</h4>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="location" value="nairobi"> Nairobi</label>
+                        <label><input type="checkbox" name="location" value="mombasa"> Mombasa</label>
+                        <label><input type="checkbox" name="location" value="kisumu"> Kisumu</label>
+                        <label><input type="checkbox" name="location" value="nakuru"> Nakuru</label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Bedrooms</h4>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="bedrooms" value="1"> 1+ Bedroom</label>
+                        <label><input type="checkbox" name="bedrooms" value="2"> 2+ Bedrooms</label>
+                        <label><input type="checkbox" name="bedrooms" value="3"> 3+ Bedrooms</label>
+                        <label><input type="checkbox" name="bedrooms" value="4"> 4+ Bedrooms</label>
+                        <label><input type="checkbox" name="bedrooms" value="5"> 5+ Bedrooms</label>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h4>Price Range</h4>
+                    <div class="range-slider">
+                        <input type="range" id="price-slider" min="5000000" max="150000000" step="5000000" value="150000000">
+                        <div class="range-values">
+                            <span>KES 5,000,000</span>
+                            <span id="price-value">KES 150,000,000</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn-secondary" id="reset-filters">Reset</button>
+                    <button class="btn-primary" id="apply-filters">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter Modal
+            const filterModal = document.getElementById('filter-modal');
+            const filterToggle = document.getElementById('filter-toggle');
+            const modalClose = document.querySelector('.modal-close');
+            const applyFiltersBtn = document.getElementById('apply-filters');
+            const resetFiltersBtn = document.getElementById('reset-filters');
+            const priceSlider = document.getElementById('price-slider');
+            const priceValue = document.getElementById('price-value');
+            const activeFiltersContainer = document.getElementById('active-filters-container');
+            const clearFiltersBtn = document.getElementById('clear-filters');
+            const cards = document.querySelectorAll('.card');
+            const noResults = document.getElementById('no-results');
+            
+            // Search bar functionality
+            const searchBar = document.querySelector('.search-bar input');
+            const searchBtn = document.querySelector('.search-bar button');
+            
+            // Sort functionality
+            const sortSelect = document.getElementById('sort-select');
+            
+            // URL params handling
+            function getUrlParams() {
+                const params = new URLSearchParams(window.location.search);
+                return {
+                    type: params.get('type'),
+                    location: params.get('location'),
+                    minPrice: params.get('minPrice'),
+                    maxPrice: params.get('maxPrice'),
+                    bedrooms: params.get('bedrooms')
+                };
+            }
+            
+            // Apply URL params as filters on page load
+            function applyUrlParamsAsFilters() {
+                const params = getUrlParams();
+                
+                if (params.type) {
+                    const typeInput = document.querySelector(`input[name="type"][value="${params.type}"]`);
+                    if (typeInput) {
+                        typeInput.checked = true;
+                        addFilterTag('type', params.type);
+                    }
+                }
+                
+                if (params.location) {
+                    const locationInput = document.querySelector(`input[name="location"][value="${params.location}"]`);
+                    if (locationInput) {
+                        locationInput.checked = true;
+                        addFilterTag('location', params.location);
+                    }
+                }
+                
+                if (params.bedrooms) {
+                    const bedroomsInput = document.querySelector(`input[name="bedrooms"][value="${params.bedrooms}"]`);
+                    if (bedroomsInput) {
+                        bedroomsInput.checked = true;
+                        addFilterTag('bedrooms', params.bedrooms);
+                    }
+                }
+                
+                if (params.maxPrice) {
+                    priceSlider.value = params.maxPrice;
+                    priceValue.textContent = formatPrice(params.maxPrice);
+                    addFilterTag('price', `Under ${formatPrice(params.maxPrice)}`);
+                }
+                
+                // Filter properties based on URL params
+                filterProperties();
+            }
+            
+            // Format price with commas
+            function formatPrice(price) {
+                return `KES ${parseInt(price).toLocaleString()}`;
+            }
+            
+            // Update price slider value display
+            priceSlider.addEventListener('input', function() {
+                priceValue.textContent = formatPrice(this.value);
+            });
+            
+            // Open filter modal
+            filterToggle.addEventListener('click', function() {
+                filterModal.classList.add('active');
+            });
+            
+            // Close filter modal
+            modalClose.addEventListener('click', function() {
+                filterModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            filterModal.addEventListener('click', function(e) {
+                if (e.target === filterModal) {
+                    filterModal.classList.remove('active');
+                }
+            });
+            
+            // Add filter tag
+            function addFilterTag(type, value) {
+                // Check if filter already exists
+                const existingTag = document.querySelector(`.filter-tag[data-type="${type}"][data-value="${value}"]`);
+                if (existingTag) return;
+                
+                const displayValue = value.charAt(0).toUpperCase() + value.slice(1);
+                let displayPrefix = '';
+                
+                if (type === 'type') displayPrefix = 'Type: ';
+                if (type === 'location') displayPrefix = 'Location: ';
+                if (type === 'bedrooms') displayPrefix = 'Bedrooms: ' + value + '+';
+                if (type === 'price') displayPrefix = '';
+                
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                tag.setAttribute('data-type', type);
+                tag.setAttribute('data-value', value);
+                
+                // Special case for bedrooms display
+                const displayText = type === 'bedrooms' ? `Bedrooms: ${value}+` : `${displayPrefix}${displayValue}`;
+                
+                tag.innerHTML = `
+                    ${displayText}
+                    <span class="remove"><i class="fas fa-times"></i></span>
+                `;
+                
+                // Remove tag on click
+                tag.querySelector('.remove').addEventListener('click', function() {
+                    tag.remove();
+                    
+                    // Uncheck corresponding checkbox
+                    if (type !== 'price') {
+                        const checkbox = document.querySelector(`input[name="${type}"][value="${value}"]`);
+                        if (checkbox) checkbox.checked = false;
+                    }
+                    
+                    // Reset price slider if removing price filter
+                    if (type === 'price') {
+                        priceSlider.value = priceSlider.max;
+                        priceValue.textContent = formatPrice(priceSlider.max);
+                    }
+                    
+                    // Re-filter properties
+                    filterProperties();
+                });
+                
+                activeFiltersContainer.appendChild(tag);
+            }
+            
+            // Apply filters
+            applyFiltersBtn.addEventListener('click', function() {
+                // Clear existing filter tags
+                activeFiltersContainer.innerHTML = '';
+                
+                // Add tags for checked checkboxes
+                document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+                    addFilterTag(checkbox.name, checkbox.value);
+                });
+                
+                // Add tag for price if not at max
+                if (priceSlider.value < priceSlider.max) {
+                    addFilterTag('price', `Under ${formatPrice(priceSlider.value)}`);
+                }
+                
+                // Close modal
+                filterModal.classList.remove('active');
+                
+                // Filter properties
+                filterProperties();
+            });
+            
+            // Reset filters
+            resetFiltersBtn.addEventListener('click', function() {
+                // Uncheck all checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                // Reset price slider
+                priceSlider.value = priceSlider.max;
+                priceValue.textContent = formatPrice(priceSlider.max);
+            });
+            
+            // Clear all filters
+            clearFiltersBtn.addEventListener('click', function() {
+                // Clear filter tags
+                activeFiltersContainer.innerHTML = '';
+                
+                // Uncheck all checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+                
+                // Reset price slider
+                priceSlider.value = priceSlider.max;
+                priceValue.textContent = formatPrice(priceSlider.max);
+                
+                // Show all properties
+                filterProperties();
+            });
+            
+            // Search functionality
+            searchBtn.addEventListener('click', function() {
+                const searchTerm = searchBar.value.toLowerCase().trim();
+                searchProperties(searchTerm);
+            });
+            
+            searchBar.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const searchTerm = searchBar.value.toLowerCase().trim();
+                    searchProperties(searchTerm);
+                }
+            });
+            
+            function searchProperties(searchTerm) {
+                if (!searchTerm) {
+                    filterProperties(); // Reset to normal filtering
+                    return;
+                }
+                
+                let visibleCount = 0;
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const location = card.querySelector('.location').textContent.toLowerCase();
+                    const type = card.getAttribute('data-type');
+                    
+                    if (title.includes(searchTerm) || location.includes(searchTerm) || type.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+            
+            // Sort functionality
+            sortSelect.addEventListener('change', function() {
+                sortProperties(this.value);
+            });
+            
+            function sortProperties(sortBy) {
+                const cardsContainer = document.querySelector('.cards-container');
+                const cardArray = Array.from(cards);
+                
+                cardArray.sort((a, b) => {
+                    if (sortBy === 'price-low') {
+                        return parseInt(a.getAttribute('data-price')) - parseInt(b.getAttribute('data-price'));
+                    } else if (sortBy === 'price-high') {
+                        return parseInt(b.getAttribute('data-price')) - parseInt(a.getAttribute('data-price'));
+                    } else if (sortBy === 'newest') {
+                        // For properties, we don't have a year attribute, so we'll sort by ID for "newest"
+                        const aId = a.getAttribute('data-id').split('-')[1];
+                        const bId = b.getAttribute('data-id').split('-')[1];
+                        return parseInt(bId) - parseInt(aId);
+                    } else {
+                        // Featured - just return to default order
+                        return Array.from(cards).indexOf(a) - Array.from(cards).indexOf(b);
+                    }
+                });
+                
+                // Reappend sorted cards
+                cardArray.forEach(card => {
+                    cardsContainer.appendChild(card);
+                });
+            }
+            
+            // Filter properties based on active filters
+            function filterProperties() {
+                const activeFilters = document.querySelectorAll('.filter-tag');
+                const filterCriteria = {
+                    types: [],
+                    locations: [],
+                    bedrooms: [],
+                    maxPrice: priceSlider.max
+                };
+                
+                // Collect filter criteria
+                activeFilters.forEach(filter => {
+                    const type = filter.getAttribute('data-type');
+                    const value = filter.getAttribute('data-value');
+                    
+                    if (type === 'type') filterCriteria.types.push(value);
+                    if (type === 'location') filterCriteria.locations.push(value);
+                    if (type === 'bedrooms') filterCriteria.bedrooms.push(parseInt(value));
+                    if (type === 'price') {
+                        // Extract numeric value from "Under KES X,XXX,XXX"
+                        const priceMatch = value.match(/\d+/g);
+                        if (priceMatch) {
+                            const combinedNumbers = priceMatch.join('');
+                            filterCriteria.maxPrice = parseInt(combinedNumbers);
+                        }
+                    }
+                });
+                
+                let visibleCount = 0;
+                
+                // Apply filters to cards
+                cards.forEach(card => {
+                    const cardType = card.getAttribute('data-type');
+                    const cardLocation = card.getAttribute('data-location');
+                    const cardBedrooms = parseInt(card.getAttribute('data-bedrooms'));
+                    const cardPrice = parseInt(card.getAttribute('data-price'));
+                    
+                    const typeMatch = filterCriteria.types.length === 0 || filterCriteria.types.includes(cardType);
+                    const locationMatch = filterCriteria.locations.length === 0 || filterCriteria.locations.includes(cardLocation);
+                    const bedroomMatch = filterCriteria.bedrooms.length === 0 || filterCriteria.bedrooms.some(b => cardBedrooms >= b);
+                    const priceMatch = cardPrice <= filterCriteria.maxPrice;
+                    
+                    if (typeMatch && locationMatch && bedroomMatch && priceMatch) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+            
+            // Initialize page with URL params
+            applyUrlParamsAsFilters();
+            
+            // Pagination (just for show - not functional in this demo)
+            const paginationButtons = document.querySelectorAll('.pagination button');
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    paginationButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
