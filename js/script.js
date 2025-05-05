@@ -98,6 +98,163 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Handle search form submission
+    const searchForm = document.getElementById('search-form');
+    
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get the search category (vehicles or real-estate)
+            const searchCategoryValue = document.getElementById('search-category').value;
+            let targetPage = '';
+            let searchParams = new URLSearchParams();
+            
+            if (searchCategoryValue === 'vehicles') {
+                targetPage = 'vehicles.html';
+                
+                // Get vehicle search parameters
+                const vehicleType = document.getElementById('vehicle-type').value;
+                const vehicleMake = document.getElementById('vehicle-make').value;
+                const minPrice = document.getElementById('min-price').value;
+                const maxPrice = document.getElementById('max-price').value;
+                const year = document.getElementById('year').value;
+                
+                // Add parameters to URL if they have values
+                if (vehicleType) searchParams.append('type', vehicleType);
+                if (vehicleMake) searchParams.append('make', vehicleMake);
+                if (minPrice) searchParams.append('minPrice', minPrice);
+                if (maxPrice) searchParams.append('maxPrice', maxPrice);
+                if (year) searchParams.append('year', year);
+                
+            } else if (searchCategoryValue === 'real-estate') {
+                targetPage = 'properties.html';
+                
+                // Get real estate search parameters
+                const propertyType = document.getElementById('property-type').value;
+                const location = document.getElementById('location').value;
+                const propertyMinPrice = document.getElementById('property-min-price').value;
+                const propertyMaxPrice = document.getElementById('property-max-price').value;
+                const bedrooms = document.getElementById('bedrooms').value;
+                
+                // Add parameters to URL if they have values
+                if (propertyType) searchParams.append('type', propertyType);
+                if (location) searchParams.append('location', location);
+                if (propertyMinPrice) searchParams.append('minPrice', propertyMinPrice);
+                if (propertyMaxPrice) searchParams.append('maxPrice', propertyMaxPrice);
+                if (bedrooms) searchParams.append('bedrooms', bedrooms);
+            }
+            
+            // Construct the final URL with search parameters
+            const searchParamsString = searchParams.toString();
+            const targetURL = searchParamsString ? `${targetPage}?${searchParamsString}` : targetPage;
+            
+            // Redirect to the search results page
+            window.location.href = targetURL;
+        });
+    }
+
+    // Process URL parameters on page load to pre-fill filters
+    function processURLParameters() {
+        // Check if we're on a search results page (vehicles.html or properties.html)
+        const currentPage = window.location.pathname.split('/').pop();
+        
+        if (currentPage === 'vehicles.html' || currentPage === 'properties.html') {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // If we're on the vehicles page
+            if (currentPage === 'vehicles.html') {
+                // Pre-fill the filters from URL parameters
+                if (urlParams.has('type')) {
+                    const typeSelector = document.getElementById('vehicle-type');
+                    if (typeSelector) typeSelector.value = urlParams.get('type');
+                }
+                
+                if (urlParams.has('make')) {
+                    const makeSelector = document.getElementById('vehicle-make');
+                    if (makeSelector) makeSelector.value = urlParams.get('make');
+                }
+                
+                if (urlParams.has('minPrice')) {
+                    const minPriceInput = document.getElementById('min-price');
+                    if (minPriceInput) minPriceInput.value = urlParams.get('minPrice');
+                }
+                
+                if (urlParams.has('maxPrice')) {
+                    const maxPriceInput = document.getElementById('max-price');
+                    if (maxPriceInput) maxPriceInput.value = urlParams.get('maxPrice');
+                }
+                
+                if (urlParams.has('year')) {
+                    const yearSelector = document.getElementById('year');
+                    if (yearSelector) yearSelector.value = urlParams.get('year');
+                }
+                
+                // Set the search category to vehicles
+                const searchCategory = document.getElementById('search-category');
+                if (searchCategory) searchCategory.value = 'vehicles';
+                
+                // Make sure vehicle fields are visible
+                const vehicleFields = document.getElementById('vehicle-fields');
+                const realEstateFields = document.getElementById('real-estate-fields');
+                if (vehicleFields && realEstateFields) {
+                    vehicleFields.style.display = 'flex';
+                    realEstateFields.style.display = 'none';
+                }
+            }
+            
+            // If we're on the properties page
+            else if (currentPage === 'properties.html') {
+                // Pre-fill the filters from URL parameters
+                if (urlParams.has('type')) {
+                    const typeSelector = document.getElementById('property-type');
+                    if (typeSelector) typeSelector.value = urlParams.get('type');
+                }
+                
+                if (urlParams.has('location')) {
+                    const locationSelector = document.getElementById('location');
+                    if (locationSelector) locationSelector.value = urlParams.get('location');
+                }
+                
+                if (urlParams.has('minPrice')) {
+                    const minPriceInput = document.getElementById('property-min-price');
+                    if (minPriceInput) minPriceInput.value = urlParams.get('minPrice');
+                }
+                
+                if (urlParams.has('maxPrice')) {
+                    const maxPriceInput = document.getElementById('property-max-price');
+                    if (maxPriceInput) maxPriceInput.value = urlParams.get('maxPrice');
+                }
+                
+                if (urlParams.has('bedrooms')) {
+                    const bedroomsSelector = document.getElementById('bedrooms');
+                    if (bedroomsSelector) bedroomsSelector.value = urlParams.get('bedrooms');
+                }
+                
+                // Set the search category to real-estate
+                const searchCategory = document.getElementById('search-category');
+                if (searchCategory) searchCategory.value = 'real-estate';
+                
+                // Make sure real estate fields are visible
+                const vehicleFields = document.getElementById('vehicle-fields');
+                const realEstateFields = document.getElementById('real-estate-fields');
+                if (vehicleFields && realEstateFields) {
+                    vehicleFields.style.display = 'none';
+                    realEstateFields.style.display = 'flex';
+                }
+            }
+            
+            // Show the search panel with pre-filled values
+            const searchPanel = document.getElementById('advanced-search');
+            if (searchPanel) {
+                searchPanel.classList.add('active');
+            }
+        }
+    }
+    
+    // Call the function to process URL parameters on page load
+    processURLParameters();
+
     // Hero slider functionality
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
