@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financing Options | Open Roads Motors</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Financing Options Specific Styles */
+        .financing-hero {
+            background-image: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .financing-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .financing-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .financing-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .financing-hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .financing-hero .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .financing-hero .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .financing-hero .primary-button {
+            background-color: var(--button-primary);
+            color: var(--button-primary-text);
+        }
+        
+        .financing-hero .secondary-button {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .financing-hero .cta-button:hover {
+            transform: translateY(-3px);
+        }
+        
+        .financing-options-section {
+            padding: 100px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .section-header h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--button-primary);
+        }
+        
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .financing-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .financing-card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 380px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+        }
+        
+        .financing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .financing-card.highlight {
+            border: 3px solid var(--button-primary);
+            position: relative;
+        }
+        
+        .financing-card.highlight:before {
+            content: 'Most Popular';
+            position: absolute;
+            top: 20px;
+            right: -40px;
+            background-color: var(--button-primary);
+            color: white;
+            padding: 8px 40px;
+            font-size: 14px;
+            font-weight: 600;
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+        
+        .financing-card-header {
+            background-color: var(--input-background);
+            color: var(--text-color);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .financing-type {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .financing-subtitle {
+            color: var(--secondary-color);
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .financing-price {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--button-primary);
+            margin: 20px 0 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .financing-price-description {
+            font-size: 14px;
+            color: var(--secondary-color);
+        }
+        
+        .financing-card-body {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .financing-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 25px;
+            flex-grow: 1;
+        }
+        
+        .financing-features li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-size: 15px;
+        }
+        
+        .financing-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .financing-features li.highlight {
+            color: var(--button-primary);
+            font-weight: 600;
+        }
+        
+        .financing-features li i {
+            margin-right: 10px;
+            color: var(--button-primary);
+            font-size: 18px;
+            min-width: 24px;
+            text-align: center;
+        }
+        
+        .financing-features li.unavailable {
+            color: var(--secondary-color);
+            text-decoration: line-through;
+        }
+        
+        .financing-features li.unavailable i {
+            color: var(--secondary-color);
+        }
+        
+        .financing-card-footer {
+            padding: 0 30px 30px;
+        }
+        
+        .financing-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .primary-financing-button {
+            background-color: var(--button-primary);
+            color: white;
+        }
+        
+        .secondary-financing-button {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+        }
+        
+        .financing-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .primary-financing-button:hover {
+            background-color: var(--button-primary-hover);
+        }
+        
+        .secondary-financing-button:hover {
+            border-color: var(--button-primary);
+            color: var(--button-primary);
+        }
+        
+        .comparison-section {
+            padding: 80px 0;
+            background-color: var(--input-background);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comparison-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .comparison-container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .comparison-table-container {
+            overflow-x: auto;
+            margin-top: 40px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-background);
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px 25px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table th {
+            background-color: var(--input-background);
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-color);
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table th:first-child,
+        .comparison-table td:first-child {
+            border-right: 1px solid var(--border-color);
+            font-weight: 600;
+            background-color: var(--input-background);
+            color: var(--text-color);
+            position: sticky;
+            left: 0;
+        }
+        
+        .comparison-table td.best {
+            background-color: rgba(var(--button-primary-rgb), 0.1);
+            color: var(--button-primary);
+            font-weight: 600;
+        }
+        
+        .comparison-table .check-icon {
+            color: var(--button-primary);
+            font-size: 18px;
+        }
+        
+        .comparison-table .times-icon {
+            color: #dc3545;
+            font-size: 18px;
+        }
+        
+        .example-calculation {
+            margin-top: 50px;
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .example-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .example-header h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .example-header h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--button-primary);
+        }
+        
+        .example-item {
+            margin-bottom: 40px;
+        }
+        
+        .example-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .example-item h4 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .example-item h4 i {
+            color: var(--button-primary);
+        }
+        
+        .example-details {
+            background-color: var(--input-background);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .example-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .example-row:last-child {
+            border-bottom: none;
+        }
+        
+        .example-label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .example-value {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .example-highlight {
+            color: var(--button-primary);
+        }
+        
+        .example-calculation .cta-wrapper {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .example-calculation .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--button-primary);
+            color: white;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .example-calculation .cta-button:hover {
+            background-color: var(--button-primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(var(--button-primary-rgb), 0.2);
+        }
+        
+        .faqs-section {
+            padding: 100px 0;
+        }
+        
+        .faqs-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background-color: var(--input-background);
+        }
+        
+        .faq-question i {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 25px;
+            font-size: 15px;
+            color: var(--secondary-color);
+            line-height: 1.6;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            padding-bottom: 25px;
+        }
+        
+        .cta-section {
+            background-color: var(--button-primary);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-content h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-content p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cta-button-secondary {
+            background-color: white;
+            color: var(--button-primary);
+            border: 2px solid white;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cta-button-secondary:hover {
+            background-color: transparent;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .cta-button-outline {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cta-button-outline:hover {
+            background-color: white;
+            color: var(--button-primary);
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 992px) {
+            .financing-hero h1 {
+                font-size: 3rem;
+            }
+            
+            .financing-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .financing-card {
+                max-width: 100%;
+            }
+            
+            .example-calculation {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .financing-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .financing-hero p {
+                font-size: 1rem;
+            }
+            
+            .financing-hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 15px;
+                font-size: 14px;
+            }
+            
+            .example-item h4 {
+                font-size: 18px;
+            }
+            
+            .cta-content h2 {
+                font-size: 26px;
+            }
+            
+            .cta-content p {
+                font-size: 16px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.jpg" alt="Open Roads Motors Logo" class="logo-image">
+                    <span class="logo-text">OPEN ROADS MOTORS</span>
+                </a>
+            </div>
+            <div class="header-controls">
+                <button id="search-toggle" aria-label="Search"><i class="fas fa-search"></i></button>
+                <button id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+                <button id="menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Vehicles <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="vehicles.html?type=suv">SUVs</a>
+                            <a href="vehicles.html?type=sedan">Sedans</a>
+                            <a href="vehicles.html?type=truck">Trucks</a>
+                            <a href="vehicles.html?type=luxury">Luxury</a>
+                            <a href="vehicles.html?type=bike">Bikes</a>
+                            <a href="vehicles.html">View All</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Real Estate <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="properties.html?type=apartments">Apartments</a>
+                            <a href="properties.html?type=houses">Houses</a>
+                            <a href="properties.html?type=commercial">Commercial</a>
+                            <a href="properties.html?type=land">Land</a>
+                            <a href="properties.html">View All</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="booking.html">Book Test Drive</a></li>
+                    <li><a href="sell.html" class="sell-button highlight-button"><i class="fas fa-tag"></i> Sell</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="advanced-search" class="search-panel">
+        <div class="container">
+            <form id="search-form">
+                <div class="search-category">
+                    <label for="search-category">I'm looking for</label>
+                    <select id="search-category">
+                        <option value="vehicles">Vehicles</option>
+                        <option value="real-estate">Real Estate</option>
+                    </select>
+                </div>
+
+                <div class="search-fields" id="vehicle-fields">
+                    <div class="field">
+                        <label for="vehicle-type">Type</label>
+                        <select id="vehicle-type">
+                            <option value="">All Types</option>
+                            <option value="suv">SUV</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="truck">Truck</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="vehicle-make">Make</label>
+                        <select id="vehicle-make">
+                            <option value="">All Makes</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="bmw">BMW</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="year">Year</label>
+                        <select id="year">
+                            <option value="">Any Year</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="search-fields" id="real-estate-fields" style="display: none;">
+                    <div class="field">
+                        <label for="property-type">Type</label>
+                        <select id="property-type">
+                            <option value="">All Types</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house">House</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="land">Land</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="location">Location</label>
+                        <select id="location">
+                            <option value="">All Locations</option>
+                            <option value="nairobi">Nairobi</option>
+                            <option value="mombasa">Mombasa</option>
+                            <option value="kisumu">Kisumu</option>
+                            <option value="nakuru">Nakuru</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="property-price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="property-min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="property-max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="bedrooms">Bedrooms</label>
+                        <select id="bedrooms">
+                            <option value="">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="financing-hero">
+            <div class="financing-hero-content">
+                <h1>Flexible Financing Options</h1>
+                <p>Choose the payment plan that suits your budget and lifestyle. We offer various financing solutions to make your dream car or property ownership a reality.</p>
+                <div class="cta-buttons">
+                    <a href="#financing-options" class="cta-button primary-button">
+                        <i class="fas fa-credit-card"></i> View Financing Options
+                    </a>
+                    <a href="contact.html" class="cta-button secondary-button">
+                        <i class="fas fa-comments"></i> Speak to an Advisor
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Financing Options Section -->
+        <section id="financing-options" class="financing-options-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Choose Your Payment Plan</h2>
+                    <p>We offer three flexible financing options to make your purchase as smooth as possible. Compare the plans below to find the one that best suits your needs.</p>
+                </div>
+
+                <div class="financing-cards">
+                    <div class="financing-card">
+                        <div class="financing-card-header">
+                            <div class="financing-type">Mortgage</div>
+                            <div class="financing-subtitle">Long-term financing solution</div>
+                            <div class="financing-price">11.5%</div>
+                            <div class="financing-price-description">Interest rate p.a.</div>
+                        </div>
+                        <div class="financing-card-body">
+                            <ul class="financing-features">
+                                <li class="highlight"><i class="fas fa-check-circle"></i> Up to 80% financing available</li>
+                                <li><i class="fas fa-check-circle"></i> Repayment terms up to 20 years</li>
+                                <li><i class="fas fa-check-circle"></i> Competitive interest rates</li>
+                                <li><i class="fas fa-check-circle"></i> Flexible repayment options</li>
+                                <li><i class="fas fa-check-circle"></i> Fixed or variable interest rates</li>
+                                <li><i class="fas fa-check-circle"></i> No early repayment penalties</li>
+                                <li><i class="fas fa-check-circle"></i> Available for both vehicles and properties</li>
+                            </ul>
+                        </div>
+                        <div class="financing-card-footer">
+                            <a href="contact.html" class="financing-button primary-financing-button">Make Enquiry</a>
+                        </div>
+                    </div>
+
+                    <div class="financing-card highlight">
+                        <div class="financing-card-header">
+                            <div class="financing-type">Hire Purchase</div>
+                            <div class="financing-subtitle">Installment-based purchasing</div>
+                            <div class="financing-price">15%</div>
+                            <div class="financing-price-description">Interest rate p.a.</div>
+                        </div>
+                        <div class="financing-card-body">
+                            <ul class="financing-features">
+                                <li class="highlight"><i class="fas fa-check-circle"></i> Low initial deposit (20-30%)</li>
+                                <li><i class="fas fa-check-circle"></i> Fixed monthly payments</li>
+                                <li><i class="fas fa-check-circle"></i> Repayment terms up to 5 years</li>
+                                <li><i class="fas fa-check-circle"></i> Ownership transfers after final payment</li>
+                                <li><i class="fas fa-check-circle"></i> No hidden charges</li>
+                                <li><i class="fas fa-check-circle"></i> Ideal for vehicles and large assets</li>
+                                <li><i class="fas fa-check-circle"></i> Customizable payment schedules</li>
+                            </ul>
+                        </div>
+                        <div class="financing-card-footer">
+                            <a href="contact.html" class="financing-button primary-financing-button">Make Enquiry</a>
+                        </div>
+                    </div>
+
+                    <div class="financing-card">
+                        <div class="financing-card-header">
+                            <div class="financing-type">Lipa Pole Pole</div>
+                            <div class="financing-subtitle">Flexible installment plan</div>
+                            <div class="financing-price">40%</div>
+                            <div class="financing-price-description">Initial deposit</div>
+                        </div>
+                        <div class="financing-card-body">
+                            <ul class="financing-features">
+                                <li class="highlight"><i class="fas fa-check-circle"></i> Higher initial deposit (40-50%)</li>
+                                <li><i class="fas fa-check-circle"></i> Lower monthly payments</li>
+                                <li><i class="fas fa-check-circle"></i> Shorter repayment period (1-3 years)</li>
+                                <li><i class="fas fa-check-circle"></i> Simplified application process</li>
+                                <li><i class="fas fa-check-circle"></i> Minimal documentation required</li>
+                                <li><i class="fas fa-check-circle"></i> Flexible for vehicles and properties</li>
+                                <li><i class="fas fa-check-circle"></i> No credit check required</li>
+                            </ul>
+                        </div>
+                        <div class="financing-card-footer">
+                            <a href="contact.html" class="financing-button primary-financing-button">Make Enquiry</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table Section -->
+        <section class="comparison-section">
+            <div class="container comparison-container">
+                <div class="section-header">
+                    <h2>Compare Financing Options</h2>
+                    <p>See how our financing options compare side by side to make an informed decision about which one is best for your needs.</p>
+                </div>
+
+                <div class="comparison-table-container">
+                    <table class="comparison-table">
+                        <tr>
+                            <th>Feature</th>
+                            <th>Mortgage</th>
+                            <th>Hire Purchase</th>
+                            <th>Lipa Pole Pole</th>
+                        </tr>
+                        <tr>
+                            <td>Initial Deposit</td>
+                            <td>20%</td>
+                            <td>20-30%</td>
+                            <td class="best">40-50%</td>
+                        </tr>
+                        <tr>
+                            <td>Interest Rate</td>
+                            <td class="best">11.5% p.a.</td>
+                            <td>15% p.a.</td>
+                            <td>Minimal to none</td>
+                        </tr>
+                        <tr>
+                            <td>Repayment Period</td>
+                            <td class="best">Up to 20 years</td>
+                            <td>Up to 5 years</td>
+                            <td>1-3 years</td>
+                        </tr>
+                        <tr>
+                            <td>Monthly Payment</td>
+                            <td>Lower</td>
+                            <td>Medium</td>
+                            <td class="best">Lowest</td>
+                        </tr>
+                        <tr>
+                            <td>Credit Check Required</td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-times times-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Documentation</td>
+                            <td>Extensive</td>
+                            <td>Moderate</td>
+                            <td class="best">Minimal</td>
+                        </tr>
+                        <tr>
+                            <td>Early Repayment Fee</td>
+                            <td><i class="fas fa-times times-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-times times-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Ownership During Payments</td>
+                            <td>Customer</td>
+                            <td>Dealership</td>
+                            <td>Customer</td>
+                        </tr>
+                        <tr>
+                            <td>Suitable For</td>
+                            <td>Properties & Luxury Vehicles</td>
+                            <td>All Vehicles</td>
+                            <td>Vehicles & Smaller Properties</td>
+                        </tr>
+                        <tr>
+                            <td>Application Speed</td>
+                            <td>Slowest (2-4 weeks)</td>
+                            <td>Medium (1-2 weeks)</td>
+                            <td class="best">Fast (1-3 days)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="example-calculation">
+                    <div class="example-header">
+                        <h3>Payment Calculation Example</h3>
+                        <p>Based on a Toyota Land Cruiser 200 Series worth KES 12,000,000</p>
+                    </div>
+
+                    <div class="example-item">
+                        <h4><i class="fas fa-home"></i> Mortgage Option</h4>
+                        <div class="example-details">
+                            <div class="example-row">
+                                <span class="example-label">Vehicle Price:</span>
+                                <span class="example-value">KES 12,000,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Initial Deposit (20%):</span>
+                                <span class="example-value">KES 2,400,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Loan Amount:</span>
+                                <span class="example-value">KES 9,600,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Interest Rate:</span>
+                                <span class="example-value">11.5% p.a.</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Loan Term:</span>
+                                <span class="example-value">5 years</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Monthly Payment:</span>
+                                <span class="example-value example-highlight">KES 210,600</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Total Cost:</span>
+                                <span class="example-value">KES 15,036,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-item">
+                        <h4><i class="fas fa-shopping-cart"></i> Hire Purchase Option</h4>
+                        <div class="example-details">
+                            <div class="example-row">
+                                <span class="example-label">Vehicle Price:</span>
+                                <span class="example-value">KES 12,000,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Initial Deposit (30%):</span>
+                                <span class="example-value">KES 3,600,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Loan Amount:</span>
+                                <span class="example-value">KES 8,400,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Interest Rate:</span>
+                                <span class="example-value">15% p.a.</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Loan Term:</span>
+                                <span class="example-value">3 years</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Monthly Payment:</span>
+                                <span class="example-value example-highlight">KES 291,700</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Total Cost:</span>
+                                <span class="example-value">KES 14,101,200</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-item">
+                        <h4><i class="fas fa-hand-holding-usd"></i> Lipa Pole Pole Option</h4>
+                        <div class="example-details">
+                            <div class="example-row">
+                                <span class="example-label">Vehicle Price:</span>
+                                <span class="example-value">KES 12,000,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Initial Deposit (40%):</span>
+                                <span class="example-value">KES 4,800,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Balance to Pay:</span>
+                                <span class="example-value">KES 7,200,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Additional Fees:</span>
+                                <span class="example-value">KES 360,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Loan Term:</span>
+                                <span class="example-value">2 years</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Monthly Payment:</span>
+                                <span class="example-value example-highlight">KES 315,000</span>
+                            </div>
+                            <div class="example-row">
+                                <span class="example-label">Total Cost:</span>
+                                <span class="example-value">KES 12,760,000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cta-wrapper">
+                        <a href="contact.html" class="cta-button">
+                            <i class="fas fa-calculator"></i> Get a Personalized Quote
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQs Section -->
+        <section class="faqs-section">
+            <div class="container faqs-container">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Find answers to common questions about our financing options below.</p>
+                </div>
+
+                <div class="faq-item active">
+                    <div class="faq-question">
+                        <span>What documents do I need to apply for financing?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Required documents vary depending on the financing option you choose. Generally, you'll need:</p>
+                        <ul>
+                            <li>Valid ID (National ID, Passport)</li>
+                            <li>Proof of income (Pay slips, bank statements, audited accounts for businesses)</li>
+                            <li>KRA PIN Certificate</li>
+                            <li>Proof of address (Utility bills)</li>
+                            <li>For mortgage applications: Additional documents such as land title deeds may be required</li>
+                        </ul>
+                        <p>Our finance team will guide you through the specific documentation needed for your chosen financing option.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I pay off my loan early?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can pay off your loan early with most of our financing options. Mortgage and Lipa Pole Pole plans have no early repayment penalties. Hire Purchase agreements may have a small early settlement fee, typically 5% of the remaining balance. Early repayment can save you money on interest charges in the long run.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer financing to non-residents?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer financing options to non-residents, though terms may differ from those available to residents. Non-residents typically need to provide additional documentation and may be required to make a larger initial deposit. Our Lipa Pole Pole option is particularly popular with non-residents due to its simplified process and minimal documentation requirements. Contact our finance team for personalized assistance for non-resident financing.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How long does the financing approval process take?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The approval timeline varies by financing option:</p>
+                        <ul>
+                            <li><strong>Mortgage:</strong> Typically 2-4 weeks for full approval</li>
+                            <li><strong>Hire Purchase:</strong> Usually 1-2 weeks</li>
+                            <li><strong>Lipa Pole Pole:</strong> Quick approval within 1-3 business days</li>
+                        </ul>
+                        <p>These timelines assume all required documentation is provided promptly. Pre-approval can often be obtained more quickly to help you begin your vehicle or property search with confidence.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What happens if I miss a payment?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>If you anticipate difficulty making a payment, we encourage you to contact us immediately to discuss options. We understand that financial circumstances can change and we're committed to finding solutions.</p>
+                        <p>Missed payments may incur late fees and could potentially impact your credit score. For Hire Purchase agreements, multiple missed payments could lead to repossession of the vehicle. We work with our clients to avoid such situations through open communication and flexible payment arrangements when needed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Ready to get started with financing?</h2>
+                <p>Our finance specialists are ready to help you choose the best payment plan for your needs and guide you through the application process.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="cta-button-secondary">
+                        <i class="fas fa-envelope"></i> Contact a Finance Specialist
+                    </a>
+                    <a href="booking.html" class="cta-button-outline">
+                        <i class="fas fa-calendar-alt"></i> Book an Appointment
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-financing-banner">
+                <div class="financing-banner-content">
+                    <h3>Need Financing Options?</h3>
+                    <p>Explore our flexible payment plans for vehicles and properties</p>
+                    <a href="#financing-options" class="financing-button">
+                        <i class="fas fa-credit-card"></i> Financing Options
+                    </a>
+                </div>
+            </div>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Open Roads Motors</h3>
+                    <p>Luxury vehicles and prime real estate for discerning clients in Kenya.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="vehicles.html">Vehicles</a></li>
+                        <li><a href="properties.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Embakasi Fedha Stage, Nairobi, Kenya</li>
+                        <li><i class="fas fa-phone"></i> +254 786636019</li>
+                        <li><i class="fas fa-envelope"></i> info@openroadsmotors.co.ke</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive updates on our latest listings.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Open Roads Motors. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fab-container">
+        <button class="fab-button main-fab"><i class="fas fa-comments"></i></button>
+        <div class="fab-options">
+            <a href="tel:+254786636019" class="fab-option call-fab" aria-label="Call us">
+                <i class="fas fa-phone"></i>
+                <span class="fab-label">Call</span>
+            </a>
+            <a href="https://wa.me/254786636019" target="_blank" class="fab-option whatsapp-fab" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+                <span class="fab-label">WhatsApp</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ functionality
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    const active = document.querySelector('.faq-item.active');
+                    
+                    if(active && active !== item) {
+                        active.classList.remove('active');
+                    }
+                    
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Smooth scrolling for anchor links
+            const anchorLinks = document.querySelectorAll('a[href^="#"]');
+            
+            anchorLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

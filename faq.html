@@ -740,6 +740,33 @@
                 height: 100px;
             }
         }
+
+        .footer-financing-banner {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .footer-financing-banner .financing-button {
+            background-color: white;
+            color: #ff4d4d;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-financing-banner .financing-button:hover {
+            background-color: #ff6666;
+            color: white;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -1358,6 +1385,15 @@
 
     <footer>
         <div class="container">
+            <div class="footer-financing-banner">
+                <div class="financing-banner-content">
+                    <h3>Need Financing Options?</h3>
+                    <p>Explore our flexible payment plans for vehicles and properties</p>
+                    <a href="financing-options.html" class="financing-button">
+                        <i class="fas fa-credit-card"></i> Financing Options
+                    </a>
+                </div>
+            </div>
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>Open Roads Motors</h3>

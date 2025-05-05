@@ -1949,6 +1949,45 @@ footer {
     font-size: 14px;
 }
 
+/* Footer Financing Banner Styles */
+.footer-financing-banner {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.footer-financing-banner h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.footer-financing-banner p {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.footer-financing-banner .financing-button {
+    background-color: white;
+    color: #ff4d4d;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.footer-financing-banner .financing-button:hover {
+    background-color: #ff6666;
+    color: white;
+}
+
 /* Responsive Styles */
 @media screen and (max-width: 992px) {
     .main-nav {
