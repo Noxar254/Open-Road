@@ -143,136 +143,169 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
-    // Gallery modal functionality
-    const viewButtons = document.querySelectorAll('.btn-view');
-    const galleryModal = document.querySelector('.gallery-modal');
-    
-    if (viewButtons.length > 0 && galleryModal) {
-        const galleryImage = galleryModal.querySelector('.gallery-image');
-        const galleryTitle = galleryModal.querySelector('.gallery-title');
-        const galleryPrice = galleryModal.querySelector('.gallery-price');
-        const galleryDescription = galleryModal.querySelector('.gallery-description');
-        const galleryThumbnails = galleryModal.querySelector('.gallery-thumbnails');
-        const galleryPrev = galleryModal.querySelector('.gallery-arrow.prev');
-        const galleryNext = galleryModal.querySelector('.gallery-arrow.next');
-        const galleryClose = galleryModal.querySelector('.gallery-close');
-        const buyNowBtn = galleryModal.querySelector('.gallery-btn.primary');
-        const contactSellerBtn = galleryModal.querySelector('.gallery-btn.secondary');
-        
-        let currentGalleryImage = 0;
-        let galleryImages = [];
-        let currentItemId = "";
-        let currentItemType = "";
-        
-        // Add swipe support for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        viewButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const cardId = this.getAttribute('data-target');
-                const card = document.querySelector(`.card[data-id="${cardId}"]`);
-                
-                if (card) {
-                    const images = card.querySelectorAll('.hidden-gallery img');
-                    const title = card.querySelector('h3').textContent;
-                    const price = card.querySelector('.price').textContent;
-                    const description = card.querySelector('.location') ? 
-                        card.querySelector('.location').textContent : '';
-                    
-                    // Store the current item details for Buy Now functionality
-                    currentItemId = cardId;
-                    currentItemType = cardId.includes('vehicle') ? 'vehicle' : 'property';
-                    
-                    galleryImages = Array.from(images);
-                    galleryTitle.textContent = title;
-                    galleryPrice.textContent = price;
-                    if (galleryDescription) {
-                        galleryDescription.textContent = description;
-                    }
-                    
-                    // Generate thumbnails
-                    galleryThumbnails.innerHTML = '';
-                    galleryImages.forEach((img, index) => {
-                        const thumb = document.createElement('div');
-                        thumb.className = 'gallery-thumb';
-                        thumb.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
-                        
-                        thumb.addEventListener('click', function() {
-                            showGalleryImage(index);
-                        });
-                        
-                        galleryThumbnails.appendChild(thumb);
-                    });
-                    
-                    showGalleryImage(0);
-                    galleryModal.classList.add('active');
-                    
-                    // Prevent body scrolling when modal is open
-                    document.body.style.overflow = 'hidden';
-                    
-                    // Set focus to the modal for accessibility
-                    setTimeout(() => {
-                        galleryClose.focus();
-                    }, 100);
-                }
-            });
-        });
-        
-        function showGalleryImage(index) {
-            currentGalleryImage = index;
-            
-            // Add fade transition effect
-            galleryImage.classList.add('fade');
-            
-            setTimeout(() => {
-                // Update main image
-                galleryImage.src = galleryImages[index].src;
-                galleryImage.alt = galleryImages[index].alt;
-                galleryImage.classList.remove('fade');
-                
-                // Update active thumbnail
-                const thumbnails = galleryThumbnails.querySelectorAll('.gallery-thumb');
-                thumbnails.forEach((thumb, i) => {
-                    if (i === index) {
-                        thumb.classList.add('active');
-                    } else {
-                        thumb.classList.remove('active');
-                    }
-                });
-            }, 200);
+    // Document-level event delegation for view and buy buttons
+    // This allows the functionality to work for all cards including dynamically added ones
+    document.addEventListener('click', function(e) {
+        // Handle view button clicks
+        if (e.target.closest('.btn-view')) {
+            const viewButton = e.target.closest('.btn-view');
+            const cardId = viewButton.getAttribute('data-target');
+            handleViewButtonClick(cardId);
         }
         
-        // Touch/swipe support for gallery
-        galleryModal.querySelector('.gallery-main').addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-        
-        galleryModal.querySelector('.gallery-main').addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-        
-        function handleSwipe() {
-            // Minimum swipe distance threshold (pixels)
-            const swipeThreshold = 50;
-            
-            if (touchEndX < touchStartX - swipeThreshold) {
-                // Swipe left - next image
-                const newIndex = currentGalleryImage + 1 >= galleryImages.length ? 0 : currentGalleryImage + 1;
-                showGalleryImage(newIndex);
-            } else if (touchEndX > touchStartX + swipeThreshold) {
-                // Swipe right - previous image
-                const newIndex = currentGalleryImage - 1 < 0 ? galleryImages.length - 1 : currentGalleryImage - 1;
-                showGalleryImage(newIndex);
+        // Handle buy now button clicks
+        if (e.target.closest('.btn-buy')) {
+            const buyButton = e.target.closest('.btn-buy');
+            const card = buyButton.closest('.card');
+            if (card) {
+                const itemId = card.getAttribute('data-id');
+                const itemType = itemId.includes('vehicle') ? 'vehicle' : 'property';
+                handleBuyNow(itemId, itemType);
             }
         }
+    });
+
+    // Gallery modal functionality
+    const galleryModal = document.querySelector('.gallery-modal');
+    let currentGalleryImage = 0;
+    let galleryImages = [];
+    let currentItemId = "";
+    let currentItemType = "";
+    
+    // Add swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    function handleViewButtonClick(cardId) {
+        const card = document.querySelector(`.card[data-id="${cardId}"]`);
+        
+        if (card) {
+            const images = card.querySelectorAll('.hidden-gallery img');
+            
+            // If no gallery images, check if there's at least a main image to show
+            if (images.length === 0) {
+                const mainImage = card.querySelector('.card-image img');
+                if (mainImage) {
+                    const galleryContainerDiv = document.createElement('div');
+                    galleryContainerDiv.className = 'hidden-gallery';
+                    galleryContainerDiv.appendChild(mainImage.cloneNode(true));
+                    card.appendChild(galleryContainerDiv);
+                    
+                    // Now try again to get the image
+                    handleViewButtonClick(cardId);
+                    return;
+                }
+            }
+            
+            const title = card.querySelector('h3').textContent;
+            const price = card.querySelector('.price').textContent;
+            const description = card.querySelector('.location') ? 
+                card.querySelector('.location').textContent : '';
+            
+            // Ensure we have the right modal elements
+            const galleryImage = galleryModal.querySelector('.gallery-image');
+            const galleryTitle = galleryModal.querySelector('.gallery-title');
+            const galleryPrice = galleryModal.querySelector('.gallery-price');
+            const galleryDescription = galleryModal.querySelector('.gallery-description');
+            const galleryThumbnails = galleryModal.querySelector('.gallery-thumbnails');
+            
+            if (!galleryImage || !galleryTitle || !galleryPrice || !galleryThumbnails) {
+                console.error('Gallery modal is missing required elements');
+                return;
+            }
+            
+            // Store the current item details for Buy Now functionality
+            currentItemId = cardId;
+            currentItemType = cardId.includes('vehicle') ? 'vehicle' : 'property';
+            
+            galleryImages = Array.from(images);
+            galleryTitle.textContent = title;
+            galleryPrice.textContent = price;
+            if (galleryDescription) {
+                galleryDescription.textContent = description;
+            }
+            
+            // Generate thumbnails
+            galleryThumbnails.innerHTML = '';
+            galleryImages.forEach((img, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'gallery-thumb';
+                thumb.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
+                
+                thumb.addEventListener('click', function() {
+                    showGalleryImage(index);
+                });
+                
+                galleryThumbnails.appendChild(thumb);
+            });
+            
+            showGalleryImage(0);
+            galleryModal.classList.add('active');
+            
+            // Prevent body scrolling when modal is open
+            document.body.style.overflow = 'hidden';
+            
+            // Set focus to the modal for accessibility
+            setTimeout(() => {
+                const galleryClose = galleryModal.querySelector('.gallery-close');
+                if (galleryClose) galleryClose.focus();
+            }, 100);
+        }
+    }
+    
+    function showGalleryImage(index) {
+        if (!galleryImages.length) return;
+        
+        currentGalleryImage = index;
+        const galleryImage = galleryModal.querySelector('.gallery-image');
+        
+        // Add fade transition effect
+        galleryImage.classList.add('fade');
+        
+        setTimeout(() => {
+            // Update main image
+            galleryImage.src = galleryImages[index].src;
+            galleryImage.alt = galleryImages[index].alt;
+            galleryImage.classList.remove('fade');
+            
+            // Update active thumbnail
+            const thumbnails = galleryModal.querySelectorAll('.gallery-thumb');
+            thumbnails.forEach((thumb, i) => {
+                if (i === index) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }, 200);
+    }
+    
+    // Touch/swipe support for gallery
+    if (galleryModal) {
+        const galleryMain = galleryModal.querySelector('.gallery-main');
+        if (galleryMain) {
+            galleryMain.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            galleryMain.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+        }
+        
+        // Setup other gallery controls
+        const galleryClose = galleryModal.querySelector('.gallery-close');
+        const galleryPrev = galleryModal.querySelector('.gallery-arrow.prev');
+        const galleryNext = galleryModal.querySelector('.gallery-arrow.next');
+        const buyNowBtn = galleryModal.querySelector('.gallery-btn.primary');
+        const contactSellerBtn = galleryModal.querySelector('.gallery-btn.secondary');
         
         // Buy Now button in gallery
         if (buyNowBtn) {
             buyNowBtn.addEventListener('click', function() {
                 // Close gallery modal before opening checkout
-                galleryModal.classList.remove('active');
+                closeGalleryModal();
                 handleBuyNow(currentItemId, currentItemType);
             });
         }
@@ -287,6 +320,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Previous image
         if (galleryPrev) {
             galleryPrev.addEventListener('click', function() {
+                if (!galleryImages.length) return;
                 const newIndex = currentGalleryImage - 1 < 0 ? galleryImages.length - 1 : currentGalleryImage - 1;
                 showGalleryImage(newIndex);
             });
@@ -295,6 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Next image
         if (galleryNext) {
             galleryNext.addEventListener('click', function() {
+                if (!galleryImages.length) return;
                 const newIndex = currentGalleryImage + 1 >= galleryImages.length ? 0 : currentGalleryImage + 1;
                 showGalleryImage(newIndex);
             });
@@ -313,48 +348,55 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeGalleryModal();
             }
         });
+    }
+    
+    // Keyboard navigation for gallery
+    document.addEventListener('keydown', function(e) {
+        if (!galleryModal || !galleryModal.classList.contains('active')) return;
         
-        // Keyboard navigation for gallery
-        document.addEventListener('keydown', function(e) {
-            if (!galleryModal.classList.contains('active')) return;
-            
-            switch (e.key) {
-                case 'Escape':
-                    closeGalleryModal();
-                    break;
-                case 'ArrowLeft':
-                    const prevIndex = currentGalleryImage - 1 < 0 ? galleryImages.length - 1 : currentGalleryImage - 1;
-                    showGalleryImage(prevIndex);
-                    break;
-                case 'ArrowRight':
-                    const nextIndex = currentGalleryImage + 1 >= galleryImages.length ? 0 : currentGalleryImage + 1;
-                    showGalleryImage(nextIndex);
-                    break;
-            }
-        });
+        switch (e.key) {
+            case 'Escape':
+                closeGalleryModal();
+                break;
+            case 'ArrowLeft':
+                if (!galleryImages.length) return;
+                const prevIndex = currentGalleryImage - 1 < 0 ? galleryImages.length - 1 : currentGalleryImage - 1;
+                showGalleryImage(prevIndex);
+                break;
+            case 'ArrowRight':
+                if (!galleryImages.length) return;
+                const nextIndex = currentGalleryImage + 1 >= galleryImages.length ? 0 : currentGalleryImage + 1;
+                showGalleryImage(nextIndex);
+                break;
+        }
+    });
+    
+    function closeGalleryModal() {
+        if (!galleryModal) return;
+        galleryModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
         
-        function closeGalleryModal() {
-            galleryModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            
-            // Return focus to the button that opened the modal
-            const button = document.querySelector(`.btn-view[data-target="${currentItemId}"]`);
-            if (button) button.focus();
+        // Return focus to the button that opened the modal
+        const button = document.querySelector(`.btn-view[data-target="${currentItemId}"]`);
+        if (button) button.focus();
+    }
+    
+    function handleSwipe() {
+        if (!galleryImages.length) return;
+        
+        // Minimum swipe distance threshold (pixels)
+        const swipeThreshold = 50;
+        
+        if (touchEndX < touchStartX - swipeThreshold) {
+            // Swipe left - next image
+            const newIndex = currentGalleryImage + 1 >= galleryImages.length ? 0 : currentGalleryImage + 1;
+            showGalleryImage(newIndex);
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+            // Swipe right - previous image
+            const newIndex = currentGalleryImage - 1 < 0 ? galleryImages.length - 1 : currentGalleryImage - 1;
+            showGalleryImage(newIndex);
         }
     }
-
-    // Buy Now functionality for cards
-    const buyNowButtons = document.querySelectorAll('.btn-buy');
-    buyNowButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const card = this.closest('.card');
-            if (card) {
-                const itemId = card.getAttribute('data-id');
-                const itemType = itemId.includes('vehicle') ? 'vehicle' : 'property';
-                handleBuyNow(itemId, itemType);
-            }
-        });
-    });
 
     // Handle Buy Now process
     function handleBuyNow(itemId, itemType) {
@@ -371,7 +413,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const item = document.querySelector(`.card[data-id="${itemId}"]`);
         const itemTitle = item ? item.querySelector('h3').textContent : 'Item';
         const itemPrice = item ? item.querySelector('.price').textContent : '';
-        const itemImage = item ? item.querySelector('.card-image img').src : '';
+        const itemImage = item && item.querySelector('.card-image img') ? 
+            item.querySelector('.card-image img').src : '';
         
         // Create checkout content with image
         checkoutModal.innerHTML = `
@@ -382,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="checkout-content">
                 <div class="checkout-item">
                     <div class="checkout-item-detail">
-                        <img src="${itemImage}" alt="${itemTitle}" class="checkout-item-image">
+                        ${itemImage ? `<img src="${itemImage}" alt="${itemTitle}" class="checkout-item-image">` : ''}
                         <div>
                             <h3>${itemTitle}</h3>
                             <p class="checkout-price">${itemPrice}</p>
