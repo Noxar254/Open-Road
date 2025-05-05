@@ -160,19 +160,24 @@
             <div class="hero-slider">
                 <div class="slide active">
                     <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
+                    <div class="slide-overlay"></div>
                 </div>
                 <div class="slide">
                     <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
+                    <div class="slide-overlay"></div>
                 </div>
                 <div class="slide">
                     <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
+                    <div class="slide-overlay"></div>
                 </div>
             </div>
-            <div class="container">
+            <div class="container hero-container">
                 <div class="hero-content">
-                    <span class="hero-subtitle">Kenya's Premier Marketplace</span>
-                    <h1>Discover Luxury Vehicles & Properties</h1>
-                    <p>Premium automobiles and exclusive real estate, all in one place</p>
+                    <div class="hero-text-content">
+                        <span class="hero-subtitle">Kenya's Premier Marketplace</span>
+                        <h1>Discover Luxury Vehicles & Properties</h1>
+                        <p>Premium automobiles and exclusive real estate, all in one place</p>
+                    </div>
                     <div class="hero-buttons">
                         <a href="vehicles.html" class="btn btn-primary">Explore Vehicles</a>
                         <a href="properties.html" class="btn btn-secondary">Browse Properties</a>
@@ -180,13 +185,13 @@
                     </div>
                 </div>
                 <div class="slider-controls">
-                    <button class="slider-arrow prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-arrow prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
                     <div class="slider-dots">
-                        <span class="dot active"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
+                        <span class="dot active" aria-label="Slide 1"></span>
+                        <span class="dot" aria-label="Slide 2"></span>
+                        <span class="dot" aria-label="Slide 3"></span>
                     </div>
-                    <button class="slider-arrow next"><i class="fas fa-chevron-right"></i></button>
+                    <button class="slider-arrow next" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         </section>
@@ -437,6 +442,7 @@
                         <li><a href="properties.html">Properties</a></li>
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">

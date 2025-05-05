@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ & Testimonials | Open Roads Motors</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles specific to the FAQ page */
+        .faq-hero {
+            background-image: url('https://images.unsplash.com/photo-1610647752706-3bb13cab61fc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .faq-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+        
+        .faq-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .faq-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .faq-container {
+            margin: 80px 0;
+        }
+
+        .faq-section {
+            margin-bottom: 60px;
+        }
+        
+        .faq-section h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 32px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .faq-section h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--button-primary);
+        }
+        
+        .accordion {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .accordion-item {
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: var(--card-background);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .accordion-header {
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background-color: var(--card-background);
+        }
+        
+        .accordion-header:hover {
+            background-color: var(--input-background);
+        }
+        
+        .accordion-header i {
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-item.active .accordion-header i {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 25px;
+        }
+        
+        .accordion-item.active .accordion-content {
+            max-height: 1000px;
+            padding-bottom: 25px;
+        }
+        
+        /* Redesigned Testimonial Styles - Improved Version */
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .testimonial-cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .testimonial-card {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 340px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .testimonial-card-top {
+            background-color: var(--button-primary);
+            height: 8px;
+            width: 100%;
+        }
+        
+        .testimonial-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .testimonial-text {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            flex-grow: 1;
+        }
+        
+        .testimonial-text p {
+            font-style: italic;
+            line-height: 1.6;
+            font-size: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            color: var(--text-color);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-text:before {
+            content: '\f10d';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            top: -10px;
+            left: -5px;
+            font-size: 42px;
+            color: rgba(0, 0, 0, 0.03);
+            z-index: 0;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .testimonial-author-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-author-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .testimonial-author-info {
+            flex: 1;
+        }
+        
+        .testimonial-author-info h4 {
+            font-weight: 600;
+            margin-bottom: 3px;
+            font-size: 15px;
+            color: var(--text-color);
+        }
+        
+        .testimonial-author-info p {
+            font-size: 12px;
+            color: var(--secondary-color);
+        }
+        
+        .ratings {
+            color: #FFD700;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        
+        @media (max-width: 1100px) {
+            .testimonial-cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .testimonial-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .testimonial-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-card {
+                height: auto;
+                min-height: 300px;
+            }
+        }
+
+        /* Redesigned Comparison Tool Styles */
+        .comparison-tool {
+            background-color: var(--card-background);
+            padding: 80px 0;
+            margin-top: 60px;
+            position: relative;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .comparison-tool:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1604882767135-b41edc341115?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .comparison-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .comparison-header h2 {
+            margin-bottom: 15px;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-color);
+            position: relative;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .comparison-header h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--button-primary);
+        }
+        
+        .comparison-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--secondary-color);
+        }
+        
+        .comparison-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+        
+        .comparison-tab {
+            padding: 12px 25px;
+            background-color: var(--input-background);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+        }
+        
+        .comparison-tab.active {
+            background-color: var(--button-primary);
+            color: var(--button-primary-text);
+            border-color: var(--button-primary);
+        }
+        
+        .comparison-content {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        
+        .comparison-selection {
+            flex: 1;
+            background-color: var(--input-background);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+        
+        .comparison-form-row {
+            margin-bottom: 25px;
+        }
+        
+        .comparison-form-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .comparison-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .comparison-form-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .comparison-form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 15px;
+        }
+        
+        .comparison-form-group select,
+        .comparison-form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--card-background);
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 15px;
+        }
+        
+        .comparison-form-group select:focus,
+        .comparison-form-group input:focus {
+            outline: none;
+            border-color: var(--button-primary);
+            box-shadow: 0 0 0 2px rgba(var(--button-primary-rgb), 0.1);
+        }
+        
+        .comparison-button {
+            width: 100%;
+            background-color: var(--button-primary);
+            color: var(--button-primary-text);
+            border: none;
+            padding: 16px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .comparison-button i {
+            font-size: 18px;
+        }
+        
+        .comparison-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(var(--button-primary-rgb), 0.2);
+        }
+        
+        .comparison-results {
+            display: none;
+            background-color: var(--card-background);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+        
+        .comparison-results.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .comparison-results h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--text-color);
+            position: relative;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .comparison-results h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--button-primary);
+        }
+        
+        .comparison-table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px var(--border-color);
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 18px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .comparison-table th {
+            font-weight: 600;
+            background-color: var(--input-background);
+            color: var(--text-color);
+            font-size: 15px;
+        }
+        
+        .comparison-table th:first-child {
+            width: 180px;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table .feature-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .comparison-table .highlight {
+            font-weight: 700;
+            color: var(--button-primary);
+            position: relative;
+        }
+        
+        .comparison-table .highlight:after {
+            content: '✓';
+            margin-left: 5px;
+            font-size: 14px;
+        }
+        
+        .value-rating {
+            margin-top: 30px;
+            padding: 30px;
+            background-color: var(--input-background);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .value-rating h4 {
+            margin-bottom: 20px;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        .rating-item {
+            margin-bottom: 25px;
+        }
+        
+        .rating-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .rating-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .rating-name {
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--text-color);
+        }
+        
+        .rating-score {
+            font-weight: 600;
+            color: var(--button-primary);
+            font-size: 16px;
+        }
+        
+        .rating-bar {
+            display: flex;
+            height: 10px;
+            background-color: rgba(var(--button-primary-rgb), 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .rating-bar-fill {
+            height: 100%;
+            background-color: var(--button-primary);
+            border-radius: 10px;
+            transition: width 1s ease-in-out;
+        }
+        
+        .model-thumbnails {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .model-card {
+            text-align: center;
+            width: 160px;
+        }
+        
+        .model-image {
+            width: 160px;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .model-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .model-card:hover .model-image img {
+            transform: scale(1.05);
+        }
+        
+        .model-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        .model-price {
+            font-size: 13px;
+            color: var(--secondary-color);
+        }
+        
+        .recommendation {
+            background-color: var(--button-primary);
+            color: var(--button-primary-text);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .recommendation h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .recommendation p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .recommendation-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--button-primary-text);
+            color: var(--button-primary);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .recommendation-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .comparison-content {
+                flex-direction: column;
+            }
+            
+            .comparison-selection {
+                width: 100%;
+            }
+            
+            .model-thumbnails {
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-tabs {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .comparison-tab {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .comparison-table th:first-child {
+                width: 120px;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 15px;
+            }
+            
+            .model-thumbnails {
+                gap: 15px;
+            }
+            
+            .model-card {
+                width: 140px;
+            }
+            
+            .model-image {
+                width: 140px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.jpg" alt="Open Roads Motors Logo" class="logo-image">
+                    <span class="logo-text">OPEN ROADS MOTORS</span>
+                </a>
+            </div>
+            <div class="header-controls">
+                <button id="search-toggle" aria-label="Search"><i class="fas fa-search"></i></button>
+                <button id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+                <button id="menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Vehicles <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="vehicles.html?type=suv">SUVs</a>
+                            <a href="vehicles.html?type=sedan">Sedans</a>
+                            <a href="vehicles.html?type=truck">Trucks</a>
+                            <a href="vehicles.html?type=luxury">Luxury</a>
+                            <a href="vehicles.html?type=bike">Bikes</a>
+                            <a href="vehicles.html">View All</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Real Estate <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="properties.html?type=apartments">Apartments</a>
+                            <a href="properties.html?type=houses">Houses</a>
+                            <a href="properties.html?type=commercial">Commercial</a>
+                            <a href="properties.html?type=land">Land</a>
+                            <a href="properties.html">View All</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="booking.html">Book Test Drive</a></li>
+                    <li><a href="sell.html" class="sell-button highlight-button"><i class="fas fa-tag"></i> Sell</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="advanced-search" class="search-panel">
+        <div class="container">
+            <form id="search-form">
+                <div class="search-category">
+                    <label for="search-category">I'm looking for</label>
+                    <select id="search-category">
+                        <option value="vehicles">Vehicles</option>
+                        <option value="real-estate">Real Estate</option>
+                    </select>
+                </div>
+
+                <div class="search-fields" id="vehicle-fields">
+                    <div class="field">
+                        <label for="vehicle-type">Type</label>
+                        <select id="vehicle-type">
+                            <option value="">All Types</option>
+                            <option value="suv">SUV</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="truck">Truck</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="vehicle-make">Make</label>
+                        <select id="vehicle-make">
+                            <option value="">All Makes</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="bmw">BMW</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="year">Year</label>
+                        <select id="year">
+                            <option value="">Any Year</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="search-fields" id="real-estate-fields" style="display: none;">
+                    <div class="field">
+                        <label for="property-type">Type</label>
+                        <select id="property-type">
+                            <option value="">All Types</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house">House</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="land">Land</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="location">Location</label>
+                        <select id="location">
+                            <option value="">All Locations</option>
+                            <option value="nairobi">Nairobi</option>
+                            <option value="mombasa">Mombasa</option>
+                            <option value="kisumu">Kisumu</option>
+                            <option value="nakuru">Nakuru</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="property-price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="property-min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="property-max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="bedrooms">Bedrooms</label>
+                        <select id="bedrooms">
+                            <option value="">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="faq-hero">
+            <div class="faq-hero-content">
+                <h1>Frequently Asked Questions</h1>
+                <p>Find answers to common questions about our vehicles, properties, and services</p>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="container faq-container">
+            <div class="faq-section">
+                <h2>General Questions</h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>What makes Open Roads Motors different from other dealerships?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Open Roads Motors stands out by offering both luxury vehicles and premium real estate under one roof. Our personalized approach, extensive inventory, competitive pricing, and comprehensive after-sales services set us apart. We pride ourselves on building long-term relationships with our clients and providing tailored solutions to meet their specific needs.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Do you offer financing options?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Yes, we partner with several leading financial institutions to offer competitive financing solutions for both our vehicles and properties. Our finance team can help you explore options including conventional loans, leasing programs, balloon payment structures, and more. We tailor financing packages to suit your budget and preferences.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>What areas do you serve?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Our main showroom is located in Nairobi, but we serve clients throughout Kenya, including major cities like Mombasa, Kisumu, Nakuru, and Eldoret. We can arrange vehicle deliveries nationwide, and our real estate portfolio spans multiple regions across the country. International clients are also welcome, and we can assist with import/export documentation.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>What warranties do you offer?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>All our new vehicles come with manufacturer warranties ranging from 3-7 years depending on the make and model. We also offer extended warranty options for additional peace of mind. For pre-owned vehicles, we provide a comprehensive 1-year/20,000 km warranty covering major mechanical components. Our properties come with structural warranties and we work with developers who adhere to the highest construction standards.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <h2>Vehicle Questions</h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>What types of vehicles do you sell?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>We specialize in premium and luxury vehicles across multiple categories including SUVs, sedans, trucks, sports cars, and exclusive limited editions. Our inventory features top brands such as Mercedes-Benz, BMW, Audi, Land Rover, Toyota's high-end models, and more. We cater to both new and pre-owned vehicle markets, ensuring all pre-owned vehicles meet our rigorous quality standards.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Can I trade in my current vehicle?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Absolutely! We offer competitive trade-in values for your current vehicle. Our evaluation process is transparent and takes into account the vehicle's make, model, year, condition, mileage, service history, and current market conditions. The trade-in value can be applied to your new purchase, reducing your overall cost.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>How does the car import process work?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Our import process is hassle-free for clients. We handle all aspects from source selection (Japan, UK, Dubai, etc.), auction bidding, quality verification, shipping arrangements, customs clearance, KRA registrations, and final delivery. The typical timeline is 45-90 days depending on the source country. We provide regular updates including photos and documentation throughout the process.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Do you offer test drives?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Yes, we encourage test drives to ensure you're completely satisfied with your vehicle choice. Simply book an appointment through our website, by phone, or in person at our showroom. We require a valid driver's license and may ask for additional identification for high-value vehicles. We also offer extended test drives (up to 24 hours) for serious buyers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-section">
+                <h2>Real Estate Questions</h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>What types of properties do you offer?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Our real estate portfolio includes luxury residential properties (apartments, townhouses, villas), commercial spaces (office buildings, retail units), and premium land for development. We focus on prime locations in major Kenyan cities, with properties ranging from ready-to-move-in units to off-plan investments and custom build options.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Can you help with property management after purchase?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Yes, we offer comprehensive property management services for investors and homeowners who require assistance. Our services include tenant sourcing and vetting, rent collection, maintenance coordination, regular property inspections, financial reporting, and legal compliance. We can tailor our management packages to suit your specific needs.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>What payment plans are available for properties?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>We offer flexible payment plans, especially for off-plan properties. Typical structures include a 10-20% booking deposit, followed by installments during the construction phase, and a final payment upon completion. For ready properties, we can arrange mortgage financing through our banking partners with favorable terms. Each property may have slightly different payment terms depending on the developer.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Can foreigners buy property through Open Roads Motors?</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <p>Yes, foreigners can purchase certain types of properties in Kenya. Our legal team can guide you through the process in compliance with Kenyan law. Foreigners can own apartments and commercial buildings on leasehold title, while land ownership has some restrictions. We provide comprehensive support including legal advice, tax guidance, and necessary documentation to ensure a smooth transaction.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="container testimonials-container">
+            <div class="faq-section">
+                <h2>Client Testimonials</h2>
+                <div class="testimonial-cards">
+                    <div class="testimonial-card">
+                        <div class="testimonial-card-top"></div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>"My experience with Open Roads Motors was exceptional. From the test drive to the financing and final delivery, everything was handled professionally. Their knowledge about luxury vehicles is impressive."</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="testimonial-author-image">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="David Mwaura">
+                                </div>
+                                <div class="testimonial-author-info">
+                                    <h4>David Mwaura</h4>
+                                    <p>Business Executive</p>
+                                    <div class="ratings">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-card-top"></div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>"As an investor, I was looking for prime real estate with good ROI potential. Their real estate team provided detailed market analysis and found me a commercial property that has been an excellent investment."</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="testimonial-author-image">
+                                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Sarah Ochieng">
+                                </div>
+                                <div class="testimonial-author-info">
+                                    <h4>Sarah Ochieng</h4>
+                                    <p>Real Estate Investor</p>
+                                    <div class="ratings">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-card-top"></div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>"I was hesitant about importing a vehicle, but Open Roads Motors made the entire process seamless. They handled everything from sourcing my Mercedes in Japan to delivery in Nairobi. Excellent service!"</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="testimonial-author-image">
+                                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="James Kimani">
+                                </div>
+                                <div class="testimonial-author-info">
+                                    <h4>James Kimani</h4>
+                                    <p>Doctor, Kisumu</p>
+                                    <div class="ratings">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-card-top"></div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>"The property purchase process was seamless from start to finish. Their team helped me find the perfect apartment in Mombasa with an ocean view, and handled all the paperwork efficiently. Highly recommended!"</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="testimonial-author-image">
+                                    <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Grace Mutua">
+                                </div>
+                                <div class="testimonial-author-info">
+                                    <h4>Grace Mutua</h4>
+                                    <p>Bank Manager</p>
+                                    <div class="ratings">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <div class="testimonial-card-top"></div>
+                        <div class="testimonial-content">
+                            <div class="testimonial-text">
+                                <p>"I purchased my BMW X5 through Open Roads Motors and received exceptional after-sales service. When I had an issue with the car, their technical team responded immediately and resolved it at no extra cost."</p>
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="testimonial-author-image">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Ahmed Hassan">
+                                </div>
+                                <div class="testimonial-author-info">
+                                    <h4>Ahmed Hassan</h4>
+                                    <p>IT Consultant</p>
+                                    <div class="ratings">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-nav">
+                    <div class="testimonial-dot active"></div>
+                    <div class="testimonial-dot"></div>
+                    <div class="testimonial-dot"></div>
+                    <div class="testimonial-dot"></div>
+                    <div class="testimonial-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Tool Section (Unique Feature) -->
+        <section class="comparison-tool">
+            <div class="comparison-container">
+                <div class="comparison-header">
+                    <h2>Vehicle & Property Comparison Tool</h2>
+                    <p>Compare different vehicles or properties to find the perfect match for your needs and budget. Our advanced comparison tool helps you make informed decisions.</p>
+                </div>
+                
+                <div class="comparison-tabs">
+                    <button class="comparison-tab active" data-type="vehicles">Compare Vehicles</button>
+                    <button class="comparison-tab" data-type="properties">Compare Properties</button>
+                </div>
+
+                <div class="comparison-content">
+                    <div class="comparison-selection">
+                        <div id="vehicle-comparison-fields">
+                            <div class="comparison-form-row">
+                                <div class="comparison-form-group">
+                                    <label for="vehicle1">First Vehicle</label>
+                                    <select id="vehicle1">
+                                        <option value="">Select a Vehicle</option>
+                                        <option value="mercedes-s-class">Mercedes Benz S-Class</option>
+                                        <option value="range-rover-sport">Range Rover Sport</option>
+                                        <option value="audi-q8">Audi Q8</option>
+                                        <option value="bmw-x5">BMW X5</option>
+                                        <option value="toyota-land-cruiser">Toyota Land Cruiser</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="comparison-form-row">
+                                <div class="comparison-form-group">
+                                    <label for="vehicle2">Second Vehicle</label>
+                                    <select id="vehicle2">
+                                        <option value="">Select a Vehicle</option>
+                                        <option value="mercedes-s-class">Mercedes Benz S-Class</option>
+                                        <option value="range-rover-sport">Range Rover Sport</option>
+                                        <option value="audi-q8">Audi Q8</option>
+                                        <option value="bmw-x5">BMW X5</option>
+                                        <option value="toyota-land-cruiser">Toyota Land Cruiser</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="comparison-form-row">
+                                <button type="button" id="compare-vehicles-button" class="comparison-button">
+                                    <i class="fas fa-exchange-alt"></i> Compare Vehicles
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="property-comparison-fields" style="display: none;">
+                            <div class="comparison-form-row">
+                                <div class="comparison-form-group">
+                                    <label for="property1">First Property</label>
+                                    <select id="property1">
+                                        <option value="">Select a Property</option>
+                                        <option value="modern-villa">Modern Villa with Pool</option>
+                                        <option value="luxury-apartment">Luxury Apartment with Ocean View</option>
+                                        <option value="commercial-building">Prime Commercial Building</option>
+                                        <option value="garden-townhouse">Garden Townhouse</option>
+                                        <option value="penthouse">Exclusive Penthouse</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="comparison-form-row">
+                                <div class="comparison-form-group">
+                                    <label for="property2">Second Property</label>
+                                    <select id="property2">
+                                        <option value="">Select a Property</option>
+                                        <option value="modern-villa">Modern Villa with Pool</option>
+                                        <option value="luxury-apartment">Luxury Apartment with Ocean View</option>
+                                        <option value="commercial-building">Prime Commercial Building</option>
+                                        <option value="garden-townhouse">Garden Townhouse</option>
+                                        <option value="penthouse">Exclusive Penthouse</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="comparison-form-row">
+                                <button type="button" id="compare-properties-button" class="comparison-button">
+                                    <i class="fas fa-exchange-alt"></i> Compare Properties
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="comparison-results" class="comparison-results">
+                    <h3>Comparison Results</h3>
+                    <div class="model-thumbnails">
+                        <div class="model-card">
+                            <div class="model-image">
+                                <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80" alt="Mercedes Benz S-Class">
+                            </div>
+                            <h5 class="model-name">Mercedes Benz S-Class</h5>
+                            <p class="model-price">KES 15,500,000</p>
+                        </div>
+                        <div class="model-card">
+                            <div class="model-image">
+                                <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport">
+                            </div>
+                            <h5 class="model-name">Range Rover Sport</h5>
+                            <p class="model-price">KES 13,900,000</p>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-table-container">
+                        <table class="comparison-table" id="vehicle-comparison-table">
+                            <tr>
+                                <th>Feature</th>
+                                <th>Mercedes Benz S-Class</th>
+                                <th>Range Rover Sport</th>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Price</td>
+                                <td>KES 15,500,000</td>
+                                <td class="highlight">KES 13,900,000</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Year</td>
+                                <td>2023</td>
+                                <td class="highlight">2024</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Engine</td>
+                                <td class="highlight">3.0L Turbo (362 hp)</td>
+                                <td>3.0L Diesel (349 hp)</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Fuel Type</td>
+                                <td>Petrol</td>
+                                <td>Diesel</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Mileage</td>
+                                <td>3,500 km</td>
+                                <td class="highlight">1,200 km</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Transmission</td>
+                                <td class="highlight">9-speed Automatic</td>
+                                <td>8-speed Automatic</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Drive Type</td>
+                                <td>Rear-Wheel Drive</td>
+                                <td class="highlight">All-Wheel Drive</td>
+                            </tr>
+                            <tr>
+                                <td class="feature-name">Fuel Efficiency</td>
+                                <td>10.5 km/L</td>
+                                <td class="highlight">12.3 km/L</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="value-rating">
+                        <h4>Value for Money Rating</h4>
+                        <div class="rating-item">
+                            <div class="rating-header">
+                                <span class="rating-name">Mercedes Benz S-Class</span>
+                                <span class="rating-score">8.7/10</span>
+                            </div>
+                            <div class="rating-bar">
+                                <div class="rating-bar-fill" style="width: 87%;"></div>
+                            </div>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-header">
+                                <span class="rating-name">Range Rover Sport</span>
+                                <span class="rating-score">9.2/10</span>
+                            </div>
+                            <div class="rating-bar">
+                                <div class="rating-bar-fill" style="width: 92%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recommendation">
+                        <h4>Our Recommendation</h4>
+                        <p>Based on your requirements, we recommend the Range Rover Sport. It offers better value for money with newer model year, lower mileage, and superior fuel efficiency.</p>
+                        <a href="vehicles.html?id=range-rover-sport" class="recommendation-button">
+                            View Range Rover Sport <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Open Roads Motors</h3>
+                    <p>Luxury vehicles and prime real estate for discerning clients in Kenya.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="vehicles.html">Vehicles</a></li>
+                        <li><a href="properties.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Embakasi Fedha Stage, Nairobi, Kenya</li>
+                        <li><i class="fas fa-phone"></i> +254 786636019</li>
+                        <li><i class="fas fa-envelope"></i> info@openroadsmotors.co.ke</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive updates on our latest listings.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Open Roads Motors. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fab-container">
+        <button class="fab-button main-fab"><i class="fas fa-comments"></i></button>
+        <div class="fab-options">
+            <a href="tel:+254786636019" class="fab-option call-fab" aria-label="Call us">
+                <i class="fas fa-phone"></i>
+                <span class="fab-label">Call</span>
+            </a>
+            <a href="https://wa.me/254786636019" target="_blank" class="fab-option whatsapp-fab" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+                <span class="fab-label">WhatsApp</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // FAQ Accordion functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                
+                header.addEventListener('click', () => {
+                    const currentlyActive = document.querySelector('.accordion-item.active');
+                    
+                    if(currentlyActive && currentlyActive !== item) {
+                        currentlyActive.classList.remove('active');
+                    }
+                    
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Comparison Tool Functionality
+            const comparisonTabs = document.querySelectorAll('.comparison-tab');
+            const vehicleFields = document.getElementById('vehicle-comparison-fields');
+            const propertyFields = document.getElementById('property-comparison-fields');
+            const compareVehiclesButton = document.getElementById('compare-vehicles-button');
+            const comparePropertiesButton = document.getElementById('compare-properties-button');
+            const comparisonResults = document.getElementById('comparison-results');
+            
+            // Tab switching functionality
+            comparisonTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    comparisonTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const type = this.getAttribute('data-type');
+                    if(type === 'vehicles') {
+                        vehicleFields.style.display = 'block';
+                        propertyFields.style.display = 'none';
+                    } else {
+                        vehicleFields.style.display = 'none';
+                        propertyFields.style.display = 'block';
+                    }
+                    
+                    // Hide results when switching tabs
+                    comparisonResults.classList.remove('active');
+                });
+            });
+            
+            // Handle vehicle comparison button click
+            compareVehiclesButton.addEventListener('click', function() {
+                const vehicle1 = document.getElementById('vehicle1').value;
+                const vehicle2 = document.getElementById('vehicle2').value;
+                
+                if(!vehicle1 || !vehicle2) {
+                    alert('Please select two vehicles to compare');
+                    return;
+                }
+                
+                if(vehicle1 === vehicle2) {
+                    alert('Please select two different vehicles to compare');
+                    return;
+                }
+                
+                // In a real implementation, this would fetch dynamic comparison data
+                // For demo purposes, we're just showing the pre-populated table
+                comparisonResults.classList.add('active');
+                
+                // Animate rating bars filling
+                setTimeout(() => {
+                    const ratingBars = document.querySelectorAll('.rating-bar-fill');
+                    ratingBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }, 300);
+                
+                // Scroll to results
+                setTimeout(() => {
+                    comparisonResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            });
+            
+            // Handle property comparison button click
+            comparePropertiesButton.addEventListener('click', function() {
+                const property1 = document.getElementById('property1').value;
+                const property2 = document.getElementById('property2').value;
+                
+                if(!property1 || !property2) {
+                    alert('Please select two properties to compare');
+                    return;
+                }
+                
+                if(property1 === property2) {
+                    alert('Please select two different properties to compare');
+                    return;
+                }
+                
+                // In a real implementation, this would fetch dynamic comparison data
+                // For demo purposes, we're just showing the pre-populated table
+                comparisonResults.classList.add('active');
+                
+                // Animate rating bars filling
+                setTimeout(() => {
+                    const ratingBars = document.querySelectorAll('.rating-bar-fill');
+                    ratingBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }, 300);
+                
+                // Scroll to results
+                setTimeout(() => {
+                    comparisonResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
