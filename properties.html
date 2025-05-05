@@ -442,85 +442,17 @@
         </div>
     </footer>
 
-    <!-- Gallery Modal -->
-    <div class="gallery-modal">
-        <div class="gallery-content">
-            <div class="gallery-header">
-                <h3 class="gallery-title">Item Details</h3>
-                <button class="gallery-close"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="gallery-main">
-                <button class="gallery-arrow prev"><i class="fas fa-chevron-left"></i></button>
-                <img src="" alt="Gallery Image" class="gallery-image">
-                <button class="gallery-arrow next"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="gallery-thumbnails"></div>
-            <div class="gallery-info">
-                <p class="gallery-price"></p>
-                <p class="gallery-description"></p>
-                <div class="gallery-actions">
-                    <button class="gallery-btn primary"><i class="fas fa-shopping-cart"></i> Buy Now</button>
-                    <button class="gallery-btn secondary"><i class="fas fa-phone"></i> Contact Seller</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Filter Modal -->
-    <div class="modal" id="filter-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Filter Properties</h3>
-                <button class="modal-close"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <div class="filter-group">
-                    <h4>Property Type</h4>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="type" value="apartment"> Apartments</label>
-                        <label><input type="checkbox" name="type" value="house"> Houses</label>
-                        <label><input type="checkbox" name="type" value="commercial"> Commercial</label>
-                        <label><input type="checkbox" name="type" value="land"> Land</label>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h4>Location</h4>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="location" value="nairobi"> Nairobi</label>
-                        <label><input type="checkbox" name="location" value="mombasa"> Mombasa</label>
-                        <label><input type="checkbox" name="location" value="kisumu"> Kisumu</label>
-                        <label><input type="checkbox" name="location" value="nakuru"> Nakuru</label>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h4>Bedrooms</h4>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="bedrooms" value="1"> 1+ Bedroom</label>
-                        <label><input type="checkbox" name="bedrooms" value="2"> 2+ Bedrooms</label>
-                        <label><input type="checkbox" name="bedrooms" value="3"> 3+ Bedrooms</label>
-                        <label><input type="checkbox" name="bedrooms" value="4"> 4+ Bedrooms</label>
-                        <label><input type="checkbox" name="bedrooms" value="5"> 5+ Bedrooms</label>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h4>Price Range</h4>
-                    <div class="range-slider">
-                        <input type="range" id="price-slider" min="5000000" max="150000000" step="5000000" value="150000000">
-                        <div class="range-values">
-                            <span>KES 5,000,000</span>
-                            <span id="price-value">KES 150,000,000</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="filter-actions">
-                    <button class="btn-secondary" id="reset-filters">Reset</button>
-                    <button class="btn-primary" id="apply-filters">Apply Filters</button>
-                </div>
-            </div>
+    <div class="fab-container">
+        <button class="fab-button main-fab"><i class="fas fa-comments"></i></button>
+        <div class="fab-options">
+            <a href="tel:+254786636019" class="fab-option call-fab" aria-label="Call us">
+                <i class="fas fa-phone"></i>
+                <span class="fab-label">Call</span>
+            </a>
+            <a href="https://wa.me/254786636019" target="_blank" class="fab-option whatsapp-fab" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+                <span class="fab-label">WhatsApp</span>
+            </a>
         </div>
     </div>
 

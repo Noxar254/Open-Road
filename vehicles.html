@@ -442,87 +442,17 @@
         </div>
     </footer>
 
-    <!-- Gallery Modal -->
-    <div class="gallery-modal">
-        <div class="gallery-content">
-            <div class="gallery-header">
-                <h3 class="gallery-title">Item Details</h3>
-                <button class="gallery-close"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="gallery-main">
-                <button class="gallery-arrow prev"><i class="fas fa-chevron-left"></i></button>
-                <img src="" alt="Gallery Image" class="gallery-image">
-                <button class="gallery-arrow next"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="gallery-thumbnails"></div>
-            <div class="gallery-info">
-                <p class="gallery-price"></p>
-                <p class="gallery-description"></p>
-                <div class="gallery-actions">
-                    <button class="gallery-btn primary"><i class="fas fa-shopping-cart"></i> Buy Now</button>
-                    <button class="gallery-btn secondary"><i class="fas fa-phone"></i> Contact Seller</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Filter Modal -->
-    <div class="modal" id="filter-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Filter Vehicles</h3>
-                <button class="modal-close"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <div class="filter-group">
-                    <h4>Vehicle Type</h4>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="type" value="suv"> SUVs</label>
-                        <label><input type="checkbox" name="type" value="sedan"> Sedans</label>
-                        <label><input type="checkbox" name="type" value="truck"> Trucks</label>
-                        <label><input type="checkbox" name="type" value="luxury"> Luxury</label>
-                        <label><input type="checkbox" name="type" value="bike"> Bikes</label>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h4>Make</h4>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="make" value="toyota"> Toyota</label>
-                        <label><input type="checkbox" name="make" value="mercedes"> Mercedes</label>
-                        <label><input type="checkbox" name="make" value="bmw"> BMW</label>
-                        <label><input type="checkbox" name="make" value="audi"> Audi</label>
-                        <label><input type="checkbox" name="make" value="range-rover"> Range Rover</label>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h4>Year</h4>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="year" value="2025"> 2025</label>
-                        <label><input type="checkbox" name="year" value="2024"> 2024</label>
-                        <label><input type="checkbox" name="year" value="2023"> 2023</label>
-                        <label><input type="checkbox" name="year" value="2022"> 2022</label>
-                        <label><input type="checkbox" name="year" value="2021"> 2021 & Older</label>
-                    </div>
-                </div>
-                
-                <div class="filter-group">
-                    <h4>Price Range</h4>
-                    <div class="range-slider">
-                        <input type="range" id="price-slider" min="1000000" max="20000000" step="500000" value="20000000">
-                        <div class="range-values">
-                            <span>KES 1,000,000</span>
-                            <span id="price-value">KES 20,000,000</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="filter-actions">
-                    <button class="btn-secondary" id="reset-filters">Reset</button>
-                    <button class="btn-primary" id="apply-filters">Apply Filters</button>
-                </div>
-            </div>
+    <div class="fab-container">
+        <button class="fab-button main-fab"><i class="fas fa-comments"></i></button>
+        <div class="fab-options">
+            <a href="tel:+254786636019" class="fab-option call-fab" aria-label="Call us">
+                <i class="fas fa-phone"></i>
+                <span class="fab-label">Call</span>
+            </a>
+            <a href="https://wa.me/254786636019" target="_blank" class="fab-option whatsapp-fab" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+                <span class="fab-label">WhatsApp</span>
+            </a>
         </div>
     </div>
 
