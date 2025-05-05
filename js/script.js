@@ -1,491 +1,569 @@
+// JavaScript for Open Roads Motors website
+
 document.addEventListener('DOMContentLoaded', function() {
-    // DOM Elements
+    // Set initial theme based on user preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.body.className = savedTheme;
+        updateThemeToggleIcon(savedTheme);
+    }
+
+    // Theme toggle functionality
     const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function() {
+            if (document.body.classList.contains('light-mode')) {
+                document.body.className = 'dark-mode';
+                localStorage.setItem('theme', 'dark-mode');
+            } else {
+                document.body.className = 'light-mode';
+                localStorage.setItem('theme', 'light-mode');
+            }
+            updateThemeToggleIcon(document.body.className);
+        });
+    }
+
+    // Update theme toggle icon based on current theme
+    function updateThemeToggleIcon(theme) {
+        const themeIcon = document.querySelector('#theme-toggle i');
+        if (themeIcon) {
+            if (theme === 'dark-mode') {
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+    }
+
+    // Mobile navigation toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const nav = document.querySelector('nav');
+    
+    if (menuToggle && nav) {
+        menuToggle.addEventListener('click', function() {
+            nav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+    }
+
+    // Dropdown functionality on mobile
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    if (window.innerWidth < 992) {
+        dropdowns.forEach(dropdown => {
+            const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
+            
+            if (dropdownToggle) {
+                dropdownToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('active');
+                });
+            }
+        });
+    }
+
+    // Search panel toggle
     const searchToggle = document.getElementById('search-toggle');
     const searchPanel = document.getElementById('advanced-search');
-    const menuToggle = document.getElementById('menu-toggle');
-    const mainNav = document.querySelector('.main-nav');
-    const header = document.querySelector('header');
-    const searchCategorySelect = document.getElementById('search-category');
+    
+    if (searchToggle && searchPanel) {
+        searchToggle.addEventListener('click', function() {
+            searchPanel.classList.toggle('active');
+        });
+    }
+
+    // Close search panel when clicking outside
+    document.addEventListener('click', function(e) {
+        if (searchPanel && searchPanel.classList.contains('active')) {
+            if (!searchPanel.contains(e.target) && e.target !== searchToggle) {
+                searchPanel.classList.remove('active');
+            }
+        }
+    });
+
+    // Search category switch
+    const searchCategory = document.getElementById('search-category');
     const vehicleFields = document.getElementById('vehicle-fields');
     const realEstateFields = document.getElementById('real-estate-fields');
-    const mainFab = document.querySelector('.main-fab');
-    const fabOptions = document.querySelector('.fab-options');
     
-    // Initialize FAB functionality
-    if (mainFab) {
-        // Use touchstart for mobile devices to improve responsiveness
-        mainFab.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation(); // Prevent click from propagating to document
-            fabOptions.classList.toggle('active');
-            this.classList.toggle('active');
-        });
-        
-        // Close FAB options when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.fab-container') && fabOptions.classList.contains('active')) {
-                fabOptions.classList.remove('active');
-                mainFab.classList.remove('active');
+    if (searchCategory && vehicleFields && realEstateFields) {
+        searchCategory.addEventListener('change', function() {
+            if (this.value === 'vehicles') {
+                vehicleFields.style.display = 'flex';
+                realEstateFields.style.display = 'none';
+            } else {
+                vehicleFields.style.display = 'none';
+                realEstateFields.style.display = 'flex';
             }
         });
-
-        // Prevent scrolling when touching the fab buttons on mobile
-        const fabContainer = document.querySelector('.fab-container');
-        fabContainer.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-        }, { passive: false });
     }
-    
-    // Hero Slider Elements
+
+    // Hero slider functionality
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
-    const prevArrow = document.querySelector('.slider-arrow.prev');
-    const nextArrow = document.querySelector('.slider-arrow.next');
-    let currentSlide = 0;
-    let slideInterval;
+    const prevBtn = document.querySelector('.slider-arrow.prev');
+    const nextBtn = document.querySelector('.slider-arrow.next');
     
-    // Initialize Hero Slider
-    function startSlider() {
-        slideInterval = setInterval(() => {
-            nextSlide();
+    if (slides.length > 0) {
+        let currentSlide = 0;
+        
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                goToSlide(currentSlide - 1);
+            });
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                goToSlide(currentSlide + 1);
+            });
+        }
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', function() {
+                goToSlide(index);
+            });
+        });
+        
+        // Auto slide
+        setInterval(function() {
+            if (!document.hidden) {
+                goToSlide(currentSlide + 1);
+            }
         }, 5000);
     }
-    
-    function showSlide(index) {
-        slides.forEach(slide => slide.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
-        
-        slides[index].classList.add('active');
-        dots[index].classList.add('active');
-    }
-    
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-    }
-    
-    function prevSlide() {
-        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-        showSlide(currentSlide);
-    }
-    
-    // Attach Hero Slider Event Listeners
-    if (slides.length > 0) {
-        // Initialize the slider
-        startSlider();
-        
-        // Next and previous buttons
-        if (nextArrow) {
-            nextArrow.addEventListener('click', () => {
-                clearInterval(slideInterval);
-                nextSlide();
-                startSlider();
-            });
-        }
-        
-        if (prevArrow) {
-            prevArrow.addEventListener('click', () => {
-                clearInterval(slideInterval);
-                prevSlide();
-                startSlider();
-            });
-        }
-        
-        // Dot navigation
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                clearInterval(slideInterval);
-                currentSlide = index;
-                showSlide(currentSlide);
-                startSlider();
-            });
-        });
-    }
-    
-    // Gallery Modal Elements
-    const galleryModal = document.querySelector('.gallery-modal');
-    const galleryTitle = document.querySelector('.gallery-title');
-    const galleryClose = document.querySelector('.gallery-close');
-    const galleryImage = document.querySelector('.gallery-image');
-    const galleryThumbnails = document.querySelector('.gallery-thumbnails');
-    const galleryPrevArrow = document.querySelector('.gallery-arrow.prev');
-    const galleryNextArrow = document.querySelector('.gallery-arrow.next');
-    const galleryPrice = document.querySelector('.gallery-price');
-    const galleryDescription = document.querySelector('.gallery-description');
-    const galleryBuyButton = document.querySelector('.gallery-btn.primary');
-    
-    // Gallery Modal Variables
-    let currentGalleryImages = [];
-    let currentImageIndex = 0;
-    let currentItemData = {};
 
-    // Gallery Modal Functions
-    function openGallery(itemId) {
-        const card = document.querySelector(`.card[data-id="${itemId}"]`);
-        if (!card) return;
-        
-        // Get item data
-        const title = card.querySelector('h3').textContent;
-        const price = card.querySelector('.price').textContent;
-        const location = card.querySelector('.location').textContent;
-        const details = Array.from(card.querySelectorAll('.card-details span')).map(span => span.textContent.trim()).join(' | ');
-        
-        // Get gallery images
-        const hiddenGallery = card.querySelector('.hidden-gallery');
-        if (!hiddenGallery) return;
-        
-        const images = Array.from(hiddenGallery.querySelectorAll('img'));
-        if (images.length === 0) return;
-        
-        // Set current gallery data
-        currentItemData = {
-            title,
-            price,
-            location,
-            details
-        };
-        
-        currentGalleryImages = images.map(img => ({
-            src: img.src,
-            alt: img.alt
-        }));
-        
-        // Populate gallery
-        galleryTitle.textContent = title;
-        galleryPrice.textContent = price;
-        galleryDescription.textContent = `${location} | ${details}`;
-        
-        // Clear thumbnails
-        galleryThumbnails.innerHTML = '';
-        
-        // Add thumbnails
-        currentGalleryImages.forEach((image, index) => {
-            const thumbnail = document.createElement('img');
-            thumbnail.src = image.src;
-            thumbnail.alt = image.alt;
-            thumbnail.classList.add('gallery-thumbnail');
-            if (index === 0) thumbnail.classList.add('active');
-            
-            thumbnail.addEventListener('click', () => {
-                showGalleryImage(index);
-            });
-            
-            galleryThumbnails.appendChild(thumbnail);
-        });
-        
-        // Show first image
-        currentImageIndex = 0;
-        showGalleryImage(currentImageIndex);
-        
-        // Show modal
-        galleryModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    function closeGallery() {
-        galleryModal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
-    function showGalleryImage(index) {
-        if (index < 0) index = currentGalleryImages.length - 1;
-        if (index >= currentGalleryImages.length) index = 0;
-        
-        currentImageIndex = index;
-        
-        const image = currentGalleryImages[index];
-        galleryImage.src = image.src;
-        galleryImage.alt = image.alt;
-        
-        // Update thumbnails
-        const thumbnails = galleryThumbnails.querySelectorAll('.gallery-thumbnail');
-        thumbnails.forEach((thumbnail, i) => {
-            if (i === index) {
-                thumbnail.classList.add('active');
-            } else {
-                thumbnail.classList.remove('active');
-            }
-        });
-    }
-    
-    function nextGalleryImage() {
-        showGalleryImage(currentImageIndex + 1);
-    }
-    
-    function prevGalleryImage() {
-        showGalleryImage(currentImageIndex - 1);
-    }
-    
-    // Attach gallery event listeners
+    // Gallery modal functionality
     const viewButtons = document.querySelectorAll('.btn-view');
-    viewButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const itemId = this.getAttribute('data-target');
-            if (itemId) {
-                openGallery(itemId);
+    const galleryModal = document.querySelector('.gallery-modal');
+    
+    if (viewButtons.length > 0 && galleryModal) {
+        const galleryImage = galleryModal.querySelector('.gallery-image');
+        const galleryTitle = galleryModal.querySelector('.gallery-title');
+        const galleryPrice = galleryModal.querySelector('.gallery-price');
+        const galleryDescription = galleryModal.querySelector('.gallery-description');
+        const galleryThumbnails = galleryModal.querySelector('.gallery-thumbnails');
+        const galleryPrev = galleryModal.querySelector('.gallery-arrow.prev');
+        const galleryNext = galleryModal.querySelector('.gallery-arrow.next');
+        const galleryClose = galleryModal.querySelector('.gallery-close');
+        const buyNowBtn = galleryModal.querySelector('.gallery-btn.primary');
+        const contactSellerBtn = galleryModal.querySelector('.gallery-btn.secondary');
+        
+        let currentGalleryImage = 0;
+        let galleryImages = [];
+        let currentItemId = "";
+        let currentItemType = "";
+        
+        // Add swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const cardId = this.getAttribute('data-target');
+                const card = document.querySelector(`.card[data-id="${cardId}"]`);
+                
+                if (card) {
+                    const images = card.querySelectorAll('.hidden-gallery img');
+                    const title = card.querySelector('h3').textContent;
+                    const price = card.querySelector('.price').textContent;
+                    const description = card.querySelector('.location') ? 
+                        card.querySelector('.location').textContent : '';
+                    
+                    // Store the current item details for Buy Now functionality
+                    currentItemId = cardId;
+                    currentItemType = cardId.includes('vehicle') ? 'vehicle' : 'property';
+                    
+                    galleryImages = Array.from(images);
+                    galleryTitle.textContent = title;
+                    galleryPrice.textContent = price;
+                    if (galleryDescription) {
+                        galleryDescription.textContent = description;
+                    }
+                    
+                    // Generate thumbnails
+                    galleryThumbnails.innerHTML = '';
+                    galleryImages.forEach((img, index) => {
+                        const thumb = document.createElement('div');
+                        thumb.className = 'gallery-thumb';
+                        thumb.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
+                        
+                        thumb.addEventListener('click', function() {
+                            showGalleryImage(index);
+                        });
+                        
+                        galleryThumbnails.appendChild(thumb);
+                    });
+                    
+                    showGalleryImage(0);
+                    galleryModal.classList.add('active');
+                    
+                    // Prevent body scrolling when modal is open
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Set focus to the modal for accessibility
+                    setTimeout(() => {
+                        galleryClose.focus();
+                    }, 100);
+                }
+            });
+        });
+        
+        function showGalleryImage(index) {
+            currentGalleryImage = index;
+            
+            // Add fade transition effect
+            galleryImage.classList.add('fade');
+            
+            setTimeout(() => {
+                // Update main image
+                galleryImage.src = galleryImages[index].src;
+                galleryImage.alt = galleryImages[index].alt;
+                galleryImage.classList.remove('fade');
+                
+                // Update active thumbnail
+                const thumbnails = galleryThumbnails.querySelectorAll('.gallery-thumb');
+                thumbnails.forEach((thumb, i) => {
+                    if (i === index) {
+                        thumb.classList.add('active');
+                    } else {
+                        thumb.classList.remove('active');
+                    }
+                });
+            }, 200);
+        }
+        
+        // Touch/swipe support for gallery
+        galleryModal.querySelector('.gallery-main').addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        galleryModal.querySelector('.gallery-main').addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            // Minimum swipe distance threshold (pixels)
+            const swipeThreshold = 50;
+            
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe left - next image
+                const newIndex = currentGalleryImage + 1 >= galleryImages.length ? 0 : currentGalleryImage + 1;
+                showGalleryImage(newIndex);
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe right - previous image
+                const newIndex = currentGalleryImage - 1 < 0 ? galleryImages.length - 1 : currentGalleryImage - 1;
+                showGalleryImage(newIndex);
+            }
+        }
+        
+        // Buy Now button in gallery
+        if (buyNowBtn) {
+            buyNowBtn.addEventListener('click', function() {
+                // Close gallery modal before opening checkout
+                galleryModal.classList.remove('active');
+                handleBuyNow(currentItemId, currentItemType);
+            });
+        }
+        
+        // Contact Seller button in gallery
+        if (contactSellerBtn) {
+            contactSellerBtn.addEventListener('click', function() {
+                window.location.href = `contact.html?item=${currentItemId}&type=${currentItemType}`;
+            });
+        }
+        
+        // Previous image
+        if (galleryPrev) {
+            galleryPrev.addEventListener('click', function() {
+                const newIndex = currentGalleryImage - 1 < 0 ? galleryImages.length - 1 : currentGalleryImage - 1;
+                showGalleryImage(newIndex);
+            });
+        }
+        
+        // Next image
+        if (galleryNext) {
+            galleryNext.addEventListener('click', function() {
+                const newIndex = currentGalleryImage + 1 >= galleryImages.length ? 0 : currentGalleryImage + 1;
+                showGalleryImage(newIndex);
+            });
+        }
+        
+        // Close gallery
+        if (galleryClose) {
+            galleryClose.addEventListener('click', function() {
+                closeGalleryModal();
+            });
+        }
+        
+        // Close gallery when clicking outside the content
+        galleryModal.addEventListener('click', function(e) {
+            if (e.target === galleryModal) {
+                closeGalleryModal();
             }
         });
-    });
-    
-    const buyButtons = document.querySelectorAll('.btn-buy');
-    buyButtons.forEach(button => {
+        
+        // Keyboard navigation for gallery
+        document.addEventListener('keydown', function(e) {
+            if (!galleryModal.classList.contains('active')) return;
+            
+            switch (e.key) {
+                case 'Escape':
+                    closeGalleryModal();
+                    break;
+                case 'ArrowLeft':
+                    const prevIndex = currentGalleryImage - 1 < 0 ? galleryImages.length - 1 : currentGalleryImage - 1;
+                    showGalleryImage(prevIndex);
+                    break;
+                case 'ArrowRight':
+                    const nextIndex = currentGalleryImage + 1 >= galleryImages.length ? 0 : currentGalleryImage + 1;
+                    showGalleryImage(nextIndex);
+                    break;
+            }
+        });
+        
+        function closeGalleryModal() {
+            galleryModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Return focus to the button that opened the modal
+            const button = document.querySelector(`.btn-view[data-target="${currentItemId}"]`);
+            if (button) button.focus();
+        }
+    }
+
+    // Buy Now functionality for cards
+    const buyNowButtons = document.querySelectorAll('.btn-buy');
+    buyNowButtons.forEach(button => {
         button.addEventListener('click', function() {
             const card = this.closest('.card');
             if (card) {
                 const itemId = card.getAttribute('data-id');
-                if (itemId) {
-                    openGallery(itemId);
-                    // Auto-scroll to Buy button
-                    setTimeout(() => {
-                        const galleryActions = document.querySelector('.gallery-actions');
-                        if (galleryActions) {
-                            galleryActions.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    }, 500);
-                }
+                const itemType = itemId.includes('vehicle') ? 'vehicle' : 'property';
+                handleBuyNow(itemId, itemType);
             }
         });
     });
-    
-    if (galleryClose) {
-        galleryClose.addEventListener('click', closeGallery);
-    }
-    
-    if (galleryPrevArrow) {
-        galleryPrevArrow.addEventListener('click', prevGalleryImage);
-    }
-    
-    if (galleryNextArrow) {
-        galleryNextArrow.addEventListener('click', nextGalleryImage);
-    }
-    
-    // Close gallery on Esc key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && galleryModal.classList.contains('active')) {
-            closeGallery();
-        }
-    });
-    
-    // Close gallery when clicking outside content
-    galleryModal.addEventListener('click', function(e) {
-        if (e.target === galleryModal) {
-            closeGallery();
-        }
-    });
-    
-    // Gallery Buy Now button
-    if (galleryBuyButton) {
-        galleryBuyButton.addEventListener('click', function() {
-            alert(`Thank you for your interest in purchasing this item!\n\nItem: ${currentItemData.title}\nPrice: ${currentItemData.price}\n\nOur sales team will contact you shortly to complete the purchase process.`);
-            closeGallery();
-        });
-    }
-    
-    // Check for saved theme preference or prefer-color-scheme
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.body.classList.add('dark-mode');
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-    }
 
-    // Theme Toggle Functionality
-    themeToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
+    // Handle Buy Now process
+    function handleBuyNow(itemId, itemType) {
+        // Create overlay for the checkout process
+        const overlay = document.createElement('div');
+        overlay.className = 'checkout-overlay';
         
-        if (document.body.classList.contains('dark-mode')) {
-            localStorage.setItem('theme', 'dark');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        } else {
-            localStorage.setItem('theme', 'light');
-            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        }
-    });
-
-    // Search Panel Toggle
-    searchToggle.addEventListener('click', function() {
-        searchPanel.classList.toggle('active');
+        const checkoutModal = document.createElement('div');
+        checkoutModal.className = 'checkout-modal';
+        checkoutModal.setAttribute('role', 'dialog');
+        checkoutModal.setAttribute('aria-labelledby', 'checkout-title');
         
-        // If search panel is active, add a click event to close it when clicking outside
-        if (searchPanel.classList.contains('active')) {
-            setTimeout(() => {
-                document.addEventListener('click', closeSearchPanelOnClickOutside);
-            }, 10);
-        } else {
-            document.removeEventListener('click', closeSearchPanelOnClickOutside);
-        }
-    });
-
-    // Function to close search panel when clicking outside
-    function closeSearchPanelOnClickOutside(e) {
-        if (!searchPanel.contains(e.target) && e.target !== searchToggle) {
-            searchPanel.classList.remove('active');
-            document.removeEventListener('click', closeSearchPanelOnClickOutside);
-        }
-    }
-
-    // Mobile Menu Toggle
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            mainNav.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-            
-            if (menuToggle.classList.contains('active')) {
-                menuToggle.innerHTML = '<i class="fas fa-times"></i>';
-            } else {
-                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        });
-    }
-
-    // Search Category Change
-    searchCategorySelect.addEventListener('change', function() {
-        if (this.value === 'vehicles') {
-            vehicleFields.style.display = 'flex';
-            realEstateFields.style.display = 'none';
-        } else {
-            vehicleFields.style.display = 'none';
-            realEstateFields.style.display = 'flex';
-        }
-    });
-
-    // Header Scroll Effect
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-
-    // Card Animation on Scroll
-    const cards = document.querySelectorAll('.card');
-    
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1
-    });
-    
-    cards.forEach(card => {
-        observer.observe(card);
-    });
-
-    // Form Submission
-    const searchForm = document.getElementById('search-form');
-    if (searchForm) {
-        searchForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get the current search category
-            const searchCategory = searchCategorySelect.value;
-            
-            // Build query parameters based on form fields
-            let queryParams = new URLSearchParams();
-            
-            if (searchCategory === 'vehicles') {
-                const vehicleType = document.getElementById('vehicle-type').value;
-                const vehicleMake = document.getElementById('vehicle-make').value;
-                const minPrice = document.getElementById('min-price').value;
-                const maxPrice = document.getElementById('max-price').value;
-                const year = document.getElementById('year').value;
-                
-                if (vehicleType) queryParams.append('type', vehicleType);
-                if (vehicleMake) queryParams.append('make', vehicleMake);
-                if (minPrice) queryParams.append('minPrice', minPrice);
-                if (maxPrice) queryParams.append('maxPrice', maxPrice);
-                if (year) queryParams.append('year', year);
-                
-                // Redirect to vehicles page with query parameters
-                window.location.href = `vehicles.html?${queryParams.toString()}`;
-            } else {
-                const propertyType = document.getElementById('property-type').value;
-                const location = document.getElementById('location').value;
-                const propertyMinPrice = document.getElementById('property-min-price').value;
-                const propertyMaxPrice = document.getElementById('property-max-price').value;
-                const bedrooms = document.getElementById('bedrooms').value;
-                
-                if (propertyType) queryParams.append('type', propertyType);
-                if (location) queryParams.append('location', location);
-                if (propertyMinPrice) queryParams.append('minPrice', propertyMinPrice);
-                if (propertyMaxPrice) queryParams.append('maxPrice', propertyMaxPrice);
-                if (bedrooms) queryParams.append('bedrooms', bedrooms);
-                
-                // Redirect to properties page with query parameters
-                window.location.href = `properties.html?${queryParams.toString()}`;
-            }
-        });
-    }
-
-    // Newsletter Form Submission
-    const newsletterForm = document.querySelector('.newsletter-form');
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const emailInput = this.querySelector('input[type="email"]');
-            
-            if (emailInput.value) {
-                // Here you would typically send the data to a server
-                // For now, we'll just show a success message
-                alert('Thank you for subscribing to our newsletter!');
-                emailInput.value = '';
-            }
-        });
-    }
-
-    // Initialize dropdowns for mobile
-    const dropdowns = document.querySelectorAll('.dropdown');
-    
-    // For touch devices
-    if ('ontouchstart' in window) {
-        dropdowns.forEach(dropdown => {
-            const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
-            
-            dropdownToggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                dropdown.classList.toggle('active');
-                
-                // Close other dropdowns
-                dropdowns.forEach(otherDropdown => {
-                    if (otherDropdown !== dropdown) {
-                        otherDropdown.classList.remove('active');
-                    }
-                });
-                
-                // Close dropdown when clicking outside
-                setTimeout(() => {
-                    document.addEventListener('click', function closeDropdown(e) {
-                        if (!dropdown.contains(e.target)) {
-                            dropdown.classList.remove('active');
-                            document.removeEventListener('click', closeDropdown);
-                        }
-                    });
-                }, 10);
+        // Get item details
+        const item = document.querySelector(`.card[data-id="${itemId}"]`);
+        const itemTitle = item ? item.querySelector('h3').textContent : 'Item';
+        const itemPrice = item ? item.querySelector('.price').textContent : '';
+        const itemImage = item ? item.querySelector('.card-image img').src : '';
+        
+        // Create checkout content with image
+        checkoutModal.innerHTML = `
+            <div class="checkout-header">
+                <h2 id="checkout-title">Complete Your Purchase</h2>
+                <button class="checkout-close" aria-label="Close checkout"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="checkout-content">
+                <div class="checkout-item">
+                    <div class="checkout-item-detail">
+                        <img src="${itemImage}" alt="${itemTitle}" class="checkout-item-image">
+                        <div>
+                            <h3>${itemTitle}</h3>
+                            <p class="checkout-price">${itemPrice}</p>
+                        </div>
+                    </div>
+                </div>
+                <form id="checkout-form">
+                    <div class="form-group">
+                        <label for="checkout-name">Full Name</label>
+                        <input type="text" id="checkout-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-email">Email</label>
+                        <input type="email" id="checkout-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-phone">Phone</label>
+                        <input type="tel" id="checkout-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout-payment">Payment Method</label>
+                        <select id="checkout-payment" required>
+                            <option value="">Select Payment Method</option>
+                            <option value="mpesa">M-Pesa</option>
+                            <option value="bank">Bank Transfer</option>
+                            <option value="card">Credit/Debit Card</option>
+                            <option value="financing">Financing/Mortgage</option>
+                        </select>
+                    </div>
+                    <div class="checkout-buttons">
+                        <button type="button" class="btn-secondary checkout-cancel">Cancel</button>
+                        <button type="submit" class="btn-primary">Proceed to Payment</button>
+                    </div>
+                </form>
+            </div>
+        `;
+        
+        overlay.appendChild(checkoutModal);
+        document.body.appendChild(overlay);
+        
+        // Activate the modal
+        setTimeout(() => {
+            overlay.classList.add('active');
+            // Set focus to the close button for accessibility
+            checkoutModal.querySelector('.checkout-close').focus();
+        }, 10);
+        
+        // Prevent body scrolling
+        document.body.style.overflow = 'hidden';
+        
+        // Add event listeners to the checkout modal
+        const closeBtn = checkoutModal.querySelector('.checkout-close');
+        const cancelBtn = checkoutModal.querySelector('.checkout-cancel');
+        const checkoutForm = checkoutModal.querySelector('#checkout-form');
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                closeCheckoutModal();
             });
+        }
+        
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', function() {
+                closeCheckoutModal();
+            });
+        }
+        
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('checkout-name').value;
+                const email = document.getElementById('checkout-email').value;
+                const phone = document.getElementById('checkout-phone').value;
+                const paymentMethod = document.getElementById('checkout-payment').value;
+                
+                // Validate the phone number format
+                const phoneRegex = /^\+?[0-9\s-]{10,15}$/;
+                if (!phoneRegex.test(phone)) {
+                    alert('Please enter a valid phone number (10-15 digits)');
+                    return;
+                }
+                
+                // Show processing message
+                checkoutModal.innerHTML = `
+                    <div class="checkout-success">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <h2>Processing Your Purchase</h2>
+                        <p>Please wait while we process your request...</p>
+                    </div>
+                `;
+                
+                // Simulate processing
+                setTimeout(function() {
+                    // Show success message
+                    checkoutModal.innerHTML = `
+                        <div class="checkout-success">
+                            <i class="fas fa-check-circle"></i>
+                            <h2>Purchase Initiated!</h2>
+                            <p>Thank you, ${name}! Our team will contact you shortly at ${phone} to complete your purchase.</p>
+                            <button class="btn-primary close-success">Close</button>
+                        </div>
+                    `;
+                    
+                    const closeSuccessBtn = checkoutModal.querySelector('.close-success');
+                    if (closeSuccessBtn) {
+                        closeSuccessBtn.addEventListener('click', function() {
+                            closeCheckoutModal();
+                        });
+                        
+                        // Set focus for accessibility
+                        closeSuccessBtn.focus();
+                    }
+                }, 2000);
+            });
+        }
+        
+        // Close checkout when clicking outside
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                closeCheckoutModal();
+            }
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!overlay.parentNode) return; // Modal is closed
+            
+            if (e.key === 'Escape') {
+                closeCheckoutModal();
+            }
+        });
+        
+        function closeCheckoutModal() {
+            overlay.classList.remove('active');
+            
+            // Wait for animation to complete before removing from DOM
+            setTimeout(() => {
+                if (overlay.parentNode) {
+                    document.body.removeChild(overlay);
+                }
+                document.body.style.overflow = 'auto';
+            }, 300);
+            
+            // Return focus to element that opened the modal
+            const button = document.querySelector(`.card[data-id="${itemId}"] .btn-buy`);
+            if (button) button.focus();
+        }
+    }
+
+    // Sticky header
+    const header = document.querySelector('header');
+    
+    if (header) {
+        const headerHeight = header.offsetHeight;
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
         });
     }
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            
-            if (href !== '#') {
-                e.preventDefault();
-                
-                const targetElement = document.querySelector(href);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
+    // FAB (Floating Action Button) functionality
+    const fabButton = document.querySelector('.main-fab');
+    const fabOptions = document.querySelector('.fab-options');
+    
+    if (fabButton && fabOptions) {
+        fabButton.addEventListener('click', function() {
+            fabOptions.classList.toggle('active');
+            fabButton.classList.toggle('active');
+        });
+        
+        // Close FAB options when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!fabButton.contains(e.target) && !fabOptions.contains(e.target)) {
+                fabOptions.classList.remove('active');
+                fabButton.classList.remove('active');
             }
         });
-    });
+    }
 });

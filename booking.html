@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking & Import Tracking | Open Roads Motors</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles specific to booking page */
+        .booking-section {
+            padding: 80px 0;
+            background-color: var(--background-color);
+        }
+        
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .booking-form {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+        
+        .booking-form h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .booking-form h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--button-primary);
+        }
+        
+        .form-row {
+            margin-bottom: 20px;
+        }
+        
+        .form-row label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .form-row input,
+        .form-row select,
+        .form-row textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            background-color: var(--input-background);
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-row input:focus,
+        .form-row select:focus,
+        .form-row textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-row textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-submit {
+            background-color: var(--button-primary);
+            color: var(--button-primary-text);
+            border: none;
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .form-submit:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .booking-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .info-card {
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        
+        .info-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .info-card h4:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--button-primary);
+        }
+        
+        .info-card p {
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .info-card ul {
+            margin: 15px 0;
+        }
+        
+        .info-card li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 14px;
+        }
+        
+        .info-card li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--button-primary);
+            font-weight: bold;
+        }
+        
+        .tracking-result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--input-background);
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .tracking-result.active {
+            display: block;
+        }
+        
+        .status-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .status-indicator:before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+        
+        .status-step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--input-background);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .status-step.active {
+            background-color: var(--button-primary);
+            border-color: var(--button-primary);
+            color: var(--button-primary-text);
+        }
+        
+        .status-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        
+        .status-label {
+            width: 70px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .tab-button {
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+        }
+        
+        .tab-button.active {
+            border-bottom-color: var(--button-primary);
+            color: var(--button-primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Modal for successful booking */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .success-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .success-content {
+            background-color: var(--card-background);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .success-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .success-content p {
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .close-modal {
+            padding: 12px 24px;
+            background-color: var(--button-primary);
+            color: var(--button-primary-text);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive styles */
+        @media screen and (max-width: 992px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-info {
+                order: -1;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .tab-buttons {
+                flex-direction: column;
+                border-bottom: none;
+            }
+            
+            .tab-button {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .tab-button.active {
+                background-color: var(--input-background);
+            }
+            
+            .status-indicator {
+                flex-wrap: wrap;
+            }
+            
+            .status-step {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.jpg" alt="Open Roads Motors Logo" class="logo-image">
+                    <span class="logo-text">OPEN ROADS MOTORS</span>
+                </a>
+            </div>
+            <div class="header-controls">
+                <button id="search-toggle" aria-label="Search"><i class="fas fa-search"></i></button>
+                <button id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+                <button id="menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Vehicles <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="vehicles.html?type=suv">SUVs</a>
+                            <a href="vehicles.html?type=sedan">Sedans</a>
+                            <a href="vehicles.html?type=truck">Trucks</a>
+                            <a href="vehicles.html?type=luxury">Luxury</a>
+                            <a href="vehicles.html?type=bike">Bikes</a>
+                            <a href="vehicles.html">View All</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Real Estate <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="properties.html?type=apartments">Apartments</a>
+                            <a href="properties.html?type=houses">Houses</a>
+                            <a href="properties.html?type=commercial">Commercial</a>
+                            <a href="properties.html?type=land">Land</a>
+                            <a href="properties.html">View All</a>
+                        </div>
+                    </li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="booking.html" class="active">Book Test Drive</a></li>
+                    <li><a href="sell.html" class="sell-button highlight-button"><i class="fas fa-tag"></i> Sell</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="advanced-search" class="search-panel">
+        <div class="container">
+            <form id="search-form">
+                <div class="search-category">
+                    <label for="search-category">I'm looking for</label>
+                    <select id="search-category">
+                        <option value="vehicles">Vehicles</option>
+                        <option value="real-estate">Real Estate</option>
+                    </select>
+                </div>
+
+                <div class="search-fields" id="vehicle-fields">
+                    <div class="field">
+                        <label for="vehicle-type">Type</label>
+                        <select id="vehicle-type">
+                            <option value="">All Types</option>
+                            <option value="suv">SUV</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="truck">Truck</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="vehicle-make">Make</label>
+                        <select id="vehicle-make">
+                            <option value="">All Makes</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="bmw">BMW</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="year">Year</label>
+                        <select id="year">
+                            <option value="">Any Year</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="search-fields" id="real-estate-fields" style="display: none;">
+                    <div class="field">
+                        <label for="property-type">Type</label>
+                        <select id="property-type">
+                            <option value="">All Types</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house">House</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="land">Land</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="location">Location</label>
+                        <select id="location">
+                            <option value="">All Locations</option>
+                            <option value="nairobi">Nairobi</option>
+                            <option value="mombasa">Mombasa</option>
+                            <option value="kisumu">Kisumu</option>
+                            <option value="nakuru">Nakuru</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="property-price-range">Price Range (KES)</label>
+                        <div class="range-inputs">
+                            <input type="number" id="property-min-price" placeholder="Min">
+                            <span>-</span>
+                            <input type="number" id="property-max-price" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="bedrooms">Bedrooms</label>
+                        <select id="bedrooms">
+                            <option value="">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Booking & Import Tracking</h1>
+                <div class="breadcrumbs">
+                    <a href="index.html">Home</a> &gt; <span>Booking & Import Tracking</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="booking-section">
+            <div class="container">
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="test-drive">Test Drive Booking</button>
+                    <button class="tab-button" data-tab="import-tracking">Car Import Tracking</button>
+                </div>
+
+                <div id="test-drive" class="tab-content active">
+                    <div class="booking-container">
+                        <div class="booking-form">
+                            <h3>Book a Test Drive</h3>
+                            <form id="test-drive-form">
+                                <div class="form-row">
+                                    <label for="customer-name">Full Name*</label>
+                                    <input type="text" id="customer-name" name="customer-name" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="customer-email">Email Address*</label>
+                                    <input type="email" id="customer-email" name="customer-email" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="customer-phone">Phone Number*</label>
+                                    <input type="tel" id="customer-phone" name="customer-phone" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="vehicle-interest">Vehicle of Interest*</label>
+                                    <select id="vehicle-interest" name="vehicle-interest" required>
+                                        <option value="">Select a Vehicle</option>
+                                        <option value="mercedes-benz-s-class">Mercedes Benz S-Class</option>
+                                        <option value="range-rover-sport">Range Rover Sport</option>
+                                        <option value="audi-q8">Audi Q8</option>
+                                        <option value="bmw-x5">BMW X5</option>
+                                        <option value="toyota-land-cruiser">Toyota Land Cruiser</option>
+                                        <option value="porsche-cayenne">Porsche Cayenne</option>
+                                        <option value="lexus-lx570">Lexus LX570</option>
+                                        <option value="other">Other (Specify in comments)</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <label for="preferred-date">Preferred Date*</label>
+                                    <input type="date" id="preferred-date" name="preferred-date" required min="2025-05-06">
+                                </div>
+                                <div class="form-row">
+                                    <label for="preferred-time">Preferred Time*</label>
+                                    <select id="preferred-time" name="preferred-time" required>
+                                        <option value="">Select a Time</option>
+                                        <option value="9:00">9:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="14:00">2:00 PM</option>
+                                        <option value="15:00">3:00 PM</option>
+                                        <option value="16:00">4:00 PM</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <label for="id-number">ID/Passport Number*</label>
+                                    <input type="text" id="id-number" name="id-number" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="driving-license">Driving License Number*</label>
+                                    <input type="text" id="driving-license" name="driving-license" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="comments">Additional Comments</label>
+                                    <textarea id="comments" name="comments" rows="4"></textarea>
+                                </div>
+                                <button type="submit" class="form-submit">Book Test Drive</button>
+                            </form>
+                        </div>
+                        <div class="booking-info">
+                            <div class="info-card">
+                                <h4>Test Drive Information</h4>
+                                <p>Experience the thrill of driving your dream car before making a purchase. Our test drive service allows you to get a feel of the vehicle's performance, comfort, and features.</p>
+                                <ul>
+                                    <li>Test drives are available 7 days a week from 9 AM to 5 PM</li>
+                                    <li>Please bring your ID/Passport and valid driving license</li>
+                                    <li>Test drives typically last 30-45 minutes</li>
+                                    <li>A sales representative will accompany you during the test drive</li>
+                                    <li>There is no obligation to purchase after the test drive</li>
+                                </ul>
+                                <p>For immediate assistance or to check vehicle availability, please call us at <strong>+254 786636019</strong>.</p>
+                            </div>
+                            <div class="info-card">
+                                <h4>Our Location</h4>
+                                <p>Our showroom is located at Embakasi Fedha Stage, Nairobi, Kenya. We have ample parking space and a comfortable waiting area with refreshments.</p>
+                                <div class="map-container">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7711606413124!2d36.86843491456654!3d-1.3219405990361824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f11bcd698cbed%3A0xf65e273b0f1cd9e6!2sFedha%20Estate%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1650956302076!5m2!1sen!2ske" width="100%" height="200" style="border:0; border-radius:4px;" allowfullscreen="" loading="lazy"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="import-tracking" class="tab-content">
+                    <div class="booking-container">
+                        <div class="booking-form">
+                            <h3>Track Your Car Import</h3>
+                            <form id="tracking-form">
+                                <div class="form-row">
+                                    <label for="tracking-number">Import Tracking Number*</label>
+                                    <input type="text" id="tracking-number" name="tracking-number" placeholder="e.g., ORM-2025-12345" required>
+                                </div>
+                                <div class="form-row">
+                                    <label for="customer-email-tracking">Email Address*</label>
+                                    <input type="email" id="customer-email-tracking" name="customer-email-tracking" required>
+                                </div>
+                                <button type="submit" class="form-submit">Track Import</button>
+                            </form>
+                            <div id="tracking-result" class="tracking-result">
+                                <h4>Import Status: <span id="import-status">In Transit</span></h4>
+                                <p id="status-description">Your vehicle is currently in transit from Japan to Mombasa Port. Estimated arrival date: May 15, 2025.</p>
+                                
+                                <div class="status-indicator">
+                                    <div class="status-step active" data-step="1"><i class="fas fa-check"></i></div>
+                                    <div class="status-step active" data-step="2"><i class="fas fa-check"></i></div>
+                                    <div class="status-step active" data-step="3"><i class="fas fa-ship"></i></div>
+                                    <div class="status-step" data-step="4"><i class="fas fa-file-alt"></i></div>
+                                    <div class="status-step" data-step="5"><i class="fas fa-car"></i></div>
+                                </div>
+                                <div class="status-labels">
+                                    <div class="status-label">Order Placed</div>
+                                    <div class="status-label">Purchased</div>
+                                    <div class="status-label">Shipping</div>
+                                    <div class="status-label">Customs</div>
+                                    <div class="status-label">Delivered</div>
+                                </div>
+                                
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-date">April 5, 2025</div>
+                                        <div class="timeline-content">Order placed and payment confirmed</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-date">April 12, 2025</div>
+                                        <div class="timeline-content">Vehicle purchased at auction</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-date">April 28, 2025</div>
+                                        <div class="timeline-content">Vehicle loaded on vessel MS OCEANIA</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="additional-details">
+                                    <h5>Vehicle Details</h5>
+                                    <ul>
+                                        <li>Make: Toyota</li>
+                                        <li>Model: Land Cruiser V8</li>
+                                        <li>Year: 2024</li>
+                                        <li>Color: Midnight Black</li>
+                                        <li>Engine: 4.5L V8 Diesel</li>
+                                    </ul>
+                                    
+                                    <h5>Import Agent Contact</h5>
+                                    <p>For any inquiries about your import, please contact:</p>
+                                    <p>Name: John Mwangi<br>
+                                    Phone: +254 722 123 456<br>
+                                    Email: john.mwangi@openroadsmotors.co.ke</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="booking-info">
+                            <div class="info-card">
+                                <h4>Car Import Services</h4>
+                                <p>At Open Roads Motors, we offer comprehensive car import services from Japan, UK, Dubai, and other global markets. Our experienced team ensures a smooth import process from selection to delivery.</p>
+                                <ul>
+                                    <li>Vehicle sourcing from global markets</li>
+                                    <li>Auction bidding services</li>
+                                    <li>Shipping and logistics management</li>
+                                    <li>Customs clearance handling</li>
+                                    <li>Vehicle registration assistance</li>
+                                    <li>Real-time tracking of your import</li>
+                                </ul>
+                                <p>For more information about our import services, please contact us at <strong>+254 786636019</strong> or email <strong>imports@openroadsmotors.co.ke</strong>.</p>
+                            </div>
+                            <div class="info-card">
+                                <h4>Import Process Timeline</h4>
+                                <p>Importing a vehicle typically takes 4-8 weeks depending on the source country. Here's a general timeline:</p>
+                                <ul>
+                                    <li><strong>Week 1:</strong> Vehicle selection and purchase</li>
+                                    <li><strong>Week 2-3:</strong> Transportation to port and export preparation</li>
+                                    <li><strong>Week 3-6:</strong> Shipping (varies by location)</li>
+                                    <li><strong>Week 7:</strong> Port arrival and customs clearance</li>
+                                    <li><strong>Week 8:</strong> Local transportation and delivery</li>
+                                </ul>
+                                <p>Each import receives a unique tracking number that allows you to monitor the status of your vehicle throughout the entire process.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="success-modal" id="success-modal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3>Booking Successful!</h3>
+            <p>Your test drive has been scheduled successfully. We've sent a confirmation email with all the details. Our representative will also call you to confirm the appointment.</p>
+            <button class="close-modal">Close</button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Open Roads Motors</h3>
+                    <p>Luxury vehicles and prime real estate for discerning clients in Kenya.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="vehicles.html">Vehicles</a></li>
+                        <li><a href="properties.html">Properties</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Embakasi Fedha Stage, Nairobi, Kenya</li>
+                        <li><i class="fas fa-phone"></i> +254 786636019</li>
+                        <li><i class="fas fa-envelope"></i> info@openroadsmotors.co.ke</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to receive updates on our latest listings.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Open Roads Motors. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="fab-container">
+        <button class="fab-button main-fab"><i class="fas fa-comments"></i></button>
+        <div class="fab-options">
+            <a href="tel:+254786636019" class="fab-option call-fab" aria-label="Call us">
+                <i class="fas fa-phone"></i>
+                <span class="fab-label">Call</span>
+            </a>
+            <a href="https://wa.me/254786636019" target="_blank" class="fab-option whatsapp-fab" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+                <span class="fab-label">WhatsApp</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(button.dataset.tab).classList.add('active');
+            });
+        });
+        
+        // Test Drive Form Submission
+        document.getElementById('test-drive-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real implementation, you would send the form data to the server here
+            // For now, just show the success modal
+            document.getElementById('success-modal').classList.add('active');
+        });
+        
+        // Tracking Form Submission
+        document.getElementById('tracking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real implementation, you would fetch tracking data from the server
+            // For now, just show the tracking result
+            document.getElementById('tracking-result').classList.add('active');
+        });
+        
+        // Close Modal
+        document.querySelector('.close-modal').addEventListener('click', function() {
+            document.getElementById('success-modal').classList.remove('active');
+            // Optionally reset the form
+            document.getElementById('test-drive-form').reset();
+        });
+        
+        // Set minimum date for test drive booking to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const formattedDate = tomorrow.toISOString().split('T')[0];
+        document.getElementById('preferred-date').setAttribute('min', formattedDate);
+        
+        // Mobile FAB menu toggle
+        document.querySelector('.main-fab').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.fab-options').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
