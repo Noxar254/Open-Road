@@ -204,6 +204,13 @@ header .container {
     letter-spacing: 1px;
 }
 
+/* Hide logo text on mobile */
+@media screen and (max-width: 768px) {
+    .logo-text {
+        display: none;
+    }
+}
+
 nav {
     display: flex;
     align-items: center;
