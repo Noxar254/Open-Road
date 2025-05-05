@@ -1857,3 +1857,120 @@ footer {
         flex-direction: column;
     }
 }
+
+/* Floating Action Button (FAB) Styles */
+.fab-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.fab-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--button-primary);
+    color: var(--button-primary-text);
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.fab-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.fab-options {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.fab-container:hover .fab-options {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.fab-button.active {
+    transform: rotate(45deg);
+    background-color: #ff3b30;
+}
+
+.fab-options.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.fab-option {
+    width: auto;
+    min-width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px 0 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.fab-option i {
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.fab-label {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.call-fab {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.whatsapp-fab {
+    background-color: #25D366;
+    color: white;
+}
+
+.fab-option:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (max-width: 768px) {
+    .fab-container {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .fab-button {
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+    }
+}

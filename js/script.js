@@ -9,6 +9,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchCategorySelect = document.getElementById('search-category');
     const vehicleFields = document.getElementById('vehicle-fields');
     const realEstateFields = document.getElementById('real-estate-fields');
+    const mainFab = document.querySelector('.main-fab');
+    const fabOptions = document.querySelector('.fab-options');
+    
+    // Initialize FAB functionality
+    if (mainFab) {
+        mainFab.addEventListener('click', function() {
+            fabOptions.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+        
+        // Close FAB options when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.fab-container') && fabOptions.classList.contains('active')) {
+                fabOptions.classList.remove('active');
+                mainFab.classList.remove('active');
+            }
+        });
+    }
     
     // Hero Slider Elements
     const slides = document.querySelectorAll('.slide');
