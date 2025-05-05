@@ -1885,6 +1885,7 @@ footer {
     transition: all 0.3s ease;
     position: relative;
     z-index: 2;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
 .fab-button:hover {
@@ -1906,10 +1907,13 @@ footer {
     z-index: 1;
 }
 
-.fab-container:hover .fab-options {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+/* Show options on hover for desktop */
+@media (hover: hover) {
+    .fab-container:hover .fab-options {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
 }
 
 .fab-button.active {
@@ -1934,6 +1938,7 @@ footer {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
 .fab-option i {
@@ -1962,6 +1967,7 @@ footer {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* Mobile Specific Styles */
 @media screen and (max-width: 768px) {
     .fab-container {
         bottom: 20px;
@@ -1972,5 +1978,37 @@ footer {
         width: 55px;
         height: 55px;
         font-size: 22px;
+    }
+
+    .fab-option {
+        padding: 0 16px 0 12px;
+        height: 45px;
+    }
+
+    .fab-option i {
+        font-size: 18px;
+    }
+
+    .fab-label {
+        font-size: 13px;
+    }
+}
+
+/* Small Phone Screens */
+@media screen and (max-width: 480px) {
+    .fab-container {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .fab-button {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    /* Ensure FAB doesn't overlap important content */
+    .fab-options {
+        bottom: 60px;
     }
 }

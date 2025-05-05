@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize FAB functionality
     if (mainFab) {
-        mainFab.addEventListener('click', function() {
+        // Use touchstart for mobile devices to improve responsiveness
+        mainFab.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation(); // Prevent click from propagating to document
             fabOptions.classList.toggle('active');
             this.classList.toggle('active');
         });
@@ -26,6 +29,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 mainFab.classList.remove('active');
             }
         });
+
+        // Prevent scrolling when touching the fab buttons on mobile
+        const fabContainer = document.querySelector('.fab-container');
+        fabContainer.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
     }
     
     // Hero Slider Elements
