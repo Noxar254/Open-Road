@@ -38,57 +38,84 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Google Maps
     initializeMap();
     
-    // Mobile navigation toggle
+    // Mobile menu functionality - consolidated implementation
     const menuToggle = document.getElementById('menu-toggle');
-    const nav = document.querySelector('nav');
-    
-    if (menuToggle && nav) {
-        menuToggle.addEventListener('click', function() {
-            nav.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-        });
-    }
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuClose = document.getElementById('mobile-menu-close');
 
-    // Dropdown functionality - Updated to work on all devices with proper event delegation
-    function setupDropdowns() {
-        // Use event delegation for dropdown toggles to ensure they work on all screen sizes
-        document.addEventListener('click', function(e) {
-            // Check if the clicked element is a dropdown toggle
-            if (e.target.classList.contains('dropdown-toggle') || e.target.closest('.dropdown-toggle')) {
-                e.preventDefault();
+    // Handle menu toggle
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Toggle mobile menu
+            if (mobileMenu) {
+                mobileMenu.classList.add('active');
+                menuToggle.classList.add('active');
                 
-                const dropdownToggle = e.target.classList.contains('dropdown-toggle') ? 
-                    e.target : e.target.closest('.dropdown-toggle');
-                const dropdown = dropdownToggle.closest('.dropdown');
-                
-                // On mobile/smaller screens, toggle the active class
-                if (window.innerWidth < 992) {
-                    // Close all other open dropdowns first
-                    const allDropdowns = document.querySelectorAll('.dropdown.active');
-                    allDropdowns.forEach(item => {
-                        if (item !== dropdown) {
-                            item.classList.remove('active');
-                        }
-                    });
-                    
-                    // Toggle the current dropdown
-                    dropdown.classList.toggle('active');
-                }
-            } else if (window.innerWidth < 992) {
-                // If clicking outside any dropdown, close all dropdowns
-                // But only on mobile - don't interfere with desktop hover behavior
-                if (!e.target.closest('.dropdown')) {
-                    const openDropdowns = document.querySelectorAll('.dropdown.active');
-                    openDropdowns.forEach(dropdown => {
-                        dropdown.classList.remove('active');
-                    });
-                }
+                // Prevent body scrolling
+                document.body.classList.add('menu-open');
             }
         });
     }
+
+    // Handle close button for mobile menu
+    if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', function() {
+            if (mobileMenu) {
+                mobileMenu.classList.remove('active');
+            }
+            if (menuToggle) {
+                menuToggle.classList.remove('active');
+            }
+            document.body.classList.remove('menu-open');
+        });
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!menuToggle) return;
+        
+        const mobileMenuActive = mobileMenu && mobileMenu.classList.contains('active');
+        
+        if (mobileMenuActive) {
+            // Check if click is outside menu and not on the toggle
+            const clickedOnMobileMenu = mobileMenu && mobileMenu.contains(e.target);
+            const clickedOnMenuToggle = menuToggle.contains(e.target);
+            
+            if (!clickedOnMobileMenu && !clickedOnMenuToggle && e.target !== menuToggle) {
+                // Remove active classes
+                if (mobileMenu) mobileMenu.classList.remove('active');
+                if (menuToggle) menuToggle.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+        }
+    });
+
+    // Dropdown functionality for mobile
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
     
-    // Call the setup function
-    setupDropdowns();
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            if (window.innerWidth <= 992) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.closest('.dropdown');
+                
+                // Close all other dropdowns
+                const allDropdowns = document.querySelectorAll('.dropdown.active');
+                allDropdowns.forEach(item => {
+                    if (item !== dropdown) {
+                        item.classList.remove('active');
+                    }
+                });
+                
+                // Toggle the current dropdown
+                dropdown.classList.toggle('active');
+            }
+        });
+    });
 
     // Handle window resize events to ensure dropdowns work correctly after resize
     window.addEventListener('resize', function() {
