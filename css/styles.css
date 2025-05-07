@@ -448,7 +448,7 @@ header .container {
         visibility: visible;
         transform: none;
         display: none;
-        transition: none;
+        transition: all 0.3s ease;
         margin: 5px 0 10px;
         background-color: var(--input-background);
         border-radius: 0;
@@ -477,6 +477,31 @@ header .container {
     
     #menu-toggle {
         display: flex;
+    }
+    
+    /* Force the dropdown menu to be visible when active on mobile */
+    .dropdown.active .dropdown-menu {
+        display: block !important;
+        height: auto;
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* Make the dropdown toggle more touch-friendly */
+    .dropdown-toggle {
+        position: relative;
+        padding: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Improve the chevron icon transition */
+    .dropdown-toggle i {
+        transition: transform 0.3s ease;
+    }
+    
+    .dropdown.active .dropdown-toggle i {
+        transform: rotate(180deg);
     }
 }
 

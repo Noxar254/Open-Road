@@ -49,21 +49,59 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Dropdown functionality on mobile
-    const dropdowns = document.querySelectorAll('.dropdown');
-    
-    if (window.innerWidth < 992) {
-        dropdowns.forEach(dropdown => {
-            const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
-            
-            if (dropdownToggle) {
-                dropdownToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
+    // Dropdown functionality - Updated to work on all devices with proper event delegation
+    function setupDropdowns() {
+        // Use event delegation for dropdown toggles to ensure they work on all screen sizes
+        document.addEventListener('click', function(e) {
+            // Check if the clicked element is a dropdown toggle
+            if (e.target.classList.contains('dropdown-toggle') || e.target.closest('.dropdown-toggle')) {
+                e.preventDefault();
+                
+                const dropdownToggle = e.target.classList.contains('dropdown-toggle') ? 
+                    e.target : e.target.closest('.dropdown-toggle');
+                const dropdown = dropdownToggle.closest('.dropdown');
+                
+                // On mobile/smaller screens, toggle the active class
+                if (window.innerWidth < 992) {
+                    // Close all other open dropdowns first
+                    const allDropdowns = document.querySelectorAll('.dropdown.active');
+                    allDropdowns.forEach(item => {
+                        if (item !== dropdown) {
+                            item.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle the current dropdown
                     dropdown.classList.toggle('active');
-                });
+                }
+            } else if (window.innerWidth < 992) {
+                // If clicking outside any dropdown, close all dropdowns
+                // But only on mobile - don't interfere with desktop hover behavior
+                if (!e.target.closest('.dropdown')) {
+                    const openDropdowns = document.querySelectorAll('.dropdown.active');
+                    openDropdowns.forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
             }
         });
     }
+    
+    // Call the setup function
+    setupDropdowns();
+
+    // Handle window resize events to ensure dropdowns work correctly after resize
+    window.addEventListener('resize', function() {
+        // If window width changes between mobile/desktop breakpoints
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        // Remove active class from all dropdowns when resizing
+        if (window.innerWidth >= 992) {
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
 
     // Search panel toggle
     const searchToggle = document.getElementById('search-toggle');
