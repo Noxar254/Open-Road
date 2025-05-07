@@ -38,59 +38,73 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Google Maps
     initializeMap();
     
-    // Mobile menu functionality - consolidated implementation
+    // Mobile menu functionality - improved to work across all pages
     const menuToggle = document.getElementById('menu-toggle');
+    const nav = document.querySelector('nav');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileMenuClose = document.getElementById('mobile-menu-close');
 
-    // Handle menu toggle
-    if (menuToggle) {
+    // First try with the standard navigation dropdown
+    if (menuToggle && nav) {
         menuToggle.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Toggle mobile menu
-            if (mobileMenu) {
-                mobileMenu.classList.add('active');
-                menuToggle.classList.add('active');
+            // Toggle the navigation with active class
+            nav.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', function(e) {
+            if (nav.classList.contains('active')) {
+                // Check if click is outside nav and not on the toggle
+                const clickedOnNav = nav.contains(e.target);
+                const clickedOnMenuToggle = menuToggle.contains(e.target);
                 
-                // Prevent body scrolling
-                document.body.classList.add('menu-open');
+                if (!clickedOnNav && !clickedOnMenuToggle && e.target !== menuToggle) {
+                    nav.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
             }
+        });
+    }
+
+    // For pages using the separate mobile menu implementation
+    if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Toggle mobile menu with active class
+            mobileMenu.classList.add('active');
+            menuToggle.classList.add('active');
+            document.body.classList.add('menu-open');
         });
     }
 
     // Handle close button for mobile menu
-    if (mobileMenuClose) {
+    if (mobileMenuClose && mobileMenu) {
         mobileMenuClose.addEventListener('click', function() {
-            if (mobileMenu) {
-                mobileMenu.classList.remove('active');
-            }
-            if (menuToggle) {
-                menuToggle.classList.remove('active');
-            }
+            mobileMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
             document.body.classList.remove('menu-open');
         });
-    }
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!menuToggle) return;
         
-        const mobileMenuActive = mobileMenu && mobileMenu.classList.contains('active');
-        
-        if (mobileMenuActive) {
-            // Check if click is outside menu and not on the toggle
-            const clickedOnMobileMenu = mobileMenu && mobileMenu.contains(e.target);
-            const clickedOnMenuToggle = menuToggle.contains(e.target);
-            
-            if (!clickedOnMobileMenu && !clickedOnMenuToggle && e.target !== menuToggle) {
-                // Remove active classes
-                if (mobileMenu) mobileMenu.classList.remove('active');
-                if (menuToggle) menuToggle.classList.remove('active');
-                document.body.classList.remove('menu-open');
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (mobileMenu.classList.contains('active')) {
+                const clickedOnMobileMenu = mobileMenu.contains(e.target);
+                const clickedOnMenuToggle = menuToggle && menuToggle.contains(e.target);
+                
+                if (!clickedOnMobileMenu && !clickedOnMenuToggle && e.target !== menuToggle) {
+                    mobileMenu.classList.remove('active');
+                    if (menuToggle) menuToggle.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                }
             }
-        }
-    });
+        });
+    }
 
     // Dropdown functionality for mobile
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
