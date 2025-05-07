@@ -552,6 +552,39 @@
                                         <option value="other">Other (Specify in comments)</option>
                                     </select>
                                 </div>
+                                <div class="form-row" id="vehicle-specs" style="display: none;">
+                                    <label>Vehicle Specifications</label>
+                                    <div class="spec-details">
+                                        <div class="spec-row">
+                                            <span class="spec-label">Engine:</span>
+                                            <span class="spec-value" id="spec-engine">--</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Transmission:</span>
+                                            <span class="spec-value" id="spec-transmission">--</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Drive Type:</span>
+                                            <span class="spec-value" id="spec-drive">--</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Mileage:</span>
+                                            <span class="spec-value" id="spec-mileage">--</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Horsepower:</span>
+                                            <span class="spec-value" id="spec-horsepower">--</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Fuel Type:</span>
+                                            <span class="spec-value" id="spec-fuel">--</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-label">Year:</span>
+                                            <span class="spec-value" id="spec-year">--</span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-row">
                                     <label for="preferred-date">Preferred Date*</label>
                                     <input type="date" id="preferred-date" name="preferred-date" required min="2025-05-06">
@@ -780,52 +813,156 @@
 
     <script src="js/script.js"></script>
     <script>
-        // Tab switching functionality
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons and content
-                document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                
-                // Add active class to clicked button and corresponding content
-                button.classList.add('active');
-                document.getElementById(button.dataset.tab).classList.add('active');
+        // Document ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and content
+                    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    document.getElementById(button.dataset.tab).classList.add('active');
+                });
             });
-        });
-        
-        // Test Drive Form Submission
-        document.getElementById('test-drive-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // In a real implementation, you would send the form data to the server here
-            // For now, just show the success modal
-            document.getElementById('success-modal').classList.add('active');
-        });
-        
-        // Tracking Form Submission
-        document.getElementById('tracking-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // In a real implementation, you would fetch tracking data from the server
-            // For now, just show the tracking result
-            document.getElementById('tracking-result').classList.add('active');
-        });
-        
-        // Close Modal
-        document.querySelector('.close-modal').addEventListener('click', function() {
-            document.getElementById('success-modal').classList.remove('active');
-            // Optionally reset the form
-            document.getElementById('test-drive-form').reset();
-        });
-        
-        // Set minimum date for test drive booking to tomorrow
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const formattedDate = tomorrow.toISOString().split('T')[0];
-        document.getElementById('preferred-date').setAttribute('min', formattedDate);
-        
-        // Mobile FAB menu toggle
-        document.querySelector('.main-fab').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.querySelector('.fab-options').classList.toggle('active');
+            
+            // Test Drive Form Submission
+            document.getElementById('test-drive-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real implementation, you would send the form data to the server here
+                // For now, just show the success modal
+                document.getElementById('success-modal').classList.add('active');
+            });
+            
+            // Tracking Form Submission
+            document.getElementById('tracking-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // In a real implementation, you would fetch tracking data from the server
+                // For now, just show the tracking result
+                document.getElementById('tracking-result').classList.add('active');
+            });
+            
+            // Close Modal
+            document.querySelector('.close-modal').addEventListener('click', function() {
+                document.getElementById('success-modal').classList.remove('active');
+                // Optionally reset the form
+                document.getElementById('test-drive-form').reset();
+            });
+            
+            // Set minimum date for test drive booking to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const formattedDate = tomorrow.toISOString().split('T')[0];
+            document.getElementById('preferred-date').setAttribute('min', formattedDate);
+            
+            // Mobile FAB menu toggle
+            document.querySelector('.main-fab').addEventListener('click', function() {
+                this.classList.toggle('active');
+                document.querySelector('.fab-options').classList.toggle('active');
+            });
+
+            // Vehicle specs database (would come from a real database in production)
+            const vehicleSpecsDatabase = {
+                'mercedes-benz-s-class': {
+                    engine: '4.0L V8 Biturbo',
+                    transmission: '9-Speed Automatic',
+                    drive: 'All-Wheel Drive (4MATIC)',
+                    mileage: '3,500 km',
+                    horsepower: '496 hp',
+                    fuel: 'Petrol',
+                    year: '2023'
+                },
+                'range-rover-sport': {
+                    engine: '3.0L Inline-6 Turbo',
+                    transmission: '8-Speed Automatic',
+                    drive: 'All-Wheel Drive',
+                    mileage: '1,200 km',
+                    horsepower: '395 hp',
+                    fuel: 'Diesel',
+                    year: '2024'
+                },
+                'audi-q8': {
+                    engine: '3.0L V6 TFSI',
+                    transmission: '8-Speed Tiptronic',
+                    drive: 'Quattro All-Wheel Drive',
+                    mileage: '500 km',
+                    horsepower: '340 hp',
+                    fuel: 'Hybrid',
+                    year: '2025'
+                },
+                'bmw-x5': {
+                    engine: '3.0L Inline-6 TwinPower Turbo',
+                    transmission: '8-Speed Sport Automatic',
+                    drive: 'xDrive All-Wheel Drive',
+                    mileage: '2,100 km',
+                    horsepower: '335 hp',
+                    fuel: 'Petrol',
+                    year: '2024'
+                },
+                'toyota-land-cruiser': {
+                    engine: '3.3L Twin-Turbo V6',
+                    transmission: '10-Speed Automatic',
+                    drive: 'Four-Wheel Drive',
+                    mileage: '980 km',
+                    horsepower: '409 hp',
+                    fuel: 'Diesel',
+                    year: '2024'
+                },
+                'porsche-cayenne': {
+                    engine: '3.0L Turbocharged V6',
+                    transmission: '8-Speed Tiptronic S',
+                    drive: 'All-Wheel Drive',
+                    mileage: '1,500 km',
+                    horsepower: '335 hp',
+                    fuel: 'Petrol',
+                    year: '2023'
+                },
+                'lexus-lx570': {
+                    engine: '5.7L V8',
+                    transmission: '8-Speed Automatic',
+                    drive: 'Four-Wheel Drive',
+                    mileage: '3,200 km',
+                    horsepower: '383 hp',
+                    fuel: 'Petrol',
+                    year: '2022'
+                }
+            };
+
+            // Vehicle dropdown change event
+            const vehicleInterestDropdown = document.getElementById('vehicle-interest');
+            const vehicleSpecsSection = document.getElementById('vehicle-specs');
+
+            vehicleInterestDropdown.addEventListener('change', function() {
+                const selectedVehicle = this.value;
+                
+                // If "other" or empty is selected, hide the specs section
+                if (selectedVehicle === 'other' || selectedVehicle === '') {
+                    vehicleSpecsSection.style.display = 'none';
+                    return;
+                }
+                
+                // Get the specs for the selected vehicle
+                const specs = vehicleSpecsDatabase[selectedVehicle];
+                
+                if (specs) {
+                    // Update the specs display
+                    document.getElementById('spec-engine').textContent = specs.engine;
+                    document.getElementById('spec-transmission').textContent = specs.transmission;
+                    document.getElementById('spec-drive').textContent = specs.drive;
+                    document.getElementById('spec-mileage').textContent = specs.mileage;
+                    document.getElementById('spec-horsepower').textContent = specs.horsepower;
+                    document.getElementById('spec-fuel').textContent = specs.fuel;
+                    document.getElementById('spec-year').textContent = specs.year;
+                    
+                    // Show the specs section
+                    vehicleSpecsSection.style.display = 'block';
+                } else {
+                    // If specs not found, hide the section
+                    vehicleSpecsSection.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>

@@ -557,180 +557,333 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle Buy Now process
     function handleBuyNow(itemId, itemType) {
-        // Create overlay for the checkout process
-        const overlay = document.createElement('div');
-        overlay.className = 'checkout-overlay';
-        
-        const checkoutModal = document.createElement('div');
-        checkoutModal.className = 'checkout-modal';
-        checkoutModal.setAttribute('role', 'dialog');
-        checkoutModal.setAttribute('aria-labelledby', 'checkout-title');
-        
-        // Get item details
-        const item = document.querySelector(`.card[data-id="${itemId}"]`);
-        const itemTitle = item ? item.querySelector('h3').textContent : 'Item';
-        const itemPrice = item ? item.querySelector('.price').textContent : '';
-        const itemImage = item && item.querySelector('.card-image img') ? 
-            item.querySelector('.card-image img').src : '';
-        
-        // Create checkout content with image
-        checkoutModal.innerHTML = `
-            <div class="checkout-header">
-                <h2 id="checkout-title">Complete Your Purchase</h2>
-                <button class="checkout-close" aria-label="Close checkout"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="checkout-content">
-                <div class="checkout-item">
-                    <div class="checkout-item-detail">
-                        ${itemImage ? `<img src="${itemImage}" alt="${itemTitle}" class="checkout-item-image">` : ''}
-                        <div>
-                            <h3>${itemTitle}</h3>
-                            <p class="checkout-price">${itemPrice}</p>
+        if (itemType === 'vehicle') {
+            openPurchaseModal(itemId);
+        } else {
+            // For property items, continue with the existing checkout flow
+            // Create overlay for the checkout process
+            const overlay = document.createElement('div');
+            overlay.className = 'checkout-overlay';
+            
+            const checkoutModal = document.createElement('div');
+            checkoutModal.className = 'checkout-modal';
+            checkoutModal.setAttribute('role', 'dialog');
+            checkoutModal.setAttribute('aria-labelledby', 'checkout-title');
+            
+            // Get item details
+            const item = document.querySelector(`.card[data-id="${itemId}"]`);
+            const itemTitle = item ? item.querySelector('h3').textContent : 'Item';
+            const itemPrice = item ? item.querySelector('.price').textContent : '';
+            const itemImage = item && item.querySelector('.card-image img') ? 
+                item.querySelector('.card-image img').src : '';
+            
+            // Create checkout content with image
+            checkoutModal.innerHTML = `
+                <div class="checkout-header">
+                    <h2 id="checkout-title">Complete Your Purchase</h2>
+                    <button class="checkout-close" aria-label="Close checkout"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="checkout-content">
+                    <div class="checkout-item">
+                        <div class="checkout-item-detail">
+                            ${itemImage ? `<img src="${itemImage}" alt="${itemTitle}" class="checkout-item-image">` : ''}
+                            <div>
+                                <h3>${itemTitle}</h3>
+                                <p class="checkout-price">${itemPrice}</p>
+                            </div>
                         </div>
                     </div>
+                    <form id="checkout-form">
+                        <div class="form-group">
+                            <label for="checkout-name">Full Name</label>
+                            <input type="text" id="checkout-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-email">Email</label>
+                            <input type="email" id="checkout-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-phone">Phone</label>
+                            <input type="tel" id="checkout-phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkout-payment">Payment Method</label>
+                            <select id="checkout-payment" required>
+                                <option value="">Select Payment Method</option>
+                                <option value="mpesa">M-Pesa</option>
+                                <option value="bank">Bank Transfer</option>
+                                <option value="card">Credit/Debit Card</option>
+                                <option value="financing">Financing/Mortgage</option>
+                            </select>
+                        </div>
+                        <div class="checkout-buttons">
+                            <button type="button" class="btn-secondary checkout-cancel">Cancel</button>
+                            <button type="submit" class="btn-primary">Proceed to Payment</button>
+                        </div>
+                    </form>
                 </div>
-                <form id="checkout-form">
-                    <div class="form-group">
-                        <label for="checkout-name">Full Name</label>
-                        <input type="text" id="checkout-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="checkout-email">Email</label>
-                        <input type="email" id="checkout-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="checkout-phone">Phone</label>
-                        <input type="tel" id="checkout-phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="checkout-payment">Payment Method</label>
-                        <select id="checkout-payment" required>
-                            <option value="">Select Payment Method</option>
-                            <option value="mpesa">M-Pesa</option>
-                            <option value="bank">Bank Transfer</option>
-                            <option value="card">Credit/Debit Card</option>
-                            <option value="financing">Financing/Mortgage</option>
-                        </select>
-                    </div>
-                    <div class="checkout-buttons">
-                        <button type="button" class="btn-secondary checkout-cancel">Cancel</button>
-                        <button type="submit" class="btn-primary">Proceed to Payment</button>
-                    </div>
-                </form>
-            </div>
-        `;
-        
-        overlay.appendChild(checkoutModal);
-        document.body.appendChild(overlay);
-        
-        // Activate the modal
-        setTimeout(() => {
-            overlay.classList.add('active');
-            // Set focus to the close button for accessibility
-            checkoutModal.querySelector('.checkout-close').focus();
-        }, 10);
-        
-        // Prevent body scrolling
-        document.body.style.overflow = 'hidden';
-        
-        // Add event listeners to the checkout modal
-        const closeBtn = checkoutModal.querySelector('.checkout-close');
-        const cancelBtn = checkoutModal.querySelector('.checkout-cancel');
-        const checkoutForm = checkoutModal.querySelector('#checkout-form');
-        
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function() {
-                closeCheckoutModal();
-            });
-        }
-        
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', function() {
-                closeCheckoutModal();
-            });
-        }
-        
-        if (checkoutForm) {
-            checkoutForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('checkout-name').value;
-                const email = document.getElementById('checkout-email').value;
-                const phone = document.getElementById('checkout-phone').value;
-                const paymentMethod = document.getElementById('checkout-payment').value;
-                
-                // Validate the phone number format
-                const phoneRegex = /^\+?[0-9\s-]{10,15}$/;
-                if (!phoneRegex.test(phone)) {
-                    alert('Please enter a valid phone number (10-15 digits)');
-                    return;
-                }
-                
-                // Show processing message
-                checkoutModal.innerHTML = `
-                    <div class="checkout-success">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <h2>Processing Your Purchase</h2>
-                        <p>Please wait while we process your request...</p>
-                    </div>
-                `;
-                
-                // Simulate processing
-                setTimeout(function() {
-                    // Show success message
+            `;
+            
+            overlay.appendChild(checkoutModal);
+            document.body.appendChild(overlay);
+            
+            // Activate the modal
+            setTimeout(() => {
+                overlay.classList.add('active');
+                // Set focus to the close button for accessibility
+                checkoutModal.querySelector('.checkout-close').focus();
+            }, 10);
+            
+            // Prevent body scrolling
+            document.body.style.overflow = 'hidden';
+            
+            // Add event listeners to the checkout modal
+            const closeBtn = checkoutModal.querySelector('.checkout-close');
+            const cancelBtn = checkoutModal.querySelector('.checkout-cancel');
+            const checkoutForm = checkoutModal.querySelector('#checkout-form');
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    closeCheckoutModal();
+                });
+            }
+            
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function() {
+                    closeCheckoutModal();
+                });
+            }
+            
+            if (checkoutForm) {
+                checkoutForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('checkout-name').value;
+                    const email = document.getElementById('checkout-email').value;
+                    const phone = document.getElementById('checkout-phone').value;
+                    const paymentMethod = document.getElementById('checkout-payment').value;
+                    
+                    // Validate the phone number format
+                    const phoneRegex = /^\+?[0-9\s-]{10,15}$/;
+                    if (!phoneRegex.test(phone)) {
+                        alert('Please enter a valid phone number (10-15 digits)');
+                        return;
+                    }
+                    
+                    // Show processing message
                     checkoutModal.innerHTML = `
                         <div class="checkout-success">
-                            <i class="fas fa-check-circle"></i>
-                            <h2>Purchase Initiated!</h2>
-                            <p>Thank you, ${name}! Our team will contact you shortly at ${phone} to complete your purchase.</p>
-                            <button class="btn-primary close-success">Close</button>
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <h2>Processing Your Purchase</h2>
+                            <p>Please wait while we process your request...</p>
                         </div>
                     `;
                     
-                    const closeSuccessBtn = checkoutModal.querySelector('.close-success');
-                    if (closeSuccessBtn) {
-                        closeSuccessBtn.addEventListener('click', function() {
-                            closeCheckoutModal();
-                        });
+                    // Simulate processing
+                    setTimeout(function() {
+                        // Show success message
+                        checkoutModal.innerHTML = `
+                            <div class="checkout-success">
+                                <i class="fas fa-check-circle"></i>
+                                <h2>Purchase Initiated!</h2>
+                                <p>Thank you, ${name}! Our team will contact you shortly at ${phone} to complete your purchase.</p>
+                                <button class="btn-primary close-success">Close</button>
+                            </div>
+                        `;
                         
-                        // Set focus for accessibility
-                        closeSuccessBtn.focus();
+                        const closeSuccessBtn = checkoutModal.querySelector('.close-success');
+                        if (closeSuccessBtn) {
+                            closeSuccessBtn.addEventListener('click', function() {
+                                closeCheckoutModal();
+                            });
+                            
+                            // Set focus for accessibility
+                            closeSuccessBtn.focus();
+                        }
+                    }, 2000);
+                });
+            }
+            
+            // Close checkout when clicking outside
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeCheckoutModal();
+                }
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (!overlay.parentNode) return; // Modal is closed
+                
+                if (e.key === 'Escape') {
+                    closeCheckoutModal();
+                }
+            });
+            
+            function closeCheckoutModal() {
+                overlay.classList.remove('active');
+                
+                // Wait for animation to complete before removing from DOM
+                setTimeout(() => {
+                    if (overlay.parentNode) {
+                        document.body.removeChild(overlay);
                     }
-                }, 2000);
+                    document.body.style.overflow = 'auto';
+                }, 300);
+                
+                // Return focus to element that opened the modal
+                const button = document.querySelector(`.card[data-id="${itemId}"] .btn-buy`);
+                if (button) button.focus();
+            }
+        }
+    }
+
+    // Purchase Modal functionality for vehicles
+    const purchaseModal = document.getElementById('purchase-modal');
+    
+    // Function to open the purchase modal with vehicle specs
+    function openPurchaseModal(vehicleId) {
+        if (!purchaseModal) return;
+        
+        const vehicle = document.querySelector(`.card[data-id="${vehicleId}"]`);
+        if (!vehicle) return;
+        
+        // Get vehicle details
+        const vehicleName = vehicle.querySelector('h3').textContent;
+        const vehicleImage = vehicle.querySelector('.card-image img').src;
+        const vehicleYear = vehicle.querySelector('.card-details span:nth-child(1)').textContent.trim().replace('<i class="fas fa-calendar-alt"></i> ', '');
+        const vehicleMileage = vehicle.querySelector('.card-details span:nth-child(2)').textContent.trim().replace('<i class="fas fa-tachometer-alt"></i> ', '');
+        const vehicleFuel = vehicle.querySelector('.card-details span:nth-child(3)').textContent.trim().replace('<i class="fas fa-gas-pump"></i> ', '');
+        
+        // Set modal title
+        document.getElementById('purchase-modal-title').textContent = `Purchase Enquiry - ${vehicleName}`;
+        
+        // Set vehicle image
+        document.getElementById('purchase-modal-image').src = vehicleImage;
+        document.getElementById('purchase-modal-image').alt = vehicleName;
+        
+        // Set the form hidden fields
+        document.getElementById('enquiry-vehicle-id').value = vehicleId;
+        document.getElementById('enquiry-vehicle-name').value = vehicleName;
+        
+        // Set vehicle specs based on vehicle type
+        if (vehicleId.includes('vehicle-1')) { // Mercedes S-Class
+            document.getElementById('spec-engine').textContent = '3.0L Inline-6 Turbo';
+            document.getElementById('spec-transmission').textContent = '9-Speed Automatic';
+            document.getElementById('spec-drive').textContent = 'Rear-Wheel Drive';
+            document.getElementById('spec-mileage').textContent = vehicleMileage;
+            document.getElementById('spec-horsepower').textContent = '429 hp';
+            document.getElementById('spec-fuel').textContent = vehicleFuel;
+            document.getElementById('spec-year').textContent = vehicleYear;
+        } else if (vehicleId.includes('vehicle-2')) { // Range Rover Sport
+            document.getElementById('spec-engine').textContent = '3.0L V6 Diesel';
+            document.getElementById('spec-transmission').textContent = '8-Speed Automatic';
+            document.getElementById('spec-drive').textContent = 'All-Wheel Drive';
+            document.getElementById('spec-mileage').textContent = vehicleMileage;
+            document.getElementById('spec-horsepower').textContent = '350 hp';
+            document.getElementById('spec-fuel').textContent = vehicleFuel;
+            document.getElementById('spec-year').textContent = vehicleYear;
+        } else if (vehicleId.includes('vehicle-3')) { // Audi Q8
+            document.getElementById('spec-engine').textContent = '3.0L V6 Hybrid';
+            document.getElementById('spec-transmission').textContent = '8-Speed Tiptronic';
+            document.getElementById('spec-drive').textContent = 'Quattro AWD';
+            document.getElementById('spec-mileage').textContent = vehicleMileage;
+            document.getElementById('spec-horsepower').textContent = '335 hp';
+            document.getElementById('spec-fuel').textContent = vehicleFuel;
+            document.getElementById('spec-year').textContent = vehicleYear;
+        } else if (vehicleId.includes('vehicle-4')) { // BMW 5 Series
+            document.getElementById('spec-engine').textContent = '2.0L Inline-4 Turbo';
+            document.getElementById('spec-transmission').textContent = '8-Speed Automatic';
+            document.getElementById('spec-drive').textContent = 'Rear-Wheel Drive';
+            document.getElementById('spec-mileage').textContent = vehicleMileage;
+            document.getElementById('spec-horsepower').textContent = '248 hp';
+            document.getElementById('spec-fuel').textContent = vehicleFuel;
+            document.getElementById('spec-year').textContent = vehicleYear;
+        } else if (vehicleId.includes('vehicle-5')) { // Toyota Hilux
+            document.getElementById('spec-engine').textContent = '2.8L Diesel';
+            document.getElementById('spec-transmission').textContent = '6-Speed Automatic';
+            document.getElementById('spec-drive').textContent = '4x4';
+            document.getElementById('spec-mileage').textContent = vehicleMileage;
+            document.getElementById('spec-horsepower').textContent = '201 hp';
+            document.getElementById('spec-fuel').textContent = vehicleFuel;
+            document.getElementById('spec-year').textContent = vehicleYear;
+        } else if (vehicleId.includes('vehicle-6')) { // Toyota Camry
+            document.getElementById('spec-engine').textContent = '2.5L Hybrid';
+            document.getElementById('spec-transmission').textContent = 'CVT';
+            document.getElementById('spec-drive').textContent = 'Front-Wheel Drive';
+            document.getElementById('spec-mileage').textContent = vehicleMileage;
+            document.getElementById('spec-horsepower').textContent = '208 hp';
+            document.getElementById('spec-fuel').textContent = vehicleFuel;
+            document.getElementById('spec-year').textContent = vehicleYear;
+        } else {
+            // Default values for other vehicles
+            document.getElementById('spec-engine').textContent = 'Information Available On Request';
+            document.getElementById('spec-transmission').textContent = 'Information Available On Request';
+            document.getElementById('spec-drive').textContent = 'Information Available On Request';
+            document.getElementById('spec-mileage').textContent = vehicleMileage;
+            document.getElementById('spec-horsepower').textContent = 'Information Available On Request';
+            document.getElementById('spec-fuel').textContent = vehicleFuel;
+            document.getElementById('spec-year').textContent = vehicleYear;
+        }
+        
+        // Open the modal
+        purchaseModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+        
+        // Set default message text
+        const defaultMessage = `I'm interested in the ${vehicleName}. Please contact me with more information.`;
+        document.getElementById('enquiry-message').value = defaultMessage;
+    }
+    
+    // Setup event listeners for purchase modal
+    if (purchaseModal) {
+        const closeButton = purchaseModal.querySelector('.purchase-modal-close');
+        if (closeButton) {
+            closeButton.addEventListener('click', closePurchaseModal);
+        }
+        
+        // Close modal when clicking outside content
+        purchaseModal.addEventListener('click', function(e) {
+            if (e.target === purchaseModal) {
+                closePurchaseModal();
+            }
+        });
+        
+        // Handle form submission
+        const enquiryForm = document.getElementById('vehicle-enquiry-form');
+        if (enquiryForm) {
+            enquiryForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('enquiry-name').value;
+                const phone = document.getElementById('enquiry-phone').value;
+                
+                // Show success message
+                purchaseModal.querySelector('.purchase-modal-body').innerHTML = `
+                    <div class="enquiry-success" style="text-align: center; padding: 50px 20px;">
+                        <i class="fas fa-check-circle" style="font-size: 60px; color: #4CAF50; margin-bottom: 20px;"></i>
+                        <h2>Enquiry Sent Successfully!</h2>
+                        <p>Thank you, ${name}! Our sales team will contact you shortly at ${phone} to discuss your vehicle of interest.</p>
+                        <button class="form-submit-btn" style="max-width: 200px; margin: 20px auto 0;" onclick="closePurchaseModal()">Close</button>
+                    </div>
+                `;
             });
         }
         
-        // Close checkout when clicking outside
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) {
-                closeCheckoutModal();
-            }
-        });
-        
-        // Keyboard navigation
+        // Handle keydown event (Escape key)
         document.addEventListener('keydown', function(e) {
-            if (!overlay.parentNode) return; // Modal is closed
-            
-            if (e.key === 'Escape') {
-                closeCheckoutModal();
+            if (e.key === 'Escape' && purchaseModal.classList.contains('active')) {
+                closePurchaseModal();
             }
         });
+    }
+    
+    // Function to close the purchase modal
+    function closePurchaseModal() {
+        if (!purchaseModal) return;
         
-        function closeCheckoutModal() {
-            overlay.classList.remove('active');
-            
-            // Wait for animation to complete before removing from DOM
-            setTimeout(() => {
-                if (overlay.parentNode) {
-                    document.body.removeChild(overlay);
-                }
-                document.body.style.overflow = 'auto';
-            }, 300);
-            
-            // Return focus to element that opened the modal
-            const button = document.querySelector(`.card[data-id="${itemId}"] .btn-buy`);
-            if (button) button.focus();
-        }
+        purchaseModal.classList.remove('active');
+        document.body.style.overflow = 'auto'; // Restore scrolling
     }
 
     // Sticky header
