@@ -358,6 +358,143 @@
                 margin-bottom: 10px;
             }
         }
+        
+        .map-container {
+            margin-top: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 250px;
+            position: relative;
+        }
+        
+        #location-map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            max-width: 250px;
+            width: 100%;
+            animation: fadeInRight 0.8s ease-out;
+        }
+        
+        .map-card {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-color);
+        }
+        
+        .map-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .map-card p {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .map-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .map-actions a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn-directions {
+            background-color: var(--button-primary);
+            color: var(--button-primary-text) !important;
+        }
+        
+        .btn-call {
+            background-color: #4CAF50;
+            color: white !important;
+        }
+        
+        .map-actions a i {
+            margin-right: 8px;
+        }
+        
+        .map-actions a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Pulse animation for map marker */
+        .fa-map-marker-alt.pulse {
+            animation: pulse-marker 2s infinite;
+        }
+        
+        @keyframes pulse-marker {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Responsive styles for map section on small devices */
+        @media (max-width: 576px) {
+            .map-overlay {
+                top: auto;
+                right: auto;
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                max-width: 90%;
+                animation: fadeInUp 0.8s ease-out;
+            }
+            
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, 30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate(-50%, 0);
+                }
+            }
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -634,7 +771,21 @@
                                 <h4>Our Location</h4>
                                 <p>Our showroom is located at Embakasi Fedha Stage, Nairobi, Kenya. We have ample parking space and a comfortable waiting area with refreshments.</p>
                                 <div class="map-container">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7711606413124!2d36.86843491456654!3d-1.3219405990361824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f11bcd698cbed%3A0xf65e273b0f1cd9e6!2sFedha%20Estate%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1650956302076!5m2!1sen!2ske" width="100%" height="200" style="border:0; border-radius:4px;" allowfullscreen="" loading="lazy"></iframe>
+                                    <div id="location-map"></div>
+                                    <div class="map-overlay">
+                                        <div class="map-card">
+                                            <h3><i class="fas fa-map-marker-alt pulse"></i> Open Road Market</h3>
+                                            <p>Embakasi Fedha Stage, Nairobi, Kenya</p>
+                                            <div class="map-actions">
+                                                <a href="https://maps.app.goo.gl/4PGuXUSR93wPJjKX9" target="_blank" class="btn-directions">
+                                                    <i class="fas fa-directions"></i> Get Directions
+                                                </a>
+                                                <a href="tel:+254721264140" class="btn-call">
+                                                    <i class="fas fa-phone"></i> Call Us
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -827,6 +978,15 @@
                     document.getElementById(button.dataset.tab).classList.add('active');
                 });
             });
+            
+            // Initialize Google Maps for location section
+            if (document.getElementById('location-map')) {
+                window.setTimeout(function() {
+                    if (typeof initializeMap === 'function') {
+                        initializeMap();
+                    }
+                }, 100);
+            }
             
             // Test Drive Form Submission
             document.getElementById('test-drive-form').addEventListener('submit', function(e) {

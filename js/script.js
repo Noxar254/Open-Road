@@ -933,9 +933,9 @@ function initializeMap() {
     // Location coordinates - Embakasi Fedha Stage, Nairobi
     const businessLocation = { lat: -1.3145, lng: 36.9023 };
     
-    // Create a script element to load the Google Maps API
+    // Create a script element to load the Google Maps API with the correct settings
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=createMap`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDJouy5uUTdlGCEooD0sE4NU00Vab_JWUM&libraries=places&callback=createMap&v=weekly&channel=GMAPS_VERSION_99`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
