@@ -348,7 +348,27 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.closest('.btn-view')) {
             const viewButton = e.target.closest('.btn-view');
             const cardId = viewButton.getAttribute('data-target');
+            console.log('View button clicked for:', cardId); // Debug log
+            
+            // Get direct reference to the gallery modal
+            const galleryModal = document.querySelector('.gallery-modal');
+            
+            if (!galleryModal) {
+                console.error('Gallery modal not found in the DOM');
+                return;
+            }
+            
+            // First handle the view button click
             handleViewButtonClick(cardId);
+            
+            // Double-check that the modal is open after a small delay
+            setTimeout(() => {
+                if (!galleryModal.classList.contains('active')) {
+                    console.log('Forcing modal to open');
+                    galleryModal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent body scrolling
+                }
+            }, 50);
         }
         
         // Handle buy now button clicks
@@ -400,11 +420,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const description = card.querySelector('.location') ? 
                 card.querySelector('.location').textContent : '';
             
-            // Ensure we have the right modal elements
-            const galleryImage = galleryModal.querySelector('.gallery-image');
+            // Get the gallery modal
+            const galleryModal = document.querySelector('.gallery-modal');
+            
+            if (!galleryModal) {
+                console.error('Gallery modal not found in the DOM');
+                return;
+            }
+            
+            // Get gallery elements - updated to match index.html structure
             const galleryTitle = galleryModal.querySelector('.gallery-title');
+            const galleryImage = galleryModal.querySelector('.gallery-image');
             const galleryPrice = galleryModal.querySelector('.gallery-price');
-            const galleryDescription = galleryModal.querySelector('.gallery-description');
+            const galleryDesc = galleryModal.querySelector('.gallery-description');
             const galleryThumbnails = galleryModal.querySelector('.gallery-thumbnails');
             
             if (!galleryImage || !galleryTitle || !galleryPrice || !galleryThumbnails) {
@@ -416,15 +444,20 @@ document.addEventListener('DOMContentLoaded', function() {
             currentItemId = cardId;
             currentItemType = cardId.includes('vehicle') ? 'vehicle' : 'property';
             
-            galleryImages = Array.from(images);
+            // Set gallery content
             galleryTitle.textContent = title;
             galleryPrice.textContent = price;
-            if (galleryDescription) {
-                galleryDescription.textContent = description;
+            if (galleryDesc) {
+                galleryDesc.textContent = description;
             }
             
-            // Generate thumbnails
+            // Clear thumbnails
             galleryThumbnails.innerHTML = '';
+            
+            // Save gallery images
+            galleryImages = Array.from(images);
+            
+            // Create thumbnails
             galleryImages.forEach((img, index) => {
                 const thumb = document.createElement('div');
                 thumb.className = 'gallery-thumb';
@@ -437,10 +470,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 galleryThumbnails.appendChild(thumb);
             });
             
+            // Show first image
             showGalleryImage(0);
+            
+            // Open the modal
             galleryModal.classList.add('active');
             
-            // Prevent body scrolling when modal is open
+            // Prevent body scrolling
             document.body.style.overflow = 'hidden';
             
             // Set focus to the modal for accessibility
