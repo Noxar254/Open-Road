@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Initialize Google Maps
+    initializeMap();
+    
     // Mobile navigation toggle
     const menuToggle = document.getElementById('menu-toggle');
     const nav = document.querySelector('nav');
@@ -918,5 +921,352 @@ document.addEventListener('DOMContentLoaded', function() {
                 fabButton.classList.remove('active');
             }
         });
+    }
+});
+
+// Google Maps integration for location section
+function initializeMap() {
+    const mapContainer = document.getElementById('location-map');
+    
+    if (!mapContainer) return; // Only initialize if the map container exists
+    
+    // Location coordinates - Embakasi Fedha Stage, Nairobi
+    const businessLocation = { lat: -1.3145, lng: 36.9023 };
+    
+    // Create a script element to load the Google Maps API
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=createMap`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+    
+    // Global function to create the map (will be called by the API once loaded)
+    window.createMap = function() {
+        // Create the map
+        const map = new google.maps.Map(mapContainer, {
+            center: businessLocation,
+            zoom: 16,
+            mapTypeControl: false,
+            fullscreenControl: false,
+            styles: [
+                {
+                    "featureType": "administrative",
+                    "elementType": "labels.text.fill",
+                    "stylers": [{"color": "#444444"}]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "all",
+                    "stylers": [{"color": "#f2f2f2"}]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "all",
+                    "stylers": [{"visibility": "off"}]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "all",
+                    "stylers": [{"saturation": -100}, {"lightness": 45}]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "all",
+                    "stylers": [{"visibility": "simplified"}]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "labels.icon",
+                    "stylers": [{"visibility": "off"}]
+                },
+                {
+                    "featureType": "transit",
+                    "elementType": "all",
+                    "stylers": [{"visibility": "off"}]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "all",
+                    "stylers": [{"color": "#c4c4c4"}, {"visibility": "on"}]
+                }
+            ]
+        });
+        
+        // Add a marker for the business location
+        const marker = new google.maps.Marker({
+            position: businessLocation,
+            map: map,
+            title: 'Open Road Market',
+            animation: google.maps.Animation.DROP,
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: '#1a1a1a',
+                fillOpacity: 1,
+                strokeColor: '#ffffff',
+                strokeWeight: 2
+            }
+        });
+        
+        // Create an info window
+        const infoWindow = new google.maps.InfoWindow({
+            content: `
+                <div style="padding: 10px; max-width: 200px;">
+                    <h3 style="margin: 0 0 8px; font-size: 16px; color: #1a1a1a;">Open Road Market</h3>
+                    <p style="margin: 0 0 5px; font-size: 14px;">Embakasi Fedha Stage, Nairobi, Kenya</p>
+                    <p style="margin: 0; font-size: 14px;">+254 721264140</p>
+                </div>
+            `
+        });
+        
+        // Open info window when marker is clicked
+        marker.addListener('click', function() {
+            infoWindow.open(map, marker);
+        });
+        
+        // Create a directions service and renderer
+        const directionsService = new google.maps.DirectionsService();
+        const directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: true, // We will use our own markers
+            polylineOptions: {
+                strokeColor: '#1a1a1a',
+                strokeWeight: 5,
+                strokeOpacity: 0.7
+            }
+        });
+        
+        // Setup directions button functionality
+        const directionsButton = document.querySelector('.btn-directions');
+        if (directionsButton) {
+            directionsButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Try to get the user's current location
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            const userLocation = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            
+                            // Calculate route
+                            calculateRoute(userLocation, businessLocation);
+                        },
+                        function(error) {
+                            // If user denies location or there's an error, open Google Maps direction in a new tab
+                            window.open(directionsButton.href, '_blank');
+                        }
+                    );
+                } else {
+                    // Geolocation not supported, open Google Maps direction in a new tab
+                    window.open(directionsButton.href, '_blank');
+                }
+            });
+        }
+        
+        // Function to calculate and display route
+        function calculateRoute(origin, destination) {
+            directionsService.route(
+                {
+                    origin: origin,
+                    destination: destination,
+                    travelMode: google.maps.TravelMode.DRIVING
+                },
+                function(response, status) {
+                    if (status === 'OK') {
+                        // Display the route on the map
+                        directionsRenderer.setDirections(response);
+                        
+                        // Add user location marker
+                        new google.maps.Marker({
+                            position: origin,
+                            map: map,
+                            title: 'Your Location',
+                            animation: google.maps.Animation.DROP,
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 8,
+                                fillColor: '#4285F4',
+                                fillOpacity: 1,
+                                strokeColor: '#ffffff',
+                                strokeWeight: 2
+                            }
+                        });
+                        
+                        // Show the destination marker again (it's hidden by directionsRenderer)
+                        marker.setMap(map);
+                    } else {
+                        // If route calculation fails, open Google Maps direction in a new tab
+                        const directionsButton = document.querySelector('.btn-directions');
+                        if (directionsButton) {
+                            window.open(directionsButton.href, '_blank');
+                        }
+                    }
+                }
+            );
+        }
+        
+        // Add visual route animation
+        function animateRoute() {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function() {
+                marker.setAnimation(null);
+            }, 750);
+        }
+        
+        // Bounce the marker initially to draw attention
+        setTimeout(animateRoute, 1000);
+        
+        // Make the map responsive to theme changes
+        document.addEventListener('themeChanged', function(e) {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            if (isDarkMode) {
+                map.setOptions({
+                    styles: [
+                        { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+                        { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+                        { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+                        {
+                            featureType: "administrative.locality",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#d59563" }],
+                        },
+                        {
+                            featureType: "poi",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#d59563" }],
+                        },
+                        {
+                            featureType: "poi.park",
+                            elementType: "geometry",
+                            stylers: [{ color: "#263c3f" }],
+                        },
+                        {
+                            featureType: "poi.park",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#6b9a76" }],
+                        },
+                        {
+                            featureType: "road",
+                            elementType: "geometry",
+                            stylers: [{ color: "#38414e" }],
+                        },
+                        {
+                            featureType: "road",
+                            elementType: "geometry.stroke",
+                            stylers: [{ color: "#212a37" }],
+                        },
+                        {
+                            featureType: "road",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#9ca5b3" }],
+                        },
+                        {
+                            featureType: "road.highway",
+                            elementType: "geometry",
+                            stylers: [{ color: "#746855" }],
+                        },
+                        {
+                            featureType: "road.highway",
+                            elementType: "geometry.stroke",
+                            stylers: [{ color: "#1f2835" }],
+                        },
+                        {
+                            featureType: "road.highway",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#f3d19c" }],
+                        },
+                        {
+                            featureType: "transit",
+                            elementType: "geometry",
+                            stylers: [{ color: "#2f3948" }],
+                        },
+                        {
+                            featureType: "transit.station",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#d59563" }],
+                        },
+                        {
+                            featureType: "water",
+                            elementType: "geometry",
+                            stylers: [{ color: "#17263c" }],
+                        },
+                        {
+                            featureType: "water",
+                            elementType: "labels.text.fill",
+                            stylers: [{ color: "#515c6d" }],
+                        },
+                        {
+                            featureType: "water",
+                            elementType: "labels.text.stroke",
+                            stylers: [{ color: "#17263c" }],
+                        },
+                    ]
+                });
+            } else {
+                map.setOptions({
+                    styles: [
+                        {
+                            "featureType": "administrative",
+                            "elementType": "labels.text.fill",
+                            "stylers": [{"color": "#444444"}]
+                        },
+                        {
+                            "featureType": "landscape",
+                            "elementType": "all",
+                            "stylers": [{"color": "#f2f2f2"}]
+                        },
+                        {
+                            "featureType": "poi",
+                            "elementType": "all",
+                            "stylers": [{"visibility": "off"}]
+                        },
+                        {
+                            "featureType": "road",
+                            "elementType": "all",
+                            "stylers": [{"saturation": -100}, {"lightness": 45}]
+                        },
+                        {
+                            "featureType": "road.highway",
+                            "elementType": "all",
+                            "stylers": [{"visibility": "simplified"}]
+                        },
+                        {
+                            "featureType": "road.arterial",
+                            "elementType": "labels.icon",
+                            "stylers": [{"visibility": "off"}]
+                        },
+                        {
+                            "featureType": "transit",
+                            "elementType": "all",
+                            "stylers": [{"visibility": "off"}]
+                        },
+                        {
+                            "featureType": "water",
+                            "elementType": "all",
+                            "stylers": [{"color": "#c4c4c4"}, {"visibility": "on"}]
+                        }
+                    ]
+                });
+            }
+        });
+    };
+}
+
+// Dispatch theme change event when theme is toggled
+document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        const originalClickHandler = themeToggle.onclick;
+        themeToggle.onclick = function(e) {
+            if (originalClickHandler) {
+                originalClickHandler.call(this, e);
+            }
+            // Dispatch theme change event
+            const themeChangedEvent = new Event('themeChanged');
+            document.dispatchEvent(themeChangedEvent);
+        };
     }
 });
