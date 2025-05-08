@@ -592,10 +592,20 @@ header .container {
     letter-spacing: 1px;
 }
 
-/* Hide logo text on mobile */
+/* Make logo text visible on all devices */
 @media screen and (max-width: 768px) {
     .logo-text {
-        display: none;
+        display: block; /* Show the logo text on all devices */
+        font-size: 18px; /* Slightly smaller on mobile */
+    }
+    
+    /* Keep the mobile menu styling for ORM */
+    #mobile-menu .logo-text {
+        display: block;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-left: 5px;
     }
 }
 
