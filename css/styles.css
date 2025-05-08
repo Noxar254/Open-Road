@@ -595,13 +595,20 @@ header .container {
 /* Make logo text visible on all devices */
 @media screen and (max-width: 768px) {
     .logo-text {
-        display: block; /* Show the logo text on all devices */
-        font-size: 18px; /* Slightly smaller on mobile */
+        display: none; /* Hide the regular logo text on mobile */
+    }
+    
+    /* Only show abbreviated ORM on mobile */
+    .logo a::after {
+        content: "ORM";
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 1px;
     }
     
     /* Keep the mobile menu styling for ORM */
     #mobile-menu .logo-text {
-        display: block;
+        display: block; /* Show the abbreviated text in mobile menu */
         font-size: 24px;
         font-weight: 700;
         color: var(--primary-color);
