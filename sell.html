@@ -8,127 +8,211 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Additional styles for the sell page */
-        .sell-options {
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">    <style>
+        /* Modern, compact styles for the sell page */
+        /* Base styles */
+        :root {
+            --form-step-bg: rgba(0, 0, 0, 0.03);
+            --step-active-color: var(--primary-color);
+            --step-complete-color: #4CAF50;
+        }
+        .dark-mode {
+            --form-step-bg: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Sell option tabs */
+        .sell-tabs {
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 40px 0;
-        }
-        
-        .sell-option {
-            flex: 1;
-            max-width: 500px;
+            max-width: 900px;
+            margin: 30px auto;
             border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            background-color: var(--card-bg);
-            cursor: pointer;
         }
         
-        .sell-option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        
-        .sell-option img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-        
-        .sell-option-content {
+        .sell-tab {
+            flex: 1;
             padding: 20px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            background-color: var(--card-bg);
+            border-bottom: 3px solid transparent;
         }
         
-        .sell-option-content h3 {
-            margin-bottom: 10px;
+        .sell-tab.active {
+            border-bottom: 3px solid var(--primary-color);
+            background-color: var(--card-bg);
+        }
+        
+        .sell-tab:hover:not(.active) {
+            background-color: rgba(var(--primary-rgb), 0.05);
+        }
+        
+        .sell-tab i {
+            display: block;
             font-size: 24px;
+            margin-bottom: 8px;
             color: var(--primary-color);
         }
         
-        .sell-option-content p {
-            margin-bottom: 20px;
-            color: var(--text-secondary);
+        .sell-tab h3 {
+            margin: 0 0 5px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
         
+        .sell-tab p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        
+        /* Form container */
         .sell-form-container {
             display: none;
-            margin: 40px 0;
+            margin: 30px auto;
+            max-width: 900px;
+            animation: fadeIn 0.4s ease-out;
         }
         
         .sell-form-container.active {
             display: block;
-            animation: fadeIn 0.5s ease-in-out;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .sell-form {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .sell-form h2 {
+        /* Progress steps */
+        .form-progress {
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 30px;
-            text-align: center;
-            font-size: 28px;
-            color: var(--primary-color);
             position: relative;
-            padding-bottom: 15px;
         }
         
-        .sell-form h2:after {
+        .form-progress:before {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background-color: var(--primary-color);
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 1;
         }
         
-        .form-section {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100px;
+        }
+        
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+        }
+        
+        .progress-step.active .step-icon {
+            background: var(--step-active-color);
+            border-color: var(--step-active-color);
+            color: white;
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2);
+        }
+        
+        .progress-step.complete .step-icon {
+            background: var(--step-complete-color);
+            border-color: var(--step-complete-color);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .progress-step.active .step-label {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        /* Form sections */
+        .form-step {
+            display: none;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .form-step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
         }
         
-        .form-section h3 {
-            margin-bottom: 20px;
-            font-size: 20px;
+        .form-step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary-color);
+        }
+        
+        .form-step-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
             color: var(--text-primary);
         }
         
+        /* Form layout improvements */
         .form-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 15px;
         }
         
         .form-group {
             flex: 1;
-            min-width: 250px;
-            position: relative;
+            min-width: 200px;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            font-size: 14px;
             font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-primary);
         }
         
         .form-group label .required {
@@ -140,33 +224,35 @@
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px;
+            padding: 10px 12px;
             border: 1px solid var(--border-color);
-            border-radius: 5px;
+            border-radius: 6px;
             background-color: var(--input-bg);
             color: var(--text-primary);
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
+            font-size: 14px;
         }
         
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.2);
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.15);
             outline: none;
-        }
-        
-        .form-group textarea {
-            height: 120px;
-            resize: vertical;
         }
         
         .form-group .field-hint {
             font-size: 12px;
             color: var(--text-secondary);
-            margin-top: 5px;
+            margin-top: 4px;
         }
         
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        /* File upload */
         .file-upload {
             position: relative;
             display: flex;
@@ -174,11 +260,11 @@
             align-items: center;
             padding: 20px;
             border: 2px dashed var(--border-color);
-            border-radius: 5px;
+            border-radius: 8px;
             background-color: var(--input-bg);
             transition: all 0.3s;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .file-upload:hover, .file-upload.highlight {
@@ -197,7 +283,7 @@
         }
         
         .file-upload i {
-            font-size: 40px;
+            font-size: 30px;
             margin-bottom: 10px;
             color: var(--primary-color);
         }
@@ -211,9 +297,9 @@
         
         .image-preview {
             position: relative;
-            width: 100px;
-            height: 100px;
-            border-radius: 5px;
+            width: 80px;
+            height: 80px;
+            border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: transform 0.2s;
@@ -231,18 +317,19 @@
         
         .remove-image {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 3px;
+            right: 3px;
             background-color: rgba(0,0,0,0.6);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            font-size: 10px;
             transition: background-color 0.2s;
         }
         
@@ -250,43 +337,15 @@
             background-color: rgba(231, 76, 60, 0.8);
         }
         
-        .form-actions {
-            text-align: center;
-            margin-top: 30px;
-        }
-        
-        .form-actions button {
-            padding: 14px 36px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 30px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .form-actions button:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        
-        .form-actions button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
+        /* Checkboxes & Radio buttons */
         .checkbox-group {
-            margin-top: 20px;
+            margin: 15px 0;
         }
         
         .checkbox-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
         .checkbox-item input[type="checkbox"] {
@@ -295,6 +354,48 @@
             width: auto;
         }
         
+        /* Form navigation buttons */
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+        
+        .btn-prev {
+            padding: 10px 20px;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        
+        .btn-prev:hover {
+            background-color: var(--form-step-bg);
+        }
+        
+        .btn-next, .btn-submit {
+            padding: 10px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .btn-next:hover, .btn-submit:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+        
+        /* Success message */
         .success-message {
             display: none;
             background-color: #dff0d8;
@@ -302,15 +403,15 @@
             padding: 30px;
             border-radius: 10px;
             text-align: center;
-            margin: 40px auto;
-            max-width: 800px;
+            margin: 30px auto;
+            max-width: 600px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             animation: fadeIn 0.5s ease-in-out;
         }
         
         .success-message h3 {
             margin-bottom: 15px;
-            font-size: 24px;
+            font-size: 22px;
             color: #3c763d;
         }
         
@@ -319,24 +420,47 @@
             padding: 10px 15px;
             border-radius: 5px;
             margin: 20px auto;
-            max-width: 300px;
+            max-width: 240px;
             border: 1px solid #d6e9c6;
             font-weight: 600;
             color: #3c763d;
         }
         
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .sell-options {
+            .sell-tabs {
                 flex-direction: column;
-                align-items: center;
             }
             
-            .sell-option {
-                max-width: 100%;
+            .form-progress {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .progress-step {
+                width: auto;
+                flex: 1;
+                min-width: 80px;
             }
             
             .form-group {
                 min-width: 100%;
+            }
+            
+            .form-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn-prev, .btn-next, .btn-submit {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .form-step {
+                padding: 15px;
             }
         }
     </style>
@@ -421,8 +545,7 @@
         </div>
     </div>
 
-    <main>
-        <!-- Page Header -->
+    <main>        <!-- Page Header -->
         <section class="page-header" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1673&q=80'); background-size: cover; background-position: center; color: #fff;">
             <div class="container">
                 <h1>Sell With Us</h1>
@@ -432,412 +555,491 @@
             </div>
         </section>
 
-        <!-- Intro Section -->
+        <!-- Sell Content Section -->
         <section class="container">
-            <div class="text-center" style="max-width: 800px; margin: 40px auto; text-align: center;">
-                <h2>What Would You Like to Sell?</h2>
-                <p>Choose an option below to list your vehicle or property with Open Road Market. We offer competitive rates and a wide customer base to help you sell quickly and at the best price.</p>
+            <!-- Intro Section -->
+            <div class="text-center" style="max-width: 700px; margin: 30px auto; text-align: center;">
+                <h2>List Your Item with Open Road Market</h2>
+                <p>We offer competitive rates and a wide customer base to help you sell quickly at the best price.</p>
             </div>
 
-            <!-- Sell Options -->
-            <div class="sell-options">
-                <div class="sell-option" id="vehicle-option">
-                    <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1664&q=80" alt="Sell Vehicle">
-                    <div class="sell-option-content">
-                        <h3>Sell Your Vehicle</h3>
-                        <p>List your car, SUV, truck, or motorcycle with us and reach thousands of potential buyers.</p>
-                        <button class="btn btn-primary">Get Started</button>
-                    </div>
+            <!-- Sell Tabs -->
+            <div class="sell-tabs">
+                <div class="sell-tab active" id="vehicle-tab">
+                    <i class="fas fa-car"></i>
+                    <h3>Sell Vehicle</h3>
+                    <p>Cars, SUVs, trucks, motorcycles</p>
                 </div>
-
-                <div class="sell-option" id="property-option">
-                    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1673&q=80" alt="Sell Property">
-                    <div class="sell-option-content">
-                        <h3>Sell Your Property</h3>
-                        <p>List your home, apartment, commercial space, or land and connect with serious buyers.</p>
-                        <button class="btn btn-primary">Get Started</button>
-                    </div>
+                <div class="sell-tab" id="property-tab">
+                    <i class="fas fa-home"></i>
+                    <h3>Sell Property</h3>
+                    <p>Homes, apartments, commercial spaces</p>
                 </div>
             </div>
 
             <!-- Vehicle Sell Form -->
-            <div class="sell-form-container" id="vehicle-form-container">
-                <div class="sell-form">
-                    <h2>List Your Vehicle</h2>
-                    <form id="vehicle-sell-form">
-                        <div class="form-section">
-                            <h3><i class="fas fa-car"></i> Vehicle Details</h3>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="vehicle-type">Vehicle Type <span class="required">*</span></label>
-                                    <select id="vehicle-type" required>
-                                        <option value="">Select Type</option>
-                                        <option value="suv">SUV</option>
-                                        <option value="sedan">Sedan</option>
-                                        <option value="truck">Truck</option>
-                                        <option value="luxury">Luxury</option>
-                                        <option value="bike">Bike</option>
-                                    </select>
-                                    <span class="field-hint">Choose the category that best describes your vehicle</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vehicle-make">Make <span class="required">*</span></label>
-                                    <select id="vehicle-make" required>
-                                        <option value="">Select Make</option>
-                                        <option value="toyota">Toyota</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="bmw">BMW</option>
-                                        <option value="audi">Audi</option>
-                                        <option value="range-rover">Range Rover</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
+            <div class="sell-form-container active" id="vehicle-form-container">
+                <!-- Progress Indicator -->
+                <div class="form-progress">
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-icon"><i class="fas fa-car"></i></div>
+                        <div class="step-label">Vehicle Info</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-icon"><i class="fas fa-images"></i></div>
+                        <div class="step-label">Photos</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-icon"><i class="fas fa-user"></i></div>
+                        <div class="step-label">Contact Info</div>
+                    </div>
+                </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="vehicle-model">Model <span class="required">*</span></label>
-                                    <input type="text" id="vehicle-model" placeholder="e.g. Camry, S-Class" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vehicle-year">Year <span class="required">*</span></label>
-                                    <select id="vehicle-year" required>
-                                        <option value="">Select Year</option>
-                                        <option value="2025">2025</option>
-                                        <option value="2024">2024</option>
-                                        <option value="2023">2023</option>
-                                        <option value="2022">2022</option>
-                                        <option value="2021">2021</option>
-                                        <option value="2020">2020</option>
-                                        <option value="older">2019 or older</option>
-                                    </select>
-                                </div>
+                <form id="vehicle-sell-form">
+                    <!-- Step 1: Vehicle Details -->
+                    <div class="form-step active" id="vehicle-step-1">
+                        <div class="form-step-header">
+                            <div class="form-step-icon">
+                                <i class="fas fa-car"></i>
                             </div>
+                            <h3 class="form-step-title">Vehicle Details</h3>
+                        </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="vehicle-mileage">Mileage (km) <span class="required">*</span></label>
-                                    <input type="number" id="vehicle-mileage" placeholder="e.g. 15000" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vehicle-fuel">Fuel Type <span class="required">*</span></label>
-                                    <select id="vehicle-fuel" required>
-                                        <option value="">Select Fuel Type</option>
-                                        <option value="petrol">Petrol</option>
-                                        <option value="diesel">Diesel</option>
-                                        <option value="hybrid">Hybrid</option>
-                                        <option value="electric">Electric</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="vehicle-transmission">Transmission <span class="required">*</span></label>
-                                    <select id="vehicle-transmission" required>
-                                        <option value="">Select Transmission</option>
-                                        <option value="automatic">Automatic</option>
-                                        <option value="manual">Manual</option>
-                                        <option value="semi-auto">Semi-Automatic</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vehicle-color">Color <span class="required">*</span></label>
-                                    <input type="text" id="vehicle-color" placeholder="e.g. Black, White, Silver" required>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="vehicle-price">Asking Price (KES) <span class="required">*</span></label>
-                                    <input type="number" id="vehicle-price" placeholder="e.g. 5000000" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vehicle-condition">Condition <span class="required">*</span></label>
-                                    <select id="vehicle-condition" required>
-                                        <option value="">Select Condition</option>
-                                        <option value="new">Brand New</option>
-                                        <option value="like-new">Like New</option>
-                                        <option value="excellent">Excellent</option>
-                                        <option value="good">Good</option>
-                                        <option value="fair">Fair</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="vehicle-location">Location <span class="required">*</span></label>
-                                    <select id="vehicle-location" required>
-                                        <option value="">Select Location</option>
-                                        <option value="nairobi">Nairobi</option>
-                                        <option value="mombasa">Mombasa</option>
-                                        <option value="kisumu">Kisumu</option>
-                                        <option value="nakuru">Nakuru</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="vehicle-negotiable">Price Negotiable</label>
-                                    <select id="vehicle-negotiable">
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
-                                        <option value="slightly">Slightly</option>
-                                    </select>
-                                </div>
-                            </div>
-
+                        <div class="form-row">
                             <div class="form-group">
-                                <label for="vehicle-description">Description <span class="required">*</span></label>
-                                <textarea id="vehicle-description" placeholder="Provide details about your vehicle's condition, features, and any other relevant information. The more detailed your description, the more likely you will attract serious buyers." required></textarea>
-                                <span class="field-hint">Minimum 100 characters recommended for better visibility</span>
+                                <label for="vehicle-type">Vehicle Type <span class="required">*</span></label>
+                                <select id="vehicle-type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="suv">SUV</option>
+                                    <option value="sedan">Sedan</option>
+                                    <option value="truck">Truck</option>
+                                    <option value="luxury">Luxury</option>
+                                    <option value="bike">Bike</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vehicle-make">Make <span class="required">*</span></label>
+                                <select id="vehicle-make" required>
+                                    <option value="">Select Make</option>
+                                    <option value="toyota">Toyota</option>
+                                    <option value="mercedes">Mercedes</option>
+                                    <option value="bmw">BMW</option>
+                                    <option value="audi">Audi</option>
+                                    <option value="range-rover">Range Rover</option>
+                                    <option value="other">Other</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="form-section">
-                            <h3><i class="fas fa-images"></i> Photos</h3>
-                            <div class="file-upload">
-                                <input type="file" id="vehicle-photos" multiple accept="image/*">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Drag and drop photos or click to upload</p>
-                                <span>Upload up to 10 photos (Max 5MB each)</span>
-                                <div class="preview-container" id="vehicle-photos-preview"></div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vehicle-model">Model <span class="required">*</span></label>
+                                <input type="text" id="vehicle-model" placeholder="e.g. Camry, S-Class" required>
                             </div>
-                            <div class="field-hint" style="text-align: center;">High-quality photos from different angles increase your chances of selling quickly</div>
+                            <div class="form-group">
+                                <label for="vehicle-year">Year <span class="required">*</span></label>
+                                <select id="vehicle-year" required>
+                                    <option value="">Select Year</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="older">2019 or older</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vehicle-mileage">Mileage (km) <span class="required">*</span></label>
+                                <input type="number" id="vehicle-mileage" placeholder="e.g. 15000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="vehicle-fuel">Fuel Type <span class="required">*</span></label>
+                                <select id="vehicle-fuel" required>
+                                    <option value="">Select Fuel Type</option>
+                                    <option value="petrol">Petrol</option>
+                                    <option value="diesel">Diesel</option>
+                                    <option value="hybrid">Hybrid</option>
+                                    <option value="electric">Electric</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vehicle-transmission">Transmission <span class="required">*</span></label>
+                                <select id="vehicle-transmission" required>
+                                    <option value="">Select Transmission</option>
+                                    <option value="automatic">Automatic</option>
+                                    <option value="manual">Manual</option>
+                                    <option value="semi-auto">Semi-Automatic</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vehicle-color">Color <span class="required">*</span></label>
+                                <input type="text" id="vehicle-color" placeholder="e.g. Black, White, Silver" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vehicle-price">Asking Price (KES) <span class="required">*</span></label>
+                                <input type="number" id="vehicle-price" placeholder="e.g. 5000000" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="vehicle-condition">Condition <span class="required">*</span></label>
+                                <select id="vehicle-condition" required>
+                                    <option value="">Select Condition</option>
+                                    <option value="new">Brand New</option>
+                                    <option value="like-new">Like New</option>
+                                    <option value="excellent">Excellent</option>
+                                    <option value="good">Good</option>
+                                    <option value="fair">Fair</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vehicle-location">Location <span class="required">*</span></label>
+                                <select id="vehicle-location" required>
+                                    <option value="">Select Location</option>
+                                    <option value="nairobi">Nairobi</option>
+                                    <option value="mombasa">Mombasa</option>
+                                    <option value="kisumu">Kisumu</option>
+                                    <option value="nakuru">Nakuru</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="vehicle-negotiable">Price Negotiable</label>
+                                <select id="vehicle-negotiable">
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                    <option value="slightly">Slightly</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vehicle-description">Description <span class="required">*</span></label>
+                            <textarea id="vehicle-description" placeholder="Provide details about your vehicle's condition, features, and any other relevant information." required></textarea>
+                            <span class="field-hint">Detailed descriptions attract more serious buyers</span>
+                        </div>
+
+                        <div class="form-navigation">
+                            <div></div> <!-- Empty div for spacing -->
+                            <button type="button" class="btn-next" data-next="2">Next Step <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Vehicle Photos -->
+                    <div class="form-step" id="vehicle-step-2">
+                        <div class="form-step-header">
+                            <div class="form-step-icon">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <h3 class="form-step-title">Photos</h3>
+                        </div>
+
+                        <div class="file-upload">
+                            <input type="file" id="vehicle-photos" multiple accept="image/*">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag and drop photos or click to upload</p>
+                            <span>Upload up to 10 photos (Max 5MB each)</span>
+                            <div class="preview-container" id="vehicle-photos-preview"></div>
+                        </div>
+                        <div class="field-hint" style="text-align: center;">High-quality photos from different angles increase your chances of selling quickly</div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn-prev" data-prev="1"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="button" class="btn-next" data-next="3">Next Step <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Contact Information -->
+                    <div class="form-step" id="vehicle-step-3">
+                        <div class="form-step-header">
+                            <div class="form-step-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3 class="form-step-title">Contact Information</h3>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="seller-name">Your Name <span class="required">*</span></label>
+                                <input type="text" id="seller-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="seller-phone">Phone Number <span class="required">*</span></label>
+                                <input type="tel" id="seller-phone" placeholder="+254 7XX XXX XXX" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="seller-email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="seller-email" required>
                         </div>
                         
-                        <div class="form-section">
-                            <h3><i class="fas fa-user"></i> Contact Information</h3>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="seller-name">Your Name <span class="required">*</span></label>
-                                    <input type="text" id="seller-name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="seller-phone">Phone Number <span class="required">*</span></label>
-                                    <input type="tel" id="seller-phone" placeholder="+254 7XX XXX XXX" required>
-                                </div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="seller-terms" required>
+                                <label for="seller-terms">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a> <span class="required">*</span></label>
                             </div>
-
-                            <div class="form-group">
-                                <label for="seller-email">Email Address <span class="required">*</span></label>
-                                <input type="email" id="seller-email" required>
-                            </div>
-                            
-                            <div class="checkbox-group">
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="seller-terms" required>
-                                    <label for="seller-terms">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a> <span class="required">*</span></label>
-                                </div>
-                                <div class="checkbox-item">
-                                    <input type="checkbox" id="seller-newsletter">
-                                    <label for="seller-newsletter">Subscribe to newsletter to receive updates on market trends and similar listings</label>
-                                </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="seller-newsletter">
+                                <label for="seller-newsletter">Subscribe to newsletter to receive updates on market trends</label>
                             </div>
                         </div>
 
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Submit Listing</button>
+                        <div class="form-navigation">
+                            <button type="button" class="btn-prev" data-prev="2"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="submit" class="btn-submit">Submit Listing <i class="fas fa-check"></i></button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
 
             <!-- Property Sell Form -->
             <div class="sell-form-container" id="property-form-container">
-                <div class="sell-form">
-                    <h2>List Your Property</h2>
-                    <form id="property-sell-form">
-                        <div class="form-section">
-                            <h3><i class="fas fa-home"></i> Property Details</h3>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="property-type">Property Type <span class="required">*</span></label>
-                                    <select id="property-type" required>
-                                        <option value="">Select Type</option>
-                                        <option value="apartment">Apartment</option>
-                                        <option value="house">House</option>
-                                        <option value="commercial">Commercial</option>
-                                        <option value="land">Land</option>
-                                    </select>
-                                    <span class="field-hint">Choose the category that best describes your property</span>
-                                </div>
-                                <div class="form-group">
-                                    <label for="property-location">Location <span class="required">*</span></label>
-                                    <select id="property-location" required>
-                                        <option value="">Select Location</option>
-                                        <option value="nairobi">Nairobi</option>
-                                        <option value="mombasa">Mombasa</option>
-                                        <option value="kisumu">Kisumu</option>
-                                        <option value="nakuru">Nakuru</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
+                <!-- Progress Indicator -->
+                <div class="form-progress">
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-icon"><i class="fas fa-home"></i></div>
+                        <div class="step-label">Property Info</div>
+                    </div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-icon"><i class="fas fa-images"></i></div>
+                        <div class="step-label">Photos</div>
+                    </div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-icon"><i class="fas fa-user"></i></div>
+                        <div class="step-label">Contact Info</div>
+                    </div>
+                </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="property-title">Property Title <span class="required">*</span></label>
-                                    <input type="text" id="property-title" placeholder="e.g. Modern Villa with Pool in Karen" required>
-                                    <span class="field-hint">Create a compelling, descriptive title for your property</span>
-                                </div>
+                <form id="property-sell-form">
+                    <!-- Step 1: Property Details -->
+                    <div class="form-step active" id="property-step-1">
+                        <div class="form-step-header">
+                            <div class="form-step-icon">
+                                <i class="fas fa-home"></i>
                             </div>
+                            <h3 class="form-step-title">Property Details</h3>
+                        </div>
 
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="property-area">Area (sq. meters) <span class="required">*</span></label>
-                                    <input type="number" id="property-area" placeholder="e.g. 250" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="property-price">Asking Price (KES) <span class="required">*</span></label>
-                                    <input type="number" id="property-price" placeholder="e.g. 25000000" required>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="property-bedrooms">Bedrooms</label>
-                                    <select id="property-bedrooms">
-                                        <option value="">Select (if applicable)</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5+">5 or more</option>
-                                        <option value="0">Not applicable (land, etc.)</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="property-bathrooms">Bathrooms</label>
-                                    <select id="property-bathrooms">
-                                        <option value="">Select (if applicable)</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5+">5 or more</option>
-                                        <option value="0">Not applicable (land, etc.)</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="property-condition">Condition <span class="required">*</span></label>
-                                    <select id="property-condition" required>
-                                        <option value="">Select Condition</option>
-                                        <option value="new">Brand New</option>
-                                        <option value="excellent">Excellent</option>
-                                        <option value="good">Good</option>
-                                        <option value="renovated">Renovated</option>
-                                        <option value="needs-work">Needs Work</option>
-                                        <option value="undeveloped">Undeveloped (for land)</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="property-furnished">Furnished Status</label>
-                                    <select id="property-furnished">
-                                        <option value="">Select Option (if applicable)</option>
-                                        <option value="furnished">Fully Furnished</option>
-                                        <option value="semi-furnished">Semi Furnished</option>
-                                        <option value="unfurnished">Unfurnished</option>
-                                        <option value="na">Not Applicable</option>
-                                    </select>
-                                </div>
-                            </div>
-
+                        <div class="form-row">
                             <div class="form-group">
-                                <label for="property-description">Description <span class="required">*</span></label>
-                                <textarea id="property-description" placeholder="Provide details about your property's features, condition, amenities, neighborhood, and any other relevant information. Be specific about unique selling points." required></textarea>
-                                <span class="field-hint">Minimum 100 characters recommended for better visibility</span>
+                                <label for="property-type">Property Type <span class="required">*</span></label>
+                                <select id="property-type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="apartment">Apartment</option>
+                                    <option value="house">House</option>
+                                    <option value="commercial">Commercial</option>
+                                    <option value="land">Land</option>
+                                </select>
                             </div>
-                            
                             <div class="form-group">
-                                <label>Key Features</label>
-                                <div class="checkbox-group">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="feature-parking">
-                                        <label for="feature-parking">Parking</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="feature-garden">
-                                        <label for="feature-garden">Garden/Outdoor Space</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="feature-pool">
-                                        <label for="feature-pool">Swimming Pool</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="feature-security">
-                                        <label for="feature-security">24/7 Security</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="feature-internet">
-                                        <label for="feature-internet">High-Speed Internet</label>
-                                    </div>
-                                </div>
+                                <label for="property-location">Location <span class="required">*</span></label>
+                                <select id="property-location" required>
+                                    <option value="">Select Location</option>
+                                    <option value="nairobi">Nairobi</option>
+                                    <option value="mombasa">Mombasa</option>
+                                    <option value="kisumu">Kisumu</option>
+                                    <option value="nakuru">Nakuru</option>
+                                    <option value="other">Other</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="form-section">
-                            <h3><i class="fas fa-images"></i> Photos</h3>
-                            <div class="file-upload">
-                                <input type="file" id="property-photos" multiple accept="image/*">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Drag and drop photos or click to upload</p>
-                                <span>Upload up to 10 photos (Max 5MB each)</span>
-                                <div class="preview-container" id="property-photos-preview"></div>
+                        <div class="form-group">
+                            <label for="property-title">Property Title <span class="required">*</span></label>
+                            <input type="text" id="property-title" placeholder="e.g. Modern Villa with Pool in Karen" required>
+                            <span class="field-hint">Create a compelling, descriptive title for your property</span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="property-area">Area (sq. meters) <span class="required">*</span></label>
+                                <input type="number" id="property-area" placeholder="e.g. 250" required>
                             </div>
-                            <div class="field-hint" style="text-align: center;">Include photos of interior, exterior, view, and key features to increase buyer interest</div>
+                            <div class="form-group">
+                                <label for="property-price">Asking Price (KES) <span class="required">*</span></label>
+                                <input type="number" id="property-price" placeholder="e.g. 25000000" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="property-bedrooms">Bedrooms</label>
+                                <select id="property-bedrooms">
+                                    <option value="">Select (if applicable)</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5+">5 or more</option>
+                                    <option value="0">Not applicable (land, etc.)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="property-bathrooms">Bathrooms</label>
+                                <select id="property-bathrooms">
+                                    <option value="">Select (if applicable)</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5+">5 or more</option>
+                                    <option value="0">Not applicable (land, etc.)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="property-condition">Condition <span class="required">*</span></label>
+                                <select id="property-condition" required>
+                                    <option value="">Select Condition</option>
+                                    <option value="new">Brand New</option>
+                                    <option value="excellent">Excellent</option>
+                                    <option value="good">Good</option>
+                                    <option value="renovated">Renovated</option>
+                                    <option value="needs-work">Needs Work</option>
+                                    <option value="undeveloped">Undeveloped (for land)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="property-furnished">Furnished Status</label>
+                                <select id="property-furnished">
+                                    <option value="">Select Option (if applicable)</option>
+                                    <option value="furnished">Fully Furnished</option>
+                                    <option value="semi-furnished">Semi Furnished</option>
+                                    <option value="unfurnished">Unfurnished</option>
+                                    <option value="na">Not Applicable</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="property-description">Description <span class="required">*</span></label>
+                            <textarea id="property-description" placeholder="Provide details about your property's features, condition, amenities, neighborhood, and other key selling points." required></textarea>
                         </div>
                         
-                        <div class="form-section">
-                            <h3><i class="fas fa-user"></i> Contact Information</h3>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="property-seller-name">Your Name <span class="required">*</span></label>
-                                    <input type="text" id="property-seller-name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="property-seller-phone">Phone Number <span class="required">*</span></label>
-                                    <input type="tel" id="property-seller-phone" placeholder="+254 7XX XXX XXX" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="property-seller-email">Email Address <span class="required">*</span></label>
-                                <input type="email" id="property-seller-email" required>
-                            </div>
-                            
+                        <div class="form-group">
+                            <label>Key Features</label>
                             <div class="checkbox-group">
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="property-seller-terms" required>
-                                    <label for="property-seller-terms">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a> <span class="required">*</span></label>
+                                    <input type="checkbox" id="feature-parking">
+                                    <label for="feature-parking">Parking</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="property-seller-newsletter">
-                                    <label for="property-seller-newsletter">Subscribe to newsletter to receive updates on market trends and similar listings</label>
+                                    <input type="checkbox" id="feature-garden">
+                                    <label for="feature-garden">Garden/Outdoor Space</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="feature-pool">
+                                    <label for="feature-pool">Swimming Pool</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="feature-security">
+                                    <label for="feature-security">24/7 Security</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="feature-internet">
+                                    <label for="feature-internet">High-Speed Internet</label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-actions">
-                            <button type="submit" class="btn-primary">Submit Listing</button>
+                        <div class="form-navigation">
+                            <div></div> <!-- Empty div for spacing -->
+                            <button type="button" class="btn-next" data-next="2">Next Step <i class="fas fa-arrow-right"></i></button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- Step 2: Property Photos -->
+                    <div class="form-step" id="property-step-2">
+                        <div class="form-step-header">
+                            <div class="form-step-icon">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <h3 class="form-step-title">Photos</h3>
+                        </div>
+
+                        <div class="file-upload">
+                            <input type="file" id="property-photos" multiple accept="image/*">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag and drop photos or click to upload</p>
+                            <span>Upload up to 10 photos (Max 5MB each)</span>
+                            <div class="preview-container" id="property-photos-preview"></div>
+                        </div>
+                        <div class="field-hint" style="text-align: center;">Include photos of interior, exterior, view, and key features</div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn-prev" data-prev="1"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="button" class="btn-next" data-next="3">Next Step <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Contact Information -->
+                    <div class="form-step" id="property-step-3">
+                        <div class="form-step-header">
+                            <div class="form-step-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h3 class="form-step-title">Contact Information</h3>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="property-seller-name">Your Name <span class="required">*</span></label>
+                                <input type="text" id="property-seller-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="property-seller-phone">Phone Number <span class="required">*</span></label>
+                                <input type="tel" id="property-seller-phone" placeholder="+254 7XX XXX XXX" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="property-seller-email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="property-seller-email" required>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="property-seller-terms" required>
+                                <label for="property-seller-terms">I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a> <span class="required">*</span></label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="property-seller-newsletter">
+                                <label for="property-seller-newsletter">Subscribe to newsletter to receive updates on market trends</label>
+                            </div>
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn-prev" data-prev="2"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="submit" class="btn-submit">Submit Listing <i class="fas fa-check"></i></button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <!-- Success Message -->
             <div class="success-message" id="success-message">
-                <i class="fas fa-check-circle" style="font-size: 60px; color: #3c763d; margin-bottom: 20px;"></i>
+                <i class="fas fa-check-circle" style="font-size: 50px; color: #3c763d; margin-bottom: 15px;"></i>
                 <h3>Thank You for Your Submission!</h3>
-                <p>Your listing has been successfully submitted. Our team will review it and get in touch with you within 24-48 hours.</p>
+                <p>Your listing has been successfully submitted. Our team will review it within 24-48 hours.</p>
                 <div class="reference-box">
                     Reference ID: <span id="reference-id"></span>
                 </div>
                 <p style="margin-top: 15px;">Please save this reference ID for future inquiries.</p>
-                <div style="margin-top: 30px;">
+                <div style="margin-top: 20px;">
                     <button onclick="window.location.href='index.html'" class="btn-primary" style="margin-right: 10px;">Return to Homepage</button>
                     <button onclick="window.location.reload()" class="btn-primary" style="background-color: #3c763d;">List Another Item</button>
                 </div>
@@ -902,38 +1104,103 @@
                 <span class="fab-label">WhatsApp</span>
             </a>
         </div>
-    </div>
-
-    <script src="js/script.js"></script>
+    </div>    <script src="js/script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Option selection
-            const vehicleOption = document.getElementById('vehicle-option');
-            const propertyOption = document.getElementById('property-option');
+            // Tab switching
+            const vehicleTab = document.getElementById('vehicle-tab');
+            const propertyTab = document.getElementById('property-tab');
             const vehicleFormContainer = document.getElementById('vehicle-form-container');
             const propertyFormContainer = document.getElementById('property-form-container');
             const successMessage = document.getElementById('success-message');
             const referenceId = document.getElementById('reference-id');
             
-            // Handle vehicle option click
-            vehicleOption.addEventListener('click', function() {
+            // Handle vehicle tab click
+            vehicleTab.addEventListener('click', function() {
+                vehicleTab.classList.add('active');
+                propertyTab.classList.remove('active');
                 vehicleFormContainer.classList.add('active');
                 propertyFormContainer.classList.remove('active');
                 successMessage.style.display = 'none';
-                
-                // Scroll to form
-                vehicleFormContainer.scrollIntoView({ behavior: 'smooth' });
             });
             
-            // Handle property option click
-            propertyOption.addEventListener('click', function() {
+            // Handle property tab click
+            propertyTab.addEventListener('click', function() {
+                propertyTab.classList.add('active');
+                vehicleTab.classList.remove('active');
                 propertyFormContainer.classList.add('active');
                 vehicleFormContainer.classList.remove('active');
                 successMessage.style.display = 'none';
-                
-                // Scroll to form
-                propertyFormContainer.scrollIntoView({ behavior: 'smooth' });
             });
+            
+            // Multi-step form navigation
+            function setupMultiStepForm(formPrefix) {
+                const nextButtons = document.querySelectorAll(`#${formPrefix}-form .btn-next`);
+                const prevButtons = document.querySelectorAll(`#${formPrefix}-form .btn-prev`);
+                const progressSteps = document.querySelectorAll(`#${formPrefix}-form-container .progress-step`);
+                
+                // Setup next buttons
+                nextButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const nextStep = button.getAttribute('data-next');
+                        const currentStep = nextStep - 1;
+                        
+                        // Hide current step, show next step
+                        document.getElementById(`${formPrefix}-step-${currentStep}`).classList.remove('active');
+                        document.getElementById(`${formPrefix}-step-${nextStep}`).classList.add('active');
+                        
+                        // Update progress steps
+                        progressSteps.forEach(step => {
+                            const stepNum = parseInt(step.getAttribute('data-step'));
+                            if (stepNum < nextStep) {
+                                step.classList.add('complete');
+                                step.classList.remove('active');
+                            } else if (stepNum === parseInt(nextStep)) {
+                                step.classList.add('active');
+                                step.classList.remove('complete');
+                            } else {
+                                step.classList.remove('active', 'complete');
+                            }
+                        });
+                        
+                        // Scroll to top of form
+                        document.getElementById(`${formPrefix}-step-${nextStep}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                });
+                
+                // Setup previous buttons
+                prevButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const prevStep = button.getAttribute('data-prev');
+                        const currentStep = parseInt(prevStep) + 1;
+                        
+                        // Hide current step, show previous step
+                        document.getElementById(`${formPrefix}-step-${currentStep}`).classList.remove('active');
+                        document.getElementById(`${formPrefix}-step-${prevStep}`).classList.add('active');
+                        
+                        // Update progress steps
+                        progressSteps.forEach(step => {
+                            const stepNum = parseInt(step.getAttribute('data-step'));
+                            if (stepNum < prevStep) {
+                                step.classList.add('complete');
+                                step.classList.remove('active');
+                            } else if (stepNum === parseInt(prevStep)) {
+                                step.classList.add('active');
+                                step.classList.remove('complete');
+                            } else {
+                                step.classList.remove('active', 'complete');
+                            }
+                        });
+                        
+                        // Scroll to top of form
+                        document.getElementById(`${formPrefix}-step-${prevStep}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                });
+            }
+            
+            // Setup multi-step forms
+            setupMultiStepForm('vehicle');
+            setupMultiStepForm('property');
             
             // File upload preview for vehicle photos
             const vehiclePhotosInput = document.getElementById('vehicle-photos');
@@ -956,9 +1223,6 @@
                 // Limit to 10 files
                 const maxFiles = 10;
                 const filesToProcess = Array.from(files).slice(0, maxFiles);
-                
-                // Clear previous previews
-                previewContainer.innerHTML = '';
                 
                 filesToProcess.forEach(file => {
                     // Check file size (5MB max)
@@ -994,9 +1258,6 @@
             vehicleSellForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // In a real application, you would collect all form data and send it to a server
-                // For this demo, we'll just show the success message
-                
                 // Generate a random reference ID
                 const refId = 'VEH-' + Math.floor(100000 + Math.random() * 900000);
                 referenceId.textContent = refId;
@@ -1011,6 +1272,20 @@
                 // Reset form
                 vehicleSellForm.reset();
                 vehiclePhotosPreview.innerHTML = '';
+                
+                // Reset form steps
+                document.querySelectorAll('#vehicle-form .form-step').forEach(step => {
+                    step.classList.remove('active');
+                });
+                document.getElementById('vehicle-step-1').classList.add('active');
+                
+                // Reset progress steps
+                document.querySelectorAll('#vehicle-form-container .progress-step').forEach(step => {
+                    step.classList.remove('active', 'complete');
+                    if (step.getAttribute('data-step') === '1') {
+                        step.classList.add('active');
+                    }
+                });
             });
             
             // Property form submission
@@ -1033,6 +1308,20 @@
                 // Reset form
                 propertySellForm.reset();
                 propertyPhotosPreview.innerHTML = '';
+                
+                // Reset form steps
+                document.querySelectorAll('#property-form .form-step').forEach(step => {
+                    step.classList.remove('active');
+                });
+                document.getElementById('property-step-1').classList.add('active');
+                
+                // Reset progress steps
+                document.querySelectorAll('#property-form-container .progress-step').forEach(step => {
+                    step.classList.remove('active', 'complete');
+                    if (step.getAttribute('data-step') === '1') {
+                        step.classList.add('active');
+                    }
+                });
             });
             
             // Add drag and drop functionality for file uploads
@@ -1070,12 +1359,10 @@
                     const dt = e.dataTransfer;
                     const files = dt.files;
                     const input = upload.querySelector('input[type="file"]');
-                    const previewContainer = upload.querySelector('.preview-container');
-                    
-                    input.files = files; // Not supported in all browsers
                     
                     // Trigger change event manually
                     const event = new Event('change', { bubbles: true });
+                    input.files = files;
                     input.dispatchEvent(event);
                 }
             });
