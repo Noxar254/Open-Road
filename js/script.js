@@ -892,14 +892,13 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('spec-mileage').textContent = vehicleMileage;
             document.getElementById('spec-horsepower').textContent = '429 hp';
             document.getElementById('spec-fuel').textContent = vehicleFuel;
-            document.getElementById('spec-year').textContent = vehicleYear;
-        } else if (vehicleId.includes('vehicle-2')) { // Range Rover Sport
-            document.getElementById('spec-engine').textContent = '3.0L V6 Diesel';
-            document.getElementById('spec-transmission').textContent = '8-Speed Automatic';
-            document.getElementById('spec-drive').textContent = 'All-Wheel Drive';
+            document.getElementById('spec-year').textContent = vehicleYear;        } else if (vehicleId.includes('vehicle-2')) { // Lexus LX 570 Hybrid
+            document.getElementById('spec-engine').textContent = '3.5L V6 Hybrid (2GR-FXE)';
+            document.getElementById('spec-transmission').textContent = 'eCVT';
+            document.getElementById('spec-drive').textContent = 'Front-Wheel Drive';
             document.getElementById('spec-mileage').textContent = vehicleMileage;
-            document.getElementById('spec-horsepower').textContent = '350 hp';
-            document.getElementById('spec-fuel').textContent = vehicleFuel;
+            document.getElementById('spec-horsepower').textContent = '295 hp';
+            document.getElementById('spec-fuel').textContent = 'Hybrid (Petrol + Electric)';
             document.getElementById('spec-year').textContent = vehicleYear;
         } else if (vehicleId.includes('vehicle-3')) { // Audi Q8
             document.getElementById('spec-engine').textContent = '3.0L V6 Hybrid';
