@@ -883,16 +883,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // Set the form hidden fields
         document.getElementById('enquiry-vehicle-id').value = vehicleId;
         document.getElementById('enquiry-vehicle-name').value = vehicleName;
-        
-        // Set vehicle specs based on vehicle type
-        if (vehicleId.includes('vehicle-1')) { // Mercedes S-Class
-            document.getElementById('spec-engine').textContent = '3.0L Inline-6 Turbo';
-            document.getElementById('spec-transmission').textContent = '9-Speed Automatic';
-            document.getElementById('spec-drive').textContent = 'Rear-Wheel Drive';
+          // Set vehicle specs based on vehicle type
+        if (vehicleId.includes('vehicle-1')) { // Toyota TX PRADO
+            document.getElementById('spec-engine').textContent = '2.7L Petrol';
+            document.getElementById('spec-transmission').textContent = '6-Speed Automatic';
+            document.getElementById('spec-drive').textContent = '4x4';
             document.getElementById('spec-mileage').textContent = vehicleMileage;
-            document.getElementById('spec-horsepower').textContent = '429 hp';
+            document.getElementById('spec-horsepower').textContent = '160 hp';
             document.getElementById('spec-fuel').textContent = vehicleFuel;
-            document.getElementById('spec-year').textContent = vehicleYear;        } else if (vehicleId.includes('vehicle-2')) { // Lexus LX 570 Hybrid
+            document.getElementById('spec-year').textContent = vehicleYear;} else if (vehicleId.includes('vehicle-2')) { // Lexus LX 570 Hybrid
             document.getElementById('spec-engine').textContent = '3.5L V6 Hybrid (2GR-FXE)';
             document.getElementById('spec-transmission').textContent = 'eCVT';
             document.getElementById('spec-drive').textContent = 'Front-Wheel Drive';
