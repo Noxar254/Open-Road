@@ -899,15 +899,14 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('spec-mileage').textContent = vehicleMileage;
             document.getElementById('spec-horsepower').textContent = '295 hp';
             document.getElementById('spec-fuel').textContent = 'Hybrid (Petrol + Electric)';
-            document.getElementById('spec-year').textContent = vehicleYear;
-        } else if (vehicleId.includes('vehicle-3')) { // Audi Q8
-            document.getElementById('spec-engine').textContent = '3.0L V6 Hybrid';
-            document.getElementById('spec-transmission').textContent = '8-Speed Tiptronic';
-            document.getElementById('spec-drive').textContent = 'Quattro AWD';
-            document.getElementById('spec-mileage').textContent = vehicleMileage;
-            document.getElementById('spec-horsepower').textContent = '335 hp';
-            document.getElementById('spec-fuel').textContent = vehicleFuel;
-            document.getElementById('spec-year').textContent = vehicleYear;
+            document.getElementById('spec-year').textContent = vehicleYear;        } else if (vehicleId.includes('vehicle-3')) { // Toyota Crown
+            document.getElementById('spec-engine').textContent = '2.5LT';
+            document.getElementById('spec-transmission').textContent = '6-speed automatic';
+            document.getElementById('spec-drive').textContent = 'Rear-Wheel Drive';
+            document.getElementById('spec-mileage').textContent = '136,380';
+            document.getElementById('spec-horsepower').textContent = '315 hp @ 6,400 rpm';
+            document.getElementById('spec-fuel').textContent = 'Petrol';
+            document.getElementById('spec-year').textContent = '2010';
         } else if (vehicleId.includes('vehicle-4')) { // BMW 5 Series
             document.getElementById('spec-engine').textContent = '2.0L Inline-4 Turbo';
             document.getElementById('spec-transmission').textContent = '8-Speed Automatic';
