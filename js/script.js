@@ -323,14 +323,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (vehicleFields && realEstateFields) {
                     vehicleFields.style.display = 'none';
                     realEstateFields.style.display = 'flex';
-                }
-            }
+                }            }
             
-            // Show the search panel with pre-filled values
-            const searchPanel = document.getElementById('advanced-search');
-            if (searchPanel) {
-                searchPanel.classList.add('active');
-            }
+            // Note: Search panel will only show when user clicks the search toggle button
+            // The form fields are pre-filled from URL parameters but panel remains hidden
         }
     }
     
@@ -898,14 +894,14 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('spec-mileage').textContent = vehicleMileage;
             document.getElementById('spec-horsepower').textContent = 'V8 HEMI: 340-425 hp (SRT8)';
             document.getElementById('spec-fuel').textContent = vehicleFuel;
-            document.getElementById('spec-year').textContent = vehicleYear;} else if (vehicleId.includes('vehicle-3')) { // Toyota Crown
-            document.getElementById('spec-engine').textContent = '2.5LT';
-            document.getElementById('spec-transmission').textContent = '6-speed automatic';
+            document.getElementById('spec-year').textContent = vehicleYear;        } else if (vehicleId.includes('vehicle-3')) { // Mitsubishi Canter
+            document.getElementById('spec-engine').textContent = '4D33 – 4.2L Diesel';
+            document.getElementById('spec-transmission').textContent = '5-speed manual';
             document.getElementById('spec-drive').textContent = 'Rear-Wheel Drive';
-            document.getElementById('spec-mileage').textContent = '136,380';
-            document.getElementById('spec-horsepower').textContent = '315 hp @ 6,400 rpm';
-            document.getElementById('spec-fuel').textContent = 'Petrol';
-            document.getElementById('spec-year').textContent = '2010';
+            document.getElementById('spec-mileage').textContent = '290,100 km';
+            document.getElementById('spec-horsepower').textContent = '120–180 hp';
+            document.getElementById('spec-fuel').textContent = '4D34 – 3.9L Diesel';
+            document.getElementById('spec-year').textContent = '2006';
         } else if (vehicleId.includes('vehicle-4')) { // BMW 5 Series
             document.getElementById('spec-engine').textContent = '2.0L Inline-4 Turbo';
             document.getElementById('spec-transmission').textContent = '8-Speed Automatic';
