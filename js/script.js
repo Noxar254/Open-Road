@@ -901,13 +901,12 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('spec-mileage').textContent = '290,100 km';
             document.getElementById('spec-horsepower').textContent = '120–180 hp';
             document.getElementById('spec-fuel').textContent = '4D34 – 3.9L Diesel';
-            document.getElementById('spec-year').textContent = '2006';
-        } else if (vehicleId.includes('vehicle-4')) { // BMW 5 Series
-            document.getElementById('spec-engine').textContent = '2.0L Inline-4 Turbo';
-            document.getElementById('spec-transmission').textContent = '8-Speed Automatic';
+            document.getElementById('spec-year').textContent = '2006';        } else if (vehicleId.includes('vehicle-4')) { // Mercedes Benz
+            document.getElementById('spec-engine').textContent = '1.6L Engine';
+            document.getElementById('spec-transmission').textContent = '7-speed dual-clutch automatic transmission';
             document.getElementById('spec-drive').textContent = 'Rear-Wheel Drive';
             document.getElementById('spec-mileage').textContent = vehicleMileage;
-            document.getElementById('spec-horsepower').textContent = '248 hp';
+            document.getElementById('spec-horsepower').textContent = '120 hp';
             document.getElementById('spec-fuel').textContent = vehicleFuel;
             document.getElementById('spec-year').textContent = vehicleYear;
         } else if (vehicleId.includes('vehicle-5')) { // Toyota Hilux
