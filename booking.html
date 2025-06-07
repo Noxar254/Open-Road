@@ -1348,9 +1348,18 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
     <script src="js/firebase-form-handler.js"></script>
     <script src="js/google-sheets-handler.js"></script>
-    <script>
-        // Document ready
+    <script>        // Document ready
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Firebase form handlers
+            if (typeof FormHandler !== 'undefined') {
+                FormHandler.init();
+                console.log("Firebase form handlers initialized for booking page");
+            } else {
+                console.warn("FormHandler not available - using fallback handlers");
+                // Fallback form submission handlers if Firebase is not available
+                setupFallbackHandlers();
+            }
+            
             // Tab switching functionality
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.addEventListener('click', () => {
@@ -1372,22 +1381,6 @@
                     }
                 }, 100);
             }
-            
-            // Test Drive Form Submission
-            document.getElementById('test-drive-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                // In a real implementation, you would send the form data to the server here
-                // For now, just show the success modal
-                document.getElementById('success-modal').classList.add('active');
-            });
-            
-            // Tracking Form Submission
-            document.getElementById('tracking-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                // In a real implementation, you would fetch tracking data from the server
-                // For now, just show the tracking result
-                document.getElementById('tracking-result').classList.add('active');
-            });
             
             // Close Modal
             document.querySelector('.close-modal').addEventListener('click', function() {
@@ -1505,10 +1498,41 @@
                     vehicleSpecsSection.style.display = 'block';
                 } else {
                     // If specs not found, hide the section
-                    vehicleSpecsSection.style.display = 'none';
-                }
+                    vehicleSpecsSection.style.display = 'none';                }
             });
         });
+
+        // Fallback handlers for when Firebase is not available
+        function setupFallbackHandlers() {
+            // Test Drive Form Submission Fallback
+            const testDriveForm = document.getElementById('test-drive-form');
+            if (testDriveForm) {
+                testDriveForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log("Using fallback test drive handler");
+                    document.getElementById('success-modal').classList.add('active');
+                });
+            }
+            
+            // Tracking Form Submission Fallback
+            const trackingForm = document.getElementById('tracking-form');
+            if (trackingForm) {
+                trackingForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log("Using fallback tracking handler");
+                    document.getElementById('tracking-result').classList.add('active');
+                });
+            }
+            
+            // Close Modal Handler
+            const closeModalBtn = document.querySelector('.close-modal');
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function() {
+                    document.getElementById('success-modal').classList.remove('active');
+                    document.getElementById('test-drive-form').reset();
+                });
+            }
+        }
     </script>
 </body>
 </html>
