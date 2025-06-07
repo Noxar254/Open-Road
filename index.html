@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Road Market - Luxury Vehicles & Real Estate</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Open Road Market - Luxury Vehicles & Real Estate</title>    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/firebase-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -606,8 +606,7 @@
                 </div>
                 <div class="purchase-modal-right">
                     <div class="enquiry-form">
-                        <h4 class="enquiry-form-title">Send Enquiry</h4>
-                        <form id="vehicle-enquiry-form">
+                        <h4 class="enquiry-form-title">Send Enquiry</h4>                        <form id="vehicle-enquiry-form">
                             <input type="hidden" id="enquiry-vehicle-id" name="vehicleId">
                             <input type="hidden" id="enquiry-vehicle-name" name="vehicleName">
                             
@@ -653,9 +652,103 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>    </div>
 
+    <!-- Include Property Modal -->
+    <div class="property-modal" id="property-modal">
+        <div class="purchase-modal-content">
+            <div class="purchase-modal-header">
+                <h3 class="modal-title" id="property-modal-title">Property Purchase Enquiry</h3>
+                <button class="property-modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="purchase-modal-body">
+                <div class="purchase-modal-left">
+                    <img src="" alt="Property" class="purchase-modal-image" id="property-modal-image">
+                    <div class="purchase-specs">
+                        <h4 class="purchase-specs-title">Property Details</h4>
+                        <div class="spec-row">
+                            <span class="spec-label">Type</span>
+                            <span class="spec-value" id="spec-property-type">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Size</span>
+                            <span class="spec-value" id="spec-property-size">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Bedrooms</span>
+                            <span class="spec-value" id="spec-property-bedrooms">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Bathrooms</span>
+                            <span class="spec-value" id="spec-property-bathrooms">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Location</span>
+                            <span class="spec-value" id="spec-property-location">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Year Built</span>
+                            <span class="spec-value" id="spec-property-year">-</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="purchase-modal-right">
+                    <div class="enquiry-form">
+                        <h4 class="enquiry-form-title">Send Enquiry</h4>                        <form id="property-enquiry-form" class="property-enquiry-form">
+                            <input type="hidden" id="enquiry-property-id" name="propertyId">
+                            <input type="hidden" id="enquiry-property-name" name="propertyName">
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-name">Full Name*</label>
+                                <input type="text" id="property-enquiry-name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-email">Email Address*</label>
+                                <input type="email" id="property-enquiry-email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-phone">Phone Number*</label>
+                                <input type="tel" id="property-enquiry-phone" name="phone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-message">Message*</label>
+                                <textarea id="property-enquiry-message" name="message" rows="4" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-financing">Financing Option</label>
+                                <select id="property-enquiry-financing" name="financing">
+                                    <option value="not-interested">Not Interested</option>
+                                    <option value="interested">Interested</option>
+                                    <option value="pre-approved">Already Pre-Approved</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-visit">Property Visit</label>
+                                <select id="property-enquiry-visit" name="visitRequest">
+                                    <option value="yes">Yes, I'd like to schedule a visit</option>
+                                    <option value="no">No, not at this time</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="form-submit-btn">Submit Enquiry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+      <!-- Main scripts -->
+    <script src="js/firebase-form-handler.js"></script>
+    <script src="js/google-sheets-handler.js"></script>
+    <script src="js/form-fix.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>

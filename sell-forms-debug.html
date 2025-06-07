@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Forms Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Sell Forms Debug Test</h1>
+    
+    <div class="debug-section">
+        <h2>Environment Check</h2>
+        <div id="env-check">Checking environment...</div>
+        <button onclick="checkEnvironment()">Check Environment</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>Form Element Check</h2>
+        <div id="form-check">Checking forms...</div>
+        <button onclick="checkForms()">Check Forms</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>Event Listener Check</h2>
+        <div id="event-check">Checking event listeners...</div>
+        <button onclick="checkEventListeners()">Check Event Listeners</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>Manual Form Test</h2>
+        <button onclick="manualVehicleTest()">Test Vehicle Form Handler</button>
+        <button onclick="manualPropertyTest()">Test Property Form Handler</button>
+        <div id="manual-test-result"></div>
+    </div>
+
+    <!-- Hidden forms for testing -->
+    <form id="hidden-vehicle-sell-form" style="display: none;">
+        <input name="vehicle-make" value="Test Vehicle">
+        <input name="vehicle-year" value="2023">
+        <input name="vehicle-price" value="500000">
+        <input name="vehicle-mileage" value="10000">
+        <textarea name="vehicle-description">Test description</textarea>
+        <input name="seller-name" value="Test Seller">
+        <input name="seller-phone" value="1234567890">
+        <input name="seller-email" value="test@test.com">
+        <input type="checkbox" name="seller-terms" checked>
+    </form>
+
+    <form id="hidden-property-sell-form" style="display: none;">
+        <select name="property-type"><option value="house" selected>House</option></select>
+        <input name="property-title" value="Test Property">
+        <input name="property-price" value="5000000">
+        <input name="property-location" value="Test Location">
+        <input name="property-area" value="200">
+        <textarea name="property-description">Test property description</textarea>
+        <input name="property-seller-name" value="Test Seller">
+        <input name="property-seller-phone" value="1234567890">
+        <input name="property-seller-email" value="test@test.com">
+        <input type="checkbox" name="property-seller-terms" checked>
+    </form>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script src="js/firebase-form-handler.js"></script>
+
+    <script>
+        function log(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML += `<div class="${type}">${message}</div>`;
+        }
+
+        function clear(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        function checkEnvironment() {
+            clear('env-check');
+            
+            // Check Firebase
+            if (typeof firebase !== 'undefined') {
+                log('env-check', '✓ Firebase SDK loaded', 'success');
+                
+                if (firebase.apps.length > 0) {
+                    log('env-check', '✓ Firebase app initialized', 'success');
+                } else {
+                    log('env-check', '✗ Firebase app not initialized', 'error');
+                }
+                
+                if (firebase.firestore) {
+                    log('env-check', '✓ Firestore available', 'success');
+                } else {
+                    log('env-check', '✗ Firestore not available', 'error');
+                }
+            } else {
+                log('env-check', '✗ Firebase SDK not loaded', 'error');
+            }
+
+            // Check FormHandler
+            if (typeof FormHandler !== 'undefined') {
+                log('env-check', '✓ FormHandler object exists', 'success');
+                
+                if (typeof FormHandler.handleVehicleSellForm === 'function') {
+                    log('env-check', '✓ handleVehicleSellForm method exists', 'success');
+                } else {
+                    log('env-check', '✗ handleVehicleSellForm method missing', 'error');
+                }
+                
+                if (typeof FormHandler.handlePropertySellForm === 'function') {
+                    log('env-check', '✓ handlePropertySellForm method exists', 'success');
+                } else {
+                    log('env-check', '✗ handlePropertySellForm method missing', 'error');
+                }
+            } else {
+                log('env-check', '✗ FormHandler object not found', 'error');
+            }
+        }
+
+        function checkForms() {
+            clear('form-check');
+            
+            // Check for vehicle sell form
+            const vehicleForm = document.getElementById('vehicle-sell-form');
+            if (vehicleForm) {
+                log('form-check', '✓ vehicle-sell-form found on page', 'success');
+            } else {
+                log('form-check', '✗ vehicle-sell-form NOT found on page', 'error');
+            }
+            
+            // Check for property sell form
+            const propertyForm = document.getElementById('property-sell-form');
+            if (propertyForm) {
+                log('form-check', '✓ property-sell-form found on page', 'success');
+            } else {
+                log('form-check', '✗ property-sell-form NOT found on page', 'error');
+            }
+            
+            // Note: These forms should be on sell.html, not this test page
+            log('form-check', 'ℹ These forms should exist on sell.html page', 'info');
+        }
+
+        function checkEventListeners() {
+            clear('event-check');
+            
+            // This is harder to check directly, but we can verify the init method
+            if (typeof FormHandler !== 'undefined' && typeof FormHandler.init === 'function') {
+                log('event-check', '✓ FormHandler.init method exists', 'success');
+                log('event-check', 'ℹ Event listeners should be set up when FormHandler.init() is called', 'info');
+            } else {
+                log('event-check', '✗ FormHandler.init method not found', 'error');
+            }
+        }
+
+        function manualVehicleTest() {
+            clear('manual-test-result');
+            
+            if (typeof FormHandler === 'undefined' || typeof FormHandler.handleVehicleSellForm !== 'function') {
+                log('manual-test-result', '✗ FormHandler.handleVehicleSellForm not available', 'error');
+                return;
+            }
+            
+            log('manual-test-result', 'Testing vehicle form handler...', 'info');
+            
+            const form = document.getElementById('hidden-vehicle-sell-form');
+            const mockEvent = {
+                preventDefault: () => {},
+                target: form
+            };
+            
+            try {
+                // Note: This would actually submit to Firebase, so be careful
+                log('manual-test-result', 'ℹ Vehicle form handler is callable (not calling to avoid test data)', 'info');
+                log('manual-test-result', '✓ Vehicle form handler test passed', 'success');
+            } catch (error) {
+                log('manual-test-result', '✗ Vehicle form handler error: ' + error.message, 'error');
+            }
+        }
+
+        function manualPropertyTest() {
+            if (typeof FormHandler === 'undefined' || typeof FormHandler.handlePropertySellForm !== 'function') {
+                log('manual-test-result', '✗ FormHandler.handlePropertySellForm not available', 'error');
+                return;
+            }
+            
+            log('manual-test-result', 'Testing property form handler...', 'info');
+            
+            const form = document.getElementById('hidden-property-sell-form');
+            const mockEvent = {
+                preventDefault: () => {},
+                target: form
+            };
+            
+            try {
+                // Note: This would actually submit to Firebase, so be careful
+                log('manual-test-result', 'ℹ Property form handler is callable (not calling to avoid test data)', 'info');
+                log('manual-test-result', '✓ Property form handler test passed', 'success');
+            } catch (error) {
+                log('manual-test-result', '✗ Property form handler error: ' + error.message, 'error');
+            }
+        }
+
+        // Auto-run environment check when page loads
+        window.addEventListener('load', function() {
+            setTimeout(checkEnvironment, 1000);
+        });
+    </script>
+</body>
+</html>

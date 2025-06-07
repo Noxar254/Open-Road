@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Sell Forms Test | Open Road Market</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .status.success { background-color: #d4edda; color: #155724; }
+        .status.error { background-color: #f8d7da; color: #721c24; }
+        .status.warning { background-color: #fff3cd; color: #856404; }
+        .test-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background-color: #0056b3;
+        }
+        #console-output {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔥 Firebase Sell Forms Integration Test</h1>
+        <p>Testing Firebase integration for sell.html vehicle and property listing forms</p>
+        
+        <div class="test-section">
+            <h3>📋 Firebase Connection Test</h3>
+            <div id="firebase-status" class="status warning">Testing Firebase connection...</div>
+            <button class="test-button" onclick="testFirebaseConnection()">Test Firebase Connection</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🚗 Vehicle Sell Form Test</h3>
+            <div id="vehicle-form-status" class="status warning">Ready to test vehicle sell form...</div>
+            <button class="test-button" onclick="testVehicleSellForm()">Test Vehicle Form Submission</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🏠 Property Sell Form Test</h3>
+            <div id="property-form-status" class="status warning">Ready to test property sell form...</div>
+            <button class="test-button" onclick="testPropertySellForm()">Test Property Form Submission</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Firestore Data Test</h3>
+            <div id="firestore-status" class="status warning">Ready to test Firestore data retrieval...</div>
+            <button class="test-button" onclick="testFirestoreRead()">Test Firestore Read</button>
+            <button class="test-button" onclick="clearTestData()">Clear Test Data</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📝 Console Output</h3>
+            <div id="console-output">Waiting for test results...\n</div>
+            <button class="test-button" onclick="clearConsole()">Clear Console</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script src="js/firebase-form-handler.js"></script>
+
+    <script>
+        // Console capture for debugging
+        const consoleOutput = document.getElementById('console-output');
+        
+        function logToConsole(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${type.toUpperCase()}: ${message}\n`;
+            consoleOutput.textContent += logEntry;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            console.log(message);
+        }
+
+        function clearConsole() {
+            consoleOutput.textContent = 'Console cleared...\n';
+        }
+
+        function updateStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status ${type}`;
+        }
+
+        // Test Firebase connection
+        function testFirebaseConnection() {
+            logToConsole('Testing Firebase connection...');
+            
+            try {
+                if (typeof firebase === 'undefined') {
+                    throw new Error('Firebase SDK not loaded');
+                }
+                
+                if (firebase.apps.length === 0) {
+                    throw new Error('Firebase not initialized');
+                }
+                
+                if (typeof db === 'undefined') {
+                    throw new Error('Firestore database not available');
+                }
+                
+                updateStatus('firebase-status', '✅ Firebase connection successful!', 'success');
+                logToConsole('Firebase connection test: PASSED');
+                
+                // Test basic Firestore operation
+                db.collection('_test').add({
+                    test: true,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    logToConsole('Firestore write test: PASSED');
+                }).catch(error => {
+                    logToConsole('Firestore write test failed: ' + error.message, 'error');
+                });
+                
+            } catch (error) {
+                updateStatus('firebase-status', '❌ Firebase connection failed: ' + error.message, 'error');
+                logToConsole('Firebase connection test: FAILED - ' + error.message, 'error');
+            }
+        }
+
+        // Test vehicle sell form submission
+        function testVehicleSellForm() {
+            logToConsole('Testing vehicle sell form submission...');
+            
+            try {
+                if (typeof FormHandler === 'undefined') {
+                    throw new Error('FormHandler not available');
+                }
+                
+                if (typeof FormHandler.handleVehicleSellForm !== 'function') {
+                    throw new Error('handleVehicleSellForm method not found');
+                }
+                
+                // Create mock form data
+                const mockFormData = {
+                    type: 'vehicle',
+                    listingType: 'sell',
+                    vehicleMake: 'Test Toyota Camry',
+                    vehicleYear: '2023',
+                    price: 3500000,
+                    mileage: 15000,
+                    description: 'Test vehicle listing for Firebase integration',
+                    sellerName: 'Test Seller',
+                    sellerPhone: '+254700000000',
+                    sellerEmail: 'test@example.com',
+                    termsAccepted: true,
+                    status: 'test',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                // Submit test data to Firestore
+                db.collection('listings').add(mockFormData)
+                    .then((docRef) => {
+                        const refId = 'VEH-TEST-' + docRef.id.substr(-6).toUpperCase();
+                        return docRef.update({ referenceId: refId }).then(() => {
+                            updateStatus('vehicle-form-status', '✅ Vehicle form test successful! Ref: ' + refId, 'success');
+                            logToConsole('Vehicle form test: PASSED - ' + refId);
+                        });
+                    })
+                    .catch(error => {
+                        updateStatus('vehicle-form-status', '❌ Vehicle form test failed: ' + error.message, 'error');
+                        logToConsole('Vehicle form test: FAILED - ' + error.message, 'error');
+                    });
+                    
+            } catch (error) {
+                updateStatus('vehicle-form-status', '❌ Vehicle form test error: ' + error.message, 'error');
+                logToConsole('Vehicle form test: ERROR - ' + error.message, 'error');
+            }
+        }
+
+        // Test property sell form submission
+        function testPropertySellForm() {
+            logToConsole('Testing property sell form submission...');
+            
+            try {
+                if (typeof FormHandler === 'undefined') {
+                    throw new Error('FormHandler not available');
+                }
+                
+                if (typeof FormHandler.handlePropertySellForm !== 'function') {
+                    throw new Error('handlePropertySellForm method not found');
+                }
+                
+                // Create mock form data
+                const mockFormData = {
+                    type: 'property',
+                    listingType: 'sell',
+                    propertyType: 'house',
+                    title: 'Test Modern Villa in Karen',
+                    price: 25000000,
+                    location: 'Karen, Nairobi',
+                    area: 350,
+                    description: 'Test property listing for Firebase integration',
+                    sellerName: 'Test Property Owner',
+                    sellerPhone: '+254700000001',
+                    sellerEmail: 'property@example.com',
+                    termsAccepted: true,
+                    status: 'test',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                // Submit test data to Firestore
+                db.collection('listings').add(mockFormData)
+                    .then((docRef) => {
+                        const refId = 'PROP-TEST-' + docRef.id.substr(-6).toUpperCase();
+                        return docRef.update({ referenceId: refId }).then(() => {
+                            updateStatus('property-form-status', '✅ Property form test successful! Ref: ' + refId, 'success');
+                            logToConsole('Property form test: PASSED - ' + refId);
+                        });
+                    })
+                    .catch(error => {
+                        updateStatus('property-form-status', '❌ Property form test failed: ' + error.message, 'error');
+                        logToConsole('Property form test: FAILED - ' + error.message, 'error');
+                    });
+                    
+            } catch (error) {
+                updateStatus('property-form-status', '❌ Property form test error: ' + error.message, 'error');
+                logToConsole('Property form test: ERROR - ' + error.message, 'error');
+            }
+        }
+
+        // Test Firestore data retrieval
+        function testFirestoreRead() {
+            logToConsole('Testing Firestore data retrieval...');
+            
+            try {
+                db.collection('listings')
+                    .where('status', '==', 'test')
+                    .orderBy('timestamp', 'desc')
+                    .limit(5)
+                    .get()
+                    .then((querySnapshot) => {
+                        const testListings = [];
+                        querySnapshot.forEach((doc) => {
+                            testListings.push({ id: doc.id, ...doc.data() });
+                        });
+                        
+                        updateStatus('firestore-status', `✅ Retrieved ${testListings.length} test listings`, 'success');
+                        logToConsole(`Firestore read test: PASSED - Found ${testListings.length} test listings`);
+                        
+                        testListings.forEach((listing, index) => {
+                            logToConsole(`Test Listing ${index + 1}: ${listing.type} - ${listing.referenceId || listing.id}`);
+                        });
+                    })
+                    .catch(error => {
+                        updateStatus('firestore-status', '❌ Firestore read failed: ' + error.message, 'error');
+                        logToConsole('Firestore read test: FAILED - ' + error.message, 'error');
+                    });
+                    
+            } catch (error) {
+                updateStatus('firestore-status', '❌ Firestore read error: ' + error.message, 'error');
+                logToConsole('Firestore read test: ERROR - ' + error.message, 'error');
+            }
+        }
+
+        // Clear test data
+        function clearTestData() {
+            logToConsole('Clearing test data...');
+            
+            db.collection('listings')
+                .where('status', '==', 'test')
+                .get()
+                .then((querySnapshot) => {
+                    const batch = db.batch();
+                    querySnapshot.forEach((doc) => {
+                        batch.delete(doc.ref);
+                    });
+                    return batch.commit();
+                })
+                .then(() => {
+                    updateStatus('firestore-status', '✅ Test data cleared successfully', 'success');
+                    logToConsole('Test data cleanup: COMPLETED');
+                })
+                .catch(error => {
+                    logToConsole('Test data cleanup: FAILED - ' + error.message, 'error');
+                });
+        }
+
+        // Initialize test when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            logToConsole('Firebase Sell Forms Test initialized');
+            
+            // Auto-test Firebase connection after a short delay
+            setTimeout(() => {
+                testFirebaseConnection();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

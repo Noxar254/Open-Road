@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Firebase Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background-color: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        #console-output { background: #000; color: #0f0; padding: 15px; font-family: monospace; height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Integration Comprehensive Test</h1>
+    
+    <div id="initialization-status" class="status">Checking Firebase initialization...</div>
+    
+    <div class="test-section">
+        <h2>1. Firebase SDK Loading Test</h2>
+        <div id="sdk-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Firebase Configuration Test</h2>
+        <div id="config-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Firestore Connection Test</h2>
+        <div id="firestore-status"></div>
+        <button onclick="testFirestoreConnection()">Test Connection</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Data Submission Test</h2>
+        <div id="submission-status"></div>
+        <button onclick="testDataSubmission()">Test Vehicle Enquiry</button>
+        <button onclick="testPropertySubmission()">Test Property Enquiry</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. Console Output</h2>
+        <div id="console-output"></div>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    
+    <script>
+        // Override console.log to capture output
+        const originalLog = console.log;
+        const originalError = console.error;
+        let consoleOutput = [];
+        
+        function logToOutput(message, type = 'log') {
+            consoleOutput.push({message, type, timestamp: new Date()});
+            updateConsoleDisplay();
+            if (type === 'log') originalLog(message);
+            if (type === 'error') originalError(message);
+        }
+        
+        console.log = (message) => logToOutput(message, 'log');
+        console.error = (message) => logToOutput(message, 'error');
+        
+        function updateConsoleDisplay() {
+            const output = document.getElementById('console-output');
+            output.innerHTML = consoleOutput.map(entry => 
+                `<div style="color: ${entry.type === 'error' ? '#f00' : '#0f0'}">
+                    [${entry.timestamp.toLocaleTimeString()}] ${entry.message}
+                </div>`
+            ).join('');
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDjxz6hzgqeLkNtQFnSTbDkro4dsj2j-Tc",
+          authDomain: "open-road-market.firebaseapp.com",
+          projectId: "open-road-market",
+          storageBucket: "open-road-market.firebasestorage.app",
+          messagingSenderId: "6509034099",
+          appId: "1:6509034099:web:bf09794b823f4187ffc806",
+          measurementId: "G-WWBRN92Y32"
+        };
+        
+        let db;
+        
+        function updateStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.className = `status ${type}`;
+            element.innerHTML = message;
+        }
+        
+        // Test 1: SDK Loading
+        function testSDKLoading() {
+            if (typeof firebase !== 'undefined') {
+                updateStatus('sdk-status', '✓ Firebase SDK loaded successfully', 'success');
+                console.log('Firebase SDK loaded successfully');
+                return true;
+            } else {
+                updateStatus('sdk-status', '✗ Firebase SDK not loaded', 'error');
+                console.error('Firebase SDK not loaded');
+                return false;
+            }
+        }
+        
+        // Test 2: Configuration
+        function testConfiguration() {
+            try {
+                if (firebase.apps.length === 0) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                updateStatus('config-status', '✓ Firebase configured successfully', 'success');
+                console.log('Firebase configured successfully');
+                return true;
+            } catch (error) {
+                updateStatus('config-status', `✗ Configuration error: ${error.message}`, 'error');
+                console.error('Configuration error:', error);
+                return false;
+            }
+        }
+        
+        // Test 3: Firestore Connection
+        function testFirestoreConnection() {
+            try {
+                db = firebase.firestore();
+                updateStatus('firestore-status', '✓ Firestore instance created', 'success');
+                console.log('Firestore instance created successfully');
+                
+                // Test reading from a collection (this might fail due to security rules, but that's expected)
+                db.collection('enquiries').limit(1).get()
+                    .then(snapshot => {
+                        updateStatus('firestore-status', '✓ Firestore connection successful', 'success');
+                        console.log('Firestore connection test successful');
+                    })
+                    .catch(error => {
+                        if (error.code === 'permission-denied') {
+                            updateStatus('firestore-status', '✓ Firestore connected (permission-denied is expected)', 'success');
+                            console.log('Firestore connected (permission-denied is expected for read operations)');
+                        } else {
+                            updateStatus('firestore-status', `⚠ Firestore connection issue: ${error.message}`, 'error');
+                            console.error('Firestore connection error:', error);
+                        }
+                    });
+            } catch (error) {
+                updateStatus('firestore-status', `✗ Firestore error: ${error.message}`, 'error');
+                console.error('Firestore error:', error);
+            }
+        }
+        
+        // Test 4: Data Submission
+        function testDataSubmission() {
+            if (!db) {
+                updateStatus('submission-status', '✗ Firestore not initialized', 'error');
+                return;
+            }
+            
+            const testData = {
+                type: 'vehicle',
+                vehicleId: 'test-vehicle-' + Date.now(),
+                vehicleName: 'Test Vehicle',
+                name: 'Test User',
+                email: 'test@example.com',
+                phone: '123-456-7890',
+                message: 'This is a test submission',
+                financing: 'interested',
+                testDrive: 'yes',
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            updateStatus('submission-status', 'Submitting test data...', 'info');
+            console.log('Submitting test vehicle enquiry:', testData);
+            
+            db.collection('enquiries').add(testData)
+                .then(docRef => {
+                    updateStatus('submission-status', `✓ Vehicle enquiry submitted successfully! Document ID: ${docRef.id}`, 'success');
+                    console.log('Document written with ID:', docRef.id);
+                })
+                .catch(error => {
+                    updateStatus('submission-status', `✗ Submission error: ${error.message}`, 'error');
+                    console.error('Error adding document:', error);
+                });
+        }
+        
+        function testPropertySubmission() {
+            if (!db) {
+                updateStatus('submission-status', '✗ Firestore not initialized', 'error');
+                return;
+            }
+            
+            const testData = {
+                type: 'property',
+                propertyId: 'test-property-' + Date.now(),
+                propertyName: 'Test Property',
+                name: 'Test User',
+                email: 'test@example.com',
+                phone: '123-456-7890',
+                message: 'This is a test property submission',
+                financing: 'interested',
+                visitRequest: 'yes',
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            updateStatus('submission-status', 'Submitting test property data...', 'info');
+            console.log('Submitting test property enquiry:', testData);
+            
+            db.collection('enquiries').add(testData)
+                .then(docRef => {
+                    updateStatus('submission-status', `✓ Property enquiry submitted successfully! Document ID: ${docRef.id}`, 'success');
+                    console.log('Property document written with ID:', docRef.id);
+                })
+                .catch(error => {
+                    updateStatus('submission-status', `✗ Property submission error: ${error.message}`, 'error');
+                    console.error('Error adding property document:', error);
+                });
+        }
+        
+        // Run tests when page loads
+        window.addEventListener('load', function() {
+            console.log('Starting Firebase comprehensive test...');
+            
+            setTimeout(() => {
+                const sdkOk = testSDKLoading();
+                if (sdkOk) {
+                    const configOk = testConfiguration();
+                    if (configOk) {
+                        testFirestoreConnection();
+                        updateStatus('initialization-status', '✓ Firebase initialization complete', 'success');
+                    } else {
+                        updateStatus('initialization-status', '✗ Firebase configuration failed', 'error');
+                    }
+                } else {
+                    updateStatus('initialization-status', '✗ Firebase SDK loading failed', 'error');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

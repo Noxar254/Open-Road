@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Handler Test</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-form { border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 5px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>Form Handler Direct Test</h1>
+    
+    <div id="status"></div>
+    
+    <div class="test-form">
+        <h2>Test Vehicle Enquiry Form</h2>
+        <form id="vehicle-enquiry-form">
+            <input type="hidden" name="vehicleId" value="test-vehicle-1">
+            <input type="hidden" name="vehicleName" value="Test Vehicle 2023">
+            
+            <div class="form-group">
+                <label for="name">Name *</label>
+                <input type="text" id="name" name="name" value="John Doe" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" value="john@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone *</label>
+                <input type="tel" id="phone" name="phone" value="123-456-7890" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message *</label>
+                <textarea id="message" name="message" required>I'm interested in this vehicle. Please contact me with more details.</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="financing">Financing</label>
+                <select id="financing" name="financing">
+                    <option value="not-interested">Not Interested</option>
+                    <option value="interested" selected>Interested</option>
+                    <option value="pre-approved">Already Pre-Approved</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="testDrive">Test Drive</label>
+                <select id="testDrive" name="testDrive">
+                    <option value="yes" selected>Yes, I'd like to schedule a test drive</option>
+                    <option value="no">No, not at this time</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="form-submit-btn">Submit Vehicle Enquiry</button>
+        </form>
+    </div>
+    
+    <div class="test-form">
+        <h2>Test Property Enquiry Form</h2>
+        <form id="property-enquiry-form">
+            <input type="hidden" name="propertyId" value="test-property-1">
+            <input type="hidden" name="propertyName" value="Test Property Nairobi">
+            
+            <div class="form-group">
+                <label for="prop-name">Name *</label>
+                <input type="text" id="prop-name" name="name" value="Jane Smith" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="prop-email">Email *</label>
+                <input type="email" id="prop-email" name="email" value="jane@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="prop-phone">Phone *</label>
+                <input type="tel" id="prop-phone" name="phone" value="987-654-3210" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="prop-message">Message *</label>
+                <textarea id="prop-message" name="message" required>I'm interested in this property. Please contact me to arrange a viewing.</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="prop-financing">Financing</label>
+                <select id="prop-financing" name="financing">
+                    <option value="not-interested">Not Interested</option>
+                    <option value="interested" selected>Interested</option>
+                    <option value="pre-approved">Already Pre-Approved</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="visitRequest">Visit Request</label>
+                <select id="visitRequest" name="visitRequest">
+                    <option value="yes" selected>Yes, I'd like to schedule a visit</option>
+                    <option value="no">No, not at this time</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="form-submit-btn">Submit Property Enquiry</button>
+        </form>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script src="js/firebase-form-handler.js"></script>
+    
+    <script>
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.className = `status ${type}`;
+            status.innerHTML = message;
+        }
+        
+        // Wait for FormHandler to initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Form handler test page loaded. Firebase initialization in progress...', 'info');
+            
+            setTimeout(function() {
+                if (typeof FormHandler !== 'undefined') {
+                    updateStatus('✓ FormHandler is available. You can now test the forms above.', 'success');
+                } else {
+                    updateStatus('✗ FormHandler is not available. Check console for errors.', 'error');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

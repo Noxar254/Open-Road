@@ -882,10 +882,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="purchase-modal-right">
-                    <div class="enquiry-form">
+                <div class="purchase-modal-right">                    <div class="enquiry-form">
                         <h4 class="enquiry-form-title">Send Enquiry</h4>
-                        <form id="property-enquiry-form">
+                        <form id="property-enquiry-form" class="property-enquiry-form">
                             <input type="hidden" id="enquiry-property-id" name="propertyId">
                             <input type="hidden" id="enquiry-property-name" name="propertyName">
                             
@@ -908,8 +907,7 @@
                                 <label for="enquiry-message">Message*</label>
                                 <textarea id="enquiry-message" name="message" rows="4" required></textarea>
                             </div>
-                            
-                            <div class="form-group">
+                              <div class="form-group">
                                 <label for="enquiry-financing">Financing Option</label>
                                 <select id="enquiry-financing" name="financing">
                                     <option value="not-interested">Not Interested</option>
@@ -919,8 +917,8 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="enquiry-viewing">Property Viewing</label>
-                                <select id="enquiry-viewing" name="viewing">
+                                <label for="enquiry-visit-request">Property Viewing</label>
+                                <select id="enquiry-visit-request" name="visitRequest">
                                     <option value="yes">Yes, I'd like to schedule a viewing</option>
                                     <option value="no">No, not at this time</option>
                                 </select>
@@ -1032,8 +1030,7 @@
                     purchaseModal.style.display = 'none';
                 });
             }
-            
-            // Close purchase modal when clicking outside
+              // Close purchase modal when clicking outside
             window.addEventListener('click', function(e) {
                 if (e.target === purchaseModal) {
                     purchaseModal.style.display = 'none';
@@ -1042,32 +1039,17 @@
                     galleryModal.style.display = 'none';
                 }
             });
-            
-            // Handle form submission
-            const propertyEnquiryForm = document.getElementById('property-enquiry-form');
-            if (propertyEnquiryForm) {
-                propertyEnquiryForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Get form data
-                    const formData = new FormData(propertyEnquiryForm);
-                    const formDataObj = {};
-                    formData.forEach((value, key) => {
-                        formDataObj[key] = value;
-                    });
-                    
-                    // In a real implementation, you would send this data to your server
-                    console.log('Property Enquiry Form Data:', formDataObj);
-                    
-                    // Show success message
-                    alert('Your enquiry has been submitted successfully! We will contact you shortly.');
-                    
-                    // Close modal and reset form
-                    purchaseModal.style.display = 'none';
-                    propertyEnquiryForm.reset();
-                });
-            }
+
+            // Note: Form submission is handled by Firebase FormHandler
         });
     </script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>    <script src="js/firebase-form-handler.js"></script>
+    <script src="js/google-sheets-handler.js"></script>
+    <script src="js/form-fix.js"></script>
+    <script src="js/property-pagination-cards.js"></script>
 </body>
 </html>

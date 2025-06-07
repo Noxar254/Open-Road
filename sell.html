@@ -1064,14 +1064,13 @@
                         </div>
 
                         <!-- Essential Vehicle Information -->
-                        <div class="form-row">
-                            <div class="form-group">
+                        <div class="form-row">                            <div class="form-group">
                                 <label for="vehicle-make">Make & Model <span class="required">*</span></label>
-                                <input type="text" id="vehicle-make" placeholder="e.g. Toyota Camry, Mercedes S-Class" required>
+                                <input type="text" id="vehicle-make" name="vehicle-make" placeholder="e.g. Toyota Camry, Mercedes S-Class" required>
                             </div>
                             <div class="form-group">
                                 <label for="vehicle-year">Year <span class="required">*</span></label>
-                                <select id="vehicle-year" required>
+                                <select id="vehicle-year" name="vehicle-year" required>
                                     <option value="">Select Year</option>
                                     <option value="2025">2025</option>
                                     <option value="2024">2024</option>
@@ -1087,17 +1086,15 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="vehicle-price">Asking Price (KES) <span class="required">*</span></label>
-                                <input type="number" id="vehicle-price" placeholder="e.g. 5000000" required>
+                                <input type="number" id="vehicle-price" name="vehicle-price" placeholder="e.g. 5000000" required>
                             </div>
                             <div class="form-group">
                                 <label for="vehicle-mileage">Mileage (km) <span class="required">*</span></label>
-                                <input type="number" id="vehicle-mileage" placeholder="e.g. 15000" required>
+                                <input type="number" id="vehicle-mileage" name="vehicle-mileage" placeholder="e.g. 15000" required>
                             </div>
-                        </div>
-
-                        <div class="form-group">
+                        </div>                        <div class="form-group">
                             <label for="vehicle-description">Description <span class="required">*</span></label>
-                            <textarea id="vehicle-description" placeholder="Describe your vehicle's condition, features, and any other important details that buyers should know." required></textarea>
+                            <textarea id="vehicle-description" name="vehicle-description" placeholder="Describe your vehicle's condition, features, and any other important details that buyers should know." required></textarea>
                         </div>
 
                         <!-- Photo Upload -->
@@ -1112,24 +1109,23 @@
                             </div>
                         </div>
 
-                        <!-- Contact Information -->
-                        <div class="form-row">
+                        <!-- Contact Information -->                        <div class="form-row">
                             <div class="form-group">
                                 <label for="seller-name">Your Name <span class="required">*</span></label>
-                                <input type="text" id="seller-name" required>
+                                <input type="text" id="seller-name" name="seller-name" required>
                             </div>
                             <div class="form-group">
                                 <label for="seller-phone">Phone Number <span class="required">*</span></label>
-                                <input type="tel" id="seller-phone" placeholder="+254 7XX XXX XXX" required>
+                                <input type="tel" id="seller-phone" name="seller-phone" placeholder="+254 7XX XXX XXX" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="seller-email">Email Address <span class="required">*</span></label>
-                            <input type="email" id="seller-email" required>
+                            <input type="email" id="seller-email" name="seller-email" required>
                         </div>                        <div class="checkbox-group">
                             <div class="checkbox-item">
-                                <input type="checkbox" id="seller-terms" required>
+                                <input type="checkbox" id="seller-terms" name="seller-terms" required>
                                 <label for="seller-terms">I accept Terms and Conditions <span class="required">*</span></label>
                             </div>
                         </div><div class="submit-button-container">
@@ -1149,11 +1145,10 @@
                             <p class="property-form-description">Fill out this simple form to list your property</p>
                         </div>
 
-                        <!-- Essential Property Information -->
-                        <div class="form-row">
+                        <!-- Essential Property Information -->                        <div class="form-row">
                             <div class="form-group">
                                 <label for="property-type">Property Type <span class="required">*</span></label>
-                                <select id="property-type" required>
+                                <select id="property-type" name="property-type" required>
                                     <option value="">Select Type</option>
                                     <option value="apartment">Apartment</option>
                                     <option value="house">House</option>
@@ -1163,29 +1158,29 @@
                             </div>
                             <div class="form-group">
                                 <label for="property-price">Asking Price (KES) <span class="required">*</span></label>
-                                <input type="number" id="property-price" placeholder="e.g. 25000000" required>
+                                <input type="number" id="property-price" name="property-price" placeholder="e.g. 25000000" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="property-title">Property Title <span class="required">*</span></label>
-                            <input type="text" id="property-title" placeholder="e.g. Modern Villa with Pool in Karen" required>
+                            <input type="text" id="property-title" name="property-title" placeholder="e.g. Modern Villa with Pool in Karen" required>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="property-location">Location <span class="required">*</span></label>
-                                <input type="text" id="property-location" placeholder="e.g. Karen, Westlands, Kilimani" required>
+                                <input type="text" id="property-location" name="property-location" placeholder="e.g. Karen, Westlands, Kilimani" required>
                             </div>
                             <div class="form-group">
                                 <label for="property-area">Area (sq. meters) <span class="required">*</span></label>
-                                <input type="number" id="property-area" placeholder="e.g. 250" required>
+                                <input type="number" id="property-area" name="property-area" placeholder="e.g. 250" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="property-description">Description <span class="required">*</span></label>
-                            <textarea id="property-description" placeholder="Describe your property's features, condition, amenities, neighborhood, and other key selling points." required></textarea>
+                            <textarea id="property-description" name="property-description" placeholder="Describe your property's features, condition, amenities, neighborhood, and other key selling points." required></textarea>
                         </div>
 
                         <!-- Photo Upload -->
@@ -1200,24 +1195,23 @@
                             </div>
                         </div>
 
-                        <!-- Contact Information -->
-                        <div class="form-row">
+                        <!-- Contact Information -->                        <div class="form-row">
                             <div class="form-group">
                                 <label for="property-seller-name">Your Name <span class="required">*</span></label>
-                                <input type="text" id="property-seller-name" required>
+                                <input type="text" id="property-seller-name" name="property-seller-name" required>
                             </div>
                             <div class="form-group">
                                 <label for="property-seller-phone">Phone Number <span class="required">*</span></label>
-                                <input type="tel" id="property-seller-phone" placeholder="+254 7XX XXX XXX" required>
+                                <input type="tel" id="property-seller-phone" name="property-seller-phone" placeholder="+254 7XX XXX XXX" required>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="property-seller-email">Email Address <span class="required">*</span></label>
-                            <input type="email" id="property-seller-email" required>
+                            <input type="email" id="property-seller-email" name="property-seller-email" required>
                         </div>                        <div class="checkbox-group">
                             <div class="checkbox-item">
-                                <input type="checkbox" id="property-seller-terms" required>
+                                <input type="checkbox" id="property-seller-terms" name="property-seller-terms" required>
                                 <label for="property-seller-terms">I accept Terms and Conditions <span class="required">*</span></label>
                             </div>
                         </div>
@@ -1383,50 +1377,9 @@
                     reader.readAsDataURL(file);
                 });
             }
-            
-            // Vehicle form submission
-            const vehicleSellForm = document.getElementById('vehicle-sell-form');
-            
-            vehicleSellForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Generate a random reference ID
-                const refId = 'VEH-' + Math.floor(100000 + Math.random() * 900000);
-                referenceId.textContent = refId;
-                
-                // Show success message
-                successMessage.style.display = 'block';
-                vehicleFormContainer.classList.remove('active');
-                
-                // Scroll to success message
-                successMessage.scrollIntoView({ behavior: 'smooth' });
-                
-                // Reset form
-                vehicleSellForm.reset();
-                vehiclePhotosPreview.innerHTML = '';
-            });
-            
-            // Property form submission
-            const propertySellForm = document.getElementById('property-sell-form');
-            
-            propertySellForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Generate a random reference ID
-                const refId = 'PROP-' + Math.floor(100000 + Math.random() * 900000);
-                referenceId.textContent = refId;
-                
-                // Show success message
-                successMessage.style.display = 'block';
-                propertyFormContainer.classList.remove('active');
-                
-                // Scroll to success message
-                successMessage.scrollIntoView({ behavior: 'smooth' });
-                
-                // Reset form
-                propertySellForm.reset();
-                propertyPhotosPreview.innerHTML = '';
-            });
+              // Form submission is now handled by Firebase form handler
+            // The Firebase handlers will take care of form submission, validation, and success messages
+            console.log('Form submission will be handled by Firebase form handlers');
             
             // Add drag and drop functionality for file uploads
             const fileUploads = document.querySelectorAll('.file-upload');
@@ -1474,8 +1427,14 @@
                     input.files = newFileList.files;
                     input.dispatchEvent(new Event('change', { bubbles: true }));
                 }
-            });
-        });
+            });        });
     </script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script src="js/firebase-form-handler.js"></script>
+    <script src="js/google-sheets-handler.js"></script>
 </body>
 </html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Test</title>
+</head>
+<body>
+    <h1>Firebase Integration Test</h1>
+    <div id="status">Loading...</div>
+    
+    <form id="test-form">
+        <h2>Test Vehicle Enquiry</h2>
+        <input type="hidden" name="vehicleId" value="test-vehicle-1">
+        <input type="hidden" name="vehicleName" value="Test Vehicle">
+        <label>Name: <input type="text" name="name" value="Test User" required></label><br><br>
+        <label>Email: <input type="email" name="email" value="test@example.com" required></label><br><br>
+        <label>Phone: <input type="tel" name="phone" value="123-456-7890" required></label><br><br>
+        <label>Message: <textarea name="message" required>Test message</textarea></label><br><br>
+        <label>Financing: 
+            <select name="financing">
+                <option value="not-interested">Not Interested</option>
+                <option value="interested">Interested</option>
+            </select>
+        </label><br><br>
+        <label>Test Drive: 
+            <select name="testDrive">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </label><br><br>
+        <button type="submit" class="form-submit-btn">Test Submit</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDjxz6hzgqeLkNtQFnSTbDkro4dsj2j-Tc",
+          authDomain: "open-road-market.firebaseapp.com",
+          projectId: "open-road-market",
+          storageBucket: "open-road-market.firebasestorage.app",
+          messagingSenderId: "6509034099",
+          appId: "1:6509034099:web:bf09794b823f4187ffc806",
+          measurementId: "G-WWBRN92Y32"
+        };
+        
+        // Initialize Firebase
+        let db;
+        try {
+          firebase.initializeApp(firebaseConfig);
+          db = firebase.firestore();
+          document.getElementById('status').innerHTML = '<span style="color: green;">✓ Firebase initialized successfully</span>';
+          console.log("Firebase initialized successfully");
+        } catch (error) {
+          document.getElementById('status').innerHTML = '<span style="color: red;">✗ Firebase initialization failed: ' + error.message + '</span>';
+          console.error("Error initializing Firebase:", error);
+        }
+        
+        // Test form submission
+        document.getElementById('test-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = {
+                type: 'vehicle',
+                vehicleId: form.elements.vehicleId.value,
+                vehicleName: form.elements.vehicleName.value,
+                name: form.elements.name.value,
+                email: form.elements.email.value,
+                phone: form.elements.phone.value,
+                message: form.elements.message.value,
+                financing: form.elements.financing.value,
+                testDrive: form.elements.testDrive.value,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            console.log("Submitting test data:", formData);
+            document.getElementById('result').innerHTML = 'Submitting...';
+            
+            // Save to Firestore
+            firebase.firestore().collection('enquiries').add(formData)
+                .then((docRef) => {
+                    document.getElementById('result').innerHTML = '<span style="color: green;">✓ Form submitted successfully! Document ID: ' + docRef.id + '</span>';
+                    console.log("Document written with ID: ", docRef.id);
+                })
+                .catch((error) => {
+                    document.getElementById('result').innerHTML = '<span style="color: red;">✗ Error submitting form: ' + error.message + '</span>';
+                    console.error("Error adding document: ", error);
+                });
+        });
+    </script>
+</body>
+</html>

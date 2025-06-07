@@ -1,0 +1,75 @@
+/* Firebase Form Handler Styles */
+
+/* Notification styles */
+#form-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  z-index: 10000;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+/* Submit button loading state */
+.form-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Property modal styles (similar to purchase modal) */
+.property-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  overflow-y: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.property-modal .purchase-modal-content {
+  background-color: var(--bg-color);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 1000px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  margin: auto;
+}
+
+/* Loading spinner for submit buttons */
+.form-submit-btn.loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.form-submit-btn.loading::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Google Sheets Integration Test</h1>
+    
+    <div class="test-section">
+        <h2>📊 Test Status</h2>
+        <div id="connection-status" class="status info">
+            Checking Google Sheets connection...
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🚗 Test Vehicle Enquiry</h2>
+        <form id="vehicle-test-form">
+            <div class="form-group">
+                <label for="v-name">Name:</label>
+                <input type="text" id="v-name" name="name" value="John Test" required>
+            </div>
+            <div class="form-group">
+                <label for="v-email">Email:</label>
+                <input type="email" id="v-email" name="email" value="john@test.com" required>
+            </div>
+            <div class="form-group">
+                <label for="v-phone">Phone:</label>
+                <input type="tel" id="v-phone" name="phone" value="+254700123456" required>
+            </div>
+            <div class="form-group">
+                <label for="v-message">Message:</label>
+                <textarea id="v-message" name="message" rows="3">I'm interested in the Toyota Camry 2020 for KES 2,500,000</textarea>
+            </div>
+            <div class="form-group">
+                <label for="v-financing">Financing:</label>
+                <select id="v-financing" name="financing">
+                    <option value="interested">Interested</option>
+                    <option value="not-interested">Not Interested</option>
+                </select>
+            </div>
+            <button type="submit">🚗 Test Vehicle Enquiry</button>
+        </form>
+        <div id="vehicle-result" class="status" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🏠 Test Property Enquiry</h2>
+        <form id="property-test-form">
+            <div class="form-group">
+                <label for="p-name">Name:</label>
+                <input type="text" id="p-name" name="name" value="Jane Test" required>
+            </div>
+            <div class="form-group">
+                <label for="p-email">Email:</label>
+                <input type="email" id="p-email" name="email" value="jane@test.com" required>
+            </div>
+            <div class="form-group">
+                <label for="p-phone">Phone:</label>
+                <input type="tel" id="p-phone" name="phone" value="+254700987654" required>
+            </div>
+            <div class="form-group">
+                <label for="p-message">Message:</label>
+                <textarea id="p-message" name="message" rows="3">I'm interested in the 4-bedroom house in Nairobi for KES 45,000,000</textarea>
+            </div>
+            <div class="form-group">
+                <label for="p-financing">Financing:</label>
+                <select id="p-financing" name="financing">
+                    <option value="interested">Interested</option>
+                    <option value="not-interested">Not Interested</option>
+                </select>
+            </div>
+            <button type="submit">🏠 Test Property Enquiry</button>
+        </form>
+        <div id="property-result" class="status" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Direct Apps Script Test</h2>
+        <p>This test sends data directly to your Google Apps Script to verify the connection.</p>
+        <button id="direct-test-btn">🎯 Test Direct Connection</button>
+        <div id="direct-result" class="status" style="display:none;"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Test Results Log</h2>
+        <div id="test-log" style="font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 4px;">
+            <!-- Test results will appear here -->
+        </div>
+    </div>
+
+    <!-- Include the Google Sheets handler -->
+    <script src="js/google-sheets-handler.js"></script>
+    
+    <script>
+        let testLog = document.getElementById('test-log');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.style.color = type === 'error' ? 'red' : type === 'success' ? 'green' : 'black';
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            testLog.appendChild(logEntry);
+            testLog.scrollTop = testLog.scrollHeight;
+            console.log(message);
+        }
+
+        // Check connection status
+        function checkConnection() {
+            const statusDiv = document.getElementById('connection-status');
+            
+            if (typeof GoogleSheetsHandler !== 'undefined') {
+                statusDiv.className = 'status success';
+                statusDiv.textContent = '✅ Google Sheets Handler loaded successfully!';
+                log('Google Sheets Handler initialized', 'success');
+            } else {
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '❌ Google Sheets Handler not found!';
+                log('Google Sheets Handler not found', 'error');
+            }
+        }
+
+        // Test vehicle enquiry
+        document.getElementById('vehicle-test-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            log('Testing vehicle enquiry...');
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Add vehicle-specific data
+            data.vehicleMake = 'Toyota';
+            data.vehicleModel = 'Camry';
+            data.vehicleYear = '2020';
+            data.vehiclePrice = 'KES 2,500,000';
+            data.vehicleId = 'test-vehicle-1';
+            
+            const resultDiv = document.getElementById('vehicle-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'status info';
+            resultDiv.textContent = 'Sending vehicle enquiry...';
+            
+            try {
+                log('Sending vehicle enquiry data: ' + JSON.stringify(data));
+                const result = await GoogleSheetsHandler.sendVehicleEnquiry(data);
+                
+                resultDiv.className = 'status success';
+                resultDiv.textContent = '✅ Vehicle enquiry sent successfully!';
+                log('Vehicle enquiry sent successfully', 'success');
+            } catch (error) {
+                resultDiv.className = 'status error';
+                resultDiv.textContent = '❌ Error: ' + error.message;
+                log('Vehicle enquiry error: ' + error.message, 'error');
+            }
+        });
+
+        // Test property enquiry
+        document.getElementById('property-test-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            log('Testing property enquiry...');
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Add property-specific data
+            data.propertyType = 'House';
+            data.propertyLocation = 'Nairobi';
+            data.propertyPrice = 'KES 45,000,000';
+            data.bedrooms = '4';
+            data.bathrooms = '3';
+            data.propertyId = 'test-property-1';
+            
+            const resultDiv = document.getElementById('property-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'status info';
+            resultDiv.textContent = 'Sending property enquiry...';
+            
+            try {
+                log('Sending property enquiry data: ' + JSON.stringify(data));
+                const result = await GoogleSheetsHandler.sendPropertyEnquiry(data);
+                
+                resultDiv.className = 'status success';
+                resultDiv.textContent = '✅ Property enquiry sent successfully!';
+                log('Property enquiry sent successfully', 'success');
+            } catch (error) {
+                resultDiv.className = 'status error';
+                resultDiv.textContent = '❌ Error: ' + error.message;
+                log('Property enquiry error: ' + error.message, 'error');
+            }
+        });
+
+        // Direct Apps Script test
+        document.getElementById('direct-test-btn').addEventListener('click', async function() {
+            log('Testing direct connection to Apps Script...');
+            
+            const resultDiv = document.getElementById('direct-result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'status info';
+            resultDiv.textContent = 'Testing direct connection...';
+            
+            const testData = {
+                formType: 'vehicleEnquiry',
+                customerName: 'Direct Test User',
+                email: 'direct@test.com',
+                phone: '+254700000000',
+                vehicleMake: 'Test',
+                vehicleModel: 'Vehicle',
+                vehicleYear: '2023',
+                additionalComments: 'Direct connection test'
+            };
+            
+            try {
+                log('Sending direct test data: ' + JSON.stringify(testData));
+                
+                const response = await fetch(GoogleSheetsHandler.scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                resultDiv.className = 'status success';
+                resultDiv.textContent = '✅ Direct connection test completed! Check your Google Sheet.';
+                log('Direct connection test completed', 'success');
+                log('Response status: ' + response.status);
+                
+            } catch (error) {
+                resultDiv.className = 'status error';
+                resultDiv.textContent = '❌ Direct connection failed: ' + error.message;
+                log('Direct connection error: ' + error.message, 'error');
+            }
+        });
+
+        // Initialize
+        window.addEventListener('load', function() {
+            log('Page loaded, checking connection...');
+            setTimeout(checkConnection, 1000); // Give time for scripts to load
+        });
+    </script>
+</body>
+</html>

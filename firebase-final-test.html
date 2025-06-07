@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Sell Forms Final Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .info { color: blue; }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .form-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .form-container input,
+        .form-container select,
+        .form-container textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+        .form-row > div {
+            flex: 1;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>Firebase Sell Forms Final Integration Test</h1>
+    
+    <div class="test-container">
+        <h2>Connection Status</h2>
+        <div id="connection-status">Checking Firebase connection...</div>
+        <button onclick="testConnection()">Test Connection</button>
+    </div>
+
+    <div class="test-container">
+        <h2>Vehicle Form Test</h2>
+        <div class="form-container">
+            <h3>Test Vehicle Listing Submission</h3>
+            <form id="test-vehicle-sell-form">
+                <div class="form-row">
+                    <div>
+                        <label for="vehicle-make">Make & Model *</label>
+                        <input type="text" id="vehicle-make" name="vehicle-make" value="Test Toyota Camry" required>
+                    </div>
+                    <div>
+                        <label for="vehicle-year">Year *</label>
+                        <select id="vehicle-year" name="vehicle-year" required>
+                            <option value="">Select Year</option>
+                            <option value="2023" selected>2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div>
+                        <label for="vehicle-price">Price (KES) *</label>
+                        <input type="number" id="vehicle-price" name="vehicle-price" value="3500000" required>
+                    </div>
+                    <div>
+                        <label for="vehicle-mileage">Mileage (km) *</label>
+                        <input type="number" id="vehicle-mileage" name="vehicle-mileage" value="25000" required>
+                    </div>
+                </div>
+                
+                <label for="vehicle-description">Description *</label>
+                <textarea id="vehicle-description" name="vehicle-description" required>Test vehicle listing - excellent condition, well maintained, single owner.</textarea>
+                
+                <div class="form-row">
+                    <div>
+                        <label for="seller-name">Your Name *</label>
+                        <input type="text" id="seller-name" name="seller-name" value="Test Seller" required>
+                    </div>
+                    <div>
+                        <label for="seller-phone">Phone *</label>
+                        <input type="tel" id="seller-phone" name="seller-phone" value="+254712345678" required>
+                    </div>
+                </div>
+                
+                <label for="seller-email">Email *</label>
+                <input type="email" id="seller-email" name="seller-email" value="test@example.com" required>
+                
+                <label>
+                    <input type="checkbox" name="seller-terms" checked required>
+                    I accept the terms and conditions *
+                </label>
+                
+                <button type="submit">Submit Test Vehicle Listing</button>
+            </form>
+        </div>
+        <div id="vehicle-test-status"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>Property Form Test</h2>
+        <div class="form-container">
+            <h3>Test Property Listing Submission</h3>
+            <form id="test-property-sell-form">
+                <div class="form-row">
+                    <div>
+                        <label for="property-type">Property Type *</label>
+                        <select id="property-type" name="property-type" required>
+                            <option value="">Select Type</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="house" selected>House</option>
+                            <option value="commercial">Commercial</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="property-price">Price (KES) *</label>
+                        <input type="number" id="property-price" name="property-price" value="15000000" required>
+                    </div>
+                </div>
+                
+                <label for="property-title">Property Title *</label>
+                <input type="text" id="property-title" name="property-title" value="Test Modern Villa in Karen" required>
+                
+                <div class="form-row">
+                    <div>
+                        <label for="property-location">Location *</label>
+                        <input type="text" id="property-location" name="property-location" value="Karen, Nairobi" required>
+                    </div>
+                    <div>
+                        <label for="property-area">Area (sq meters) *</label>
+                        <input type="number" id="property-area" name="property-area" value="300" required>
+                    </div>
+                </div>
+                
+                <label for="property-description">Description *</label>
+                <textarea id="property-description" name="property-description" required>Test property listing - modern villa with swimming pool, 4 bedrooms, excellent location.</textarea>
+                
+                <div class="form-row">
+                    <div>
+                        <label for="property-seller-name">Your Name *</label>
+                        <input type="text" id="property-seller-name" name="property-seller-name" value="Test Seller" required>
+                    </div>
+                    <div>
+                        <label for="property-seller-phone">Phone *</label>
+                        <input type="tel" id="property-seller-phone" name="property-seller-phone" value="+254712345678" required>
+                    </div>
+                </div>
+                
+                <label for="property-seller-email">Email *</label>
+                <input type="email" id="property-seller-email" name="property-seller-email" value="test@example.com" required>
+                
+                <label>
+                    <input type="checkbox" name="property-seller-terms" checked required>
+                    I accept the terms and conditions *
+                </label>
+                
+                <button type="submit">Submit Test Property Listing</button>
+            </form>
+        </div>
+        <div id="property-test-status"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>Database Query Test</h2>
+        <div id="database-query-status"></div>
+        <button onclick="testDatabaseQuery()">Query Recent Listings</button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script src="js/firebase-form-handler.js"></script>
+
+    <script>
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function testConnection() {
+            updateStatus('connection-status', 'Testing connection...', 'info');
+            
+            try {
+                if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                    updateStatus('connection-status', '✓ Firebase SDK loaded and initialized successfully', 'success');
+                    
+                    // Test Firestore specifically
+                    if (firebase.firestore && typeof FormHandler !== 'undefined') {
+                        updateStatus('connection-status', 
+                            '✓ Firebase SDK loaded and initialized successfully<br>' +
+                            '✓ Firestore is available<br>' +
+                            '✓ FormHandler is loaded<br>' +
+                            '✓ Vehicle handler: ' + (typeof FormHandler.handleVehicleSellForm === 'function' ? 'Available' : 'Missing') + '<br>' +
+                            '✓ Property handler: ' + (typeof FormHandler.handlePropertySellForm === 'function' ? 'Available' : 'Missing'), 
+                            'success'
+                        );
+                    } else {
+                        updateStatus('connection-status', '✗ Firestore or FormHandler not available', 'error');
+                    }
+                } else {
+                    updateStatus('connection-status', '✗ Firebase SDK not loaded properly', 'error');
+                }
+            } catch (error) {
+                updateStatus('connection-status', '✗ Error: ' + error.message, 'error');
+            }
+        }
+
+        function testDatabaseQuery() {
+            updateStatus('database-query-status', 'Querying recent listings...', 'info');
+            
+            firebase.firestore().collection('listings')
+                .orderBy('timestamp', 'desc')
+                .limit(5)
+                .get()
+                .then((querySnapshot) => {
+                    let results = `Found ${querySnapshot.size} recent listings:<br><br>`;
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data();
+                        results += `<strong>${data.referenceId || doc.id}</strong>: ${data.type} - ${data.listingType || 'N/A'}<br>`;
+                        if (data.vehicleMake) results += `Vehicle: ${data.vehicleMake}<br>`;
+                        if (data.title) results += `Property: ${data.title}<br>`;
+                        results += `Status: ${data.status || 'N/A'}<br><br>`;
+                    });
+                    updateStatus('database-query-status', results, 'success');
+                })
+                .catch((error) => {
+                    updateStatus('database-query-status', '✗ Query failed: ' + error.message, 'error');
+                });
+        }
+
+        // Test vehicle form submission
+        document.getElementById('test-vehicle-sell-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            updateStatus('vehicle-test-status', 'Submitting test vehicle listing...', 'info');
+            
+            if (typeof FormHandler !== 'undefined' && typeof FormHandler.handleVehicleSellForm === 'function') {
+                try {
+                    // Call the actual form handler
+                    FormHandler.handleVehicleSellForm(e);
+                    
+                    // Monitor for success
+                    const checkSuccess = setInterval(() => {
+                        const notification = document.getElementById('form-notification');
+                        if (notification && notification.textContent.includes('Reference ID:')) {
+                            updateStatus('vehicle-test-status', '✓ Vehicle listing submitted successfully! ' + notification.textContent, 'success');
+                            clearInterval(checkSuccess);
+                        }
+                    }, 1000);
+                    
+                    // Timeout after 10 seconds
+                    setTimeout(() => {
+                        clearInterval(checkSuccess);
+                        if (!document.getElementById('vehicle-test-status').innerHTML.includes('✓')) {
+                            updateStatus('vehicle-test-status', 'Vehicle submission timed out or failed silently', 'error');
+                        }
+                    }, 10000);
+                    
+                } catch (error) {
+                    updateStatus('vehicle-test-status', '✗ Vehicle submission error: ' + error.message, 'error');
+                }
+            } else {
+                updateStatus('vehicle-test-status', '✗ FormHandler.handleVehicleSellForm not available', 'error');
+            }
+        });
+
+        // Test property form submission
+        document.getElementById('test-property-sell-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            updateStatus('property-test-status', 'Submitting test property listing...', 'info');
+            
+            if (typeof FormHandler !== 'undefined' && typeof FormHandler.handlePropertySellForm === 'function') {
+                try {
+                    // Call the actual form handler
+                    FormHandler.handlePropertySellForm(e);
+                    
+                    // Monitor for success
+                    const checkSuccess = setInterval(() => {
+                        const notification = document.getElementById('form-notification');
+                        if (notification && notification.textContent.includes('Reference ID:')) {
+                            updateStatus('property-test-status', '✓ Property listing submitted successfully! ' + notification.textContent, 'success');
+                            clearInterval(checkSuccess);
+                        }
+                    }, 1000);
+                    
+                    // Timeout after 10 seconds
+                    setTimeout(() => {
+                        clearInterval(checkSuccess);
+                        if (!document.getElementById('property-test-status').innerHTML.includes('✓')) {
+                            updateStatus('property-test-status', 'Property submission timed out or failed silently', 'error');
+                        }
+                    }, 10000);
+                    
+                } catch (error) {
+                    updateStatus('property-test-status', '✗ Property submission error: ' + error.message, 'error');
+                }
+            } else {
+                updateStatus('property-test-status', '✗ FormHandler.handlePropertySellForm not available', 'error');
+            }
+        });
+
+        // Auto-run connection test when page loads
+        window.addEventListener('load', function() {
+            setTimeout(testConnection, 1000);
+        });
+    </script>
+</body>
+</html>

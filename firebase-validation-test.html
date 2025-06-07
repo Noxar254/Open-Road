@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Validation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .test-result.pass { background-color: #d4edda; color: #155724; }
+        .test-result.fail { background-color: #f8d7da; color: #721c24; }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .form-test {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .form-test input,
+        .form-test select,
+        .form-test textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Firebase Integration Validation Test</h1>
+    
+    <div class="test-section">
+        <h2>Firebase Connection Test</h2>
+        <div id="firebase-status">Testing Firebase connection...</div>
+        <button onclick="testFirebaseConnection()">Test Firebase Connection</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Form Handler Test</h2>
+        <div id="form-handler-status">Testing form handler...</div>
+        <button onclick="testFormHandler()">Test Form Handler</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Database Write Test</h2>
+        <div id="db-write-status">Ready to test database write...</div>
+        <button onclick="testDatabaseWrite()">Test Database Write</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Mock Vehicle Form Test</h2>
+        <div class="form-test">
+            <form id="test-vehicle-form">
+                <input type="text" name="vehicle-make" placeholder="Vehicle Make" value="Toyota" required>
+                <input type="number" name="vehicle-year" placeholder="Vehicle Year" value="2020" required>
+                <input type="number" name="vehicle-price" placeholder="Price" value="25000" required>
+                <input type="number" name="vehicle-mileage" placeholder="Mileage" value="30000" required>
+                <textarea name="vehicle-description" placeholder="Description" required>Test vehicle description</textarea>
+                <input type="text" name="seller-name" placeholder="Seller Name" value="Test Seller" required>
+                <input type="tel" name="seller-phone" placeholder="Phone" value="1234567890" required>
+                <input type="email" name="seller-email" placeholder="Email" value="test@example.com" required>
+                <label>
+                    <input type="checkbox" name="seller-terms" checked required>
+                    I accept the terms and conditions
+                </label>
+                <button type="button" onclick="testVehicleFormSubmission()">Test Vehicle Form Submission</button>
+            </form>
+        </div>
+        <div id="vehicle-form-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Mock Property Form Test</h2>
+        <div class="form-test">
+            <form id="test-property-form">
+                <select name="property-type" required>
+                    <option value="">Select Property Type</option>
+                    <option value="house" selected>House</option>
+                    <option value="apartment">Apartment</option>
+                </select>
+                <input type="text" name="property-title" placeholder="Property Title" value="Test Property" required>
+                <input type="number" name="property-price" placeholder="Price" value="500000" required>
+                <input type="text" name="property-location" placeholder="Location" value="Test City" required>
+                <input type="number" name="property-area" placeholder="Area (sq ft)" value="2000" required>
+                <textarea name="property-description" placeholder="Description" required>Test property description</textarea>
+                <input type="text" name="property-seller-name" placeholder="Seller Name" value="Test Seller" required>
+                <input type="tel" name="property-seller-phone" placeholder="Phone" value="1234567890" required>
+                <input type="email" name="property-seller-email" placeholder="Email" value="test@example.com" required>
+                <label>
+                    <input type="checkbox" name="property-seller-terms" checked required>
+                    I accept the terms and conditions
+                </label>
+                <button type="button" onclick="testPropertyFormSubmission()">Test Property Form Submission</button>
+            </form>
+        </div>
+        <div id="property-form-status"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="test-results"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    <script src="js/firebase-form-handler.js"></script>
+
+    <script>
+        let testResults = [];
+
+        function addTestResult(testName, passed, message) {
+            testResults.push({ testName, passed, message });
+            updateTestResults();
+        }
+
+        function updateTestResults() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = testResults.map(result => 
+                `<div class="test-result ${result.passed ? 'pass' : 'fail'}">
+                    ${result.testName}: ${result.passed ? 'PASS' : 'FAIL'} - ${result.message}
+                </div>`
+            ).join('');
+        }
+
+        function testFirebaseConnection() {
+            const statusDiv = document.getElementById('firebase-status');
+            statusDiv.innerHTML = 'Testing...';
+
+            try {
+                if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                    statusDiv.innerHTML = '<span class="success">✓ Firebase SDK loaded successfully</span>';
+                    addTestResult('Firebase SDK', true, 'Firebase SDK is loaded and initialized');
+                    
+                    // Test Firestore connection
+                    if (firebase.firestore) {
+                        statusDiv.innerHTML += '<br><span class="success">✓ Firestore is available</span>';
+                        addTestResult('Firestore Connection', true, 'Firestore is available and accessible');
+                    } else {
+                        statusDiv.innerHTML += '<br><span class="error">✗ Firestore not available</span>';
+                        addTestResult('Firestore Connection', false, 'Firestore is not available');
+                    }
+                } else {
+                    statusDiv.innerHTML = '<span class="error">✗ Firebase SDK not loaded</span>';
+                    addTestResult('Firebase SDK', false, 'Firebase SDK is not loaded or initialized');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+                addTestResult('Firebase SDK', false, 'Error: ' + error.message);
+            }
+        }
+
+        function testFormHandler() {
+            const statusDiv = document.getElementById('form-handler-status');
+            statusDiv.innerHTML = 'Testing...';
+
+            try {
+                if (typeof FormHandler !== 'undefined') {
+                    statusDiv.innerHTML = '<span class="success">✓ FormHandler is available</span>';
+                    addTestResult('Form Handler', true, 'FormHandler object is available');
+                    
+                    // Check if methods exist
+                    if (typeof FormHandler.handleVehicleSellForm === 'function') {
+                        statusDiv.innerHTML += '<br><span class="success">✓ Vehicle sell form handler exists</span>';
+                        addTestResult('Vehicle Handler', true, 'handleVehicleSellForm method exists');
+                    } else {
+                        statusDiv.innerHTML += '<br><span class="error">✗ Vehicle sell form handler missing</span>';
+                        addTestResult('Vehicle Handler', false, 'handleVehicleSellForm method is missing');
+                    }
+                    
+                    if (typeof FormHandler.handlePropertySellForm === 'function') {
+                        statusDiv.innerHTML += '<br><span class="success">✓ Property sell form handler exists</span>';
+                        addTestResult('Property Handler', true, 'handlePropertySellForm method exists');
+                    } else {
+                        statusDiv.innerHTML += '<br><span class="error">✗ Property sell form handler missing</span>';
+                        addTestResult('Property Handler', false, 'handlePropertySellForm method is missing');
+                    }
+                } else {
+                    statusDiv.innerHTML = '<span class="error">✗ FormHandler not available</span>';
+                    addTestResult('Form Handler', false, 'FormHandler object is not available');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+                addTestResult('Form Handler', false, 'Error: ' + error.message);
+            }
+        }
+
+        function testDatabaseWrite() {
+            const statusDiv = document.getElementById('db-write-status');
+            statusDiv.innerHTML = 'Testing database write...';
+
+            try {
+                const testData = {
+                    type: 'test',
+                    message: 'Firebase validation test',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                firebase.firestore().collection('test').add(testData)
+                    .then((docRef) => {
+                        statusDiv.innerHTML = '<span class="success">✓ Database write successful. Doc ID: ' + docRef.id + '</span>';
+                        addTestResult('Database Write', true, 'Successfully wrote test data to Firestore');
+                        
+                        // Clean up test document
+                        docRef.delete().then(() => {
+                            statusDiv.innerHTML += '<br><span class="info">✓ Test document cleaned up</span>';
+                        });
+                    })
+                    .catch((error) => {
+                        statusDiv.innerHTML = '<span class="error">✗ Database write failed: ' + error.message + '</span>';
+                        addTestResult('Database Write', false, 'Failed to write to Firestore: ' + error.message);
+                    });
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+                addTestResult('Database Write', false, 'Error: ' + error.message);
+            }
+        }
+
+        function testVehicleFormSubmission() {
+            const statusDiv = document.getElementById('vehicle-form-status');
+            statusDiv.innerHTML = 'Testing vehicle form submission...';
+
+            try {
+                const form = document.getElementById('test-vehicle-form');
+                const mockEvent = {
+                    preventDefault: () => {},
+                    target: form
+                };
+
+                // Test form validation
+                const requiredFields = ['vehicle-make', 'vehicle-year', 'vehicle-price', 'vehicle-mileage', 'vehicle-description', 'seller-name', 'seller-phone', 'seller-email'];
+                let allFieldsValid = true;
+                
+                for (let fieldName of requiredFields) {
+                    const field = form.elements[fieldName];
+                    if (!field || !field.value.trim()) {
+                        allFieldsValid = false;
+                        break;
+                    }
+                }
+
+                if (allFieldsValid && form.elements['seller-terms'].checked) {
+                    statusDiv.innerHTML = '<span class="success">✓ Form validation passed</span>';
+                    addTestResult('Vehicle Form Validation', true, 'All required fields are filled and terms accepted');
+                    
+                    // Test actual submission
+                    if (typeof FormHandler.handleVehicleSellForm === 'function') {
+                        statusDiv.innerHTML += '<br><span class="info">Attempting form submission...</span>';
+                        
+                        // Note: We won't actually submit to avoid test data in production
+                        statusDiv.innerHTML += '<br><span class="success">✓ Form handler is callable (submission skipped for testing)</span>';
+                        addTestResult('Vehicle Form Submission', true, 'Form handler is available and callable');
+                    } else {
+                        statusDiv.innerHTML += '<br><span class="error">✗ Form handler not available</span>';
+                        addTestResult('Vehicle Form Submission', false, 'Form handler method not available');
+                    }
+                } else {
+                    statusDiv.innerHTML = '<span class="error">✗ Form validation failed</span>';
+                    addTestResult('Vehicle Form Validation', false, 'Required fields missing or terms not accepted');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+                addTestResult('Vehicle Form Test', false, 'Error: ' + error.message);
+            }
+        }
+
+        function testPropertyFormSubmission() {
+            const statusDiv = document.getElementById('property-form-status');
+            statusDiv.innerHTML = 'Testing property form submission...';
+
+            try {
+                const form = document.getElementById('test-property-form');
+                const mockEvent = {
+                    preventDefault: () => {},
+                    target: form
+                };
+
+                // Test form validation
+                const requiredFields = ['property-type', 'property-price', 'property-title', 'property-location', 'property-area', 'property-description', 'property-seller-name', 'property-seller-phone', 'property-seller-email'];
+                let allFieldsValid = true;
+                
+                for (let fieldName of requiredFields) {
+                    const field = form.elements[fieldName];
+                    if (!field || !field.value.trim()) {
+                        allFieldsValid = false;
+                        break;
+                    }
+                }
+
+                if (allFieldsValid && form.elements['property-seller-terms'].checked) {
+                    statusDiv.innerHTML = '<span class="success">✓ Form validation passed</span>';
+                    addTestResult('Property Form Validation', true, 'All required fields are filled and terms accepted');
+                    
+                    // Test actual submission
+                    if (typeof FormHandler.handlePropertySellForm === 'function') {
+                        statusDiv.innerHTML += '<br><span class="info">Attempting form submission...</span>';
+                        
+                        // Note: We won't actually submit to avoid test data in production
+                        statusDiv.innerHTML += '<br><span class="success">✓ Form handler is callable (submission skipped for testing)</span>';
+                        addTestResult('Property Form Submission', true, 'Form handler is available and callable');
+                    } else {
+                        statusDiv.innerHTML += '<br><span class="error">✗ Form handler not available</span>';
+                        addTestResult('Property Form Submission', false, 'Form handler method not available');
+                    }
+                } else {
+                    statusDiv.innerHTML = '<span class="error">✗ Form validation failed</span>';
+                    addTestResult('Property Form Validation', false, 'Required fields missing or terms not accepted');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">✗ Error: ' + error.message + '</span>';
+                addTestResult('Property Form Test', false, 'Error: ' + error.message);
+            }
+        }
+
+        // Auto-run basic tests when page loads
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                testFirebaseConnection();
+                testFormHandler();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

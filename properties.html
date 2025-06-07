@@ -770,12 +770,102 @@
                 <div class="gallery-actions">
                     <button class="gallery-btn primary"><i class="fas fa-shopping-cart"></i> Buy Now</button>
                     <button class="gallery-btn secondary"><i class="fas fa-phone"></i> Contact Seller</button>
+                </div>            </div>
+        </div>
+    </div>
+    
+    <!-- Property Modal -->
+    <div class="property-modal" id="property-modal">
+        <div class="purchase-modal-content">
+            <div class="purchase-modal-header">
+                <h3 class="modal-title" id="property-modal-title">Property Purchase Enquiry</h3>
+                <button class="property-modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="purchase-modal-body">
+                <div class="purchase-modal-left">
+                    <img src="" alt="Property" class="purchase-modal-image" id="property-modal-image">
+                    <div class="purchase-specs">
+                        <h4 class="purchase-specs-title">Property Details</h4>
+                        <div class="spec-row">
+                            <span class="spec-label">Type</span>
+                            <span class="spec-value" id="spec-property-type">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Size</span>
+                            <span class="spec-value" id="spec-property-size">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Bedrooms</span>
+                            <span class="spec-value" id="spec-property-bedrooms">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Bathrooms</span>
+                            <span class="spec-value" id="spec-property-bathrooms">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Location</span>
+                            <span class="spec-value" id="spec-property-location">-</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">Year Built</span>
+                            <span class="spec-value" id="spec-property-year">-</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="purchase-modal-right">
+                    <div class="enquiry-form">
+                        <h4 class="enquiry-form-title">Send Enquiry</h4>
+                        <form id="property-enquiry-form" class="property-enquiry-form">
+                            <input type="hidden" id="enquiry-property-id" name="propertyId">
+                            <input type="hidden" id="enquiry-property-name" name="propertyName">
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-name">Full Name*</label>
+                                <input type="text" id="property-enquiry-name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-email">Email Address*</label>
+                                <input type="email" id="property-enquiry-email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-phone">Phone Number*</label>
+                                <input type="tel" id="property-enquiry-phone" name="phone" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-message">Message*</label>
+                                <textarea id="property-enquiry-message" name="message" rows="4" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-financing">Financing Option</label>
+                                <select id="property-enquiry-financing" name="financing">
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="property-enquiry-visit">Property Visit</label>
+                                <select id="property-enquiry-visit" name="visitRequest">
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="form-submit-btn">Submit Enquiry</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="js/script.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>    <script src="js/firebase-form-handler.js"></script>
+    <script src="js/google-sheets-handler.js"></script>
+    <script src="js/form-fix.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Filter Modal
