@@ -878,9 +878,36 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Set the form hidden fields
         document.getElementById('enquiry-vehicle-id').value = vehicleId;
-        document.getElementById('enquiry-vehicle-name').value = vehicleName;
-          // Set vehicle specs based on vehicle type
-        if (vehicleId.includes('vehicle-1')) { // Toyota TX PRADO
+        document.getElementById('enquiry-vehicle-name').value = vehicleName;        // Set vehicle specs based on vehicle type
+        if (vehicleId === 'kdq-vehicle') { // Mercedes Benz KDQ GLC 250
+            document.getElementById('spec-engine').textContent = '2000cc Petrol-Turbocharged';
+            document.getElementById('spec-transmission').textContent = '9-Speed Automatic';
+            document.getElementById('spec-drive').textContent = 'All-Wheel Drive (4MATIC)';
+            document.getElementById('spec-mileage').textContent = '95,000 km';
+            document.getElementById('spec-horsepower').textContent = '211 hp';
+            document.getElementById('spec-fuel').textContent = 'Petrol-Turbocharged';
+            document.getElementById('spec-year').textContent = '2016';
+            
+            // Show KDQ premium features
+            const kdqFeatures = document.getElementById('kdq-features');
+            if (kdqFeatures) {
+                kdqFeatures.style.display = 'block';
+            }
+        } else if (vehicleId === 'kcy-vehicle') { // Mazda Demio KCY
+            document.getElementById('spec-engine').textContent = '1300cc Petrol';
+            document.getElementById('spec-transmission').textContent = 'Automatic Transmission';
+            document.getElementById('spec-drive').textContent = 'Front-Wheel Drive';
+            document.getElementById('spec-mileage').textContent = 'Low Mileage';
+            document.getElementById('spec-horsepower').textContent = '90 hp';
+            document.getElementById('spec-fuel').textContent = 'Petrol';
+            document.getElementById('spec-year').textContent = '2013';
+            
+            // Hide premium features for regular vehicles
+            const kdqFeatures = document.getElementById('kdq-features');
+            if (kdqFeatures) {
+                kdqFeatures.style.display = 'none';
+            }
+        } else if (vehicleId.includes('vehicle-1')) { // Toyota TX PRADO
             document.getElementById('spec-engine').textContent = '2.7L Petrol';
             document.getElementById('spec-transmission').textContent = '6-Speed Automatic';
             document.getElementById('spec-drive').textContent = '4x4';

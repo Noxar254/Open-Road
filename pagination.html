@@ -311,48 +311,61 @@
         <section class="car-listings">
             <div class="container">
                 <!-- Page 1 Cars -->
-                <div class="cards-container" id="page-1-cars">
-                    <!-- Car 1 -->
-                    <div class="card">
+                <div class="cards-container" id="page-1-cars">                    <!-- Car 1 -->
+                    <div class="card" data-id="kdq-vehicle" data-type="suv" data-make="mercedes" data-year="2016" data-price="4600000">
                         <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80" alt="Mercedes Benz S-Class">
-                            <div class="card-tag">New</div>
-                        </div>
-                        <div class="card-content">
-                            <h3>Mercedes Benz S-Class</h3>
+                            <img src="images/kdq.jpg" alt="Mercedes Benz KDQ GLC 250">
+                            <div class="card-tag">🔥 Premium</div>
+                        </div>                        <div class="card-content">
+                            <h3>Mercedes Benz KDQ | GLC 250 | 2016</h3>
                             <p class="location"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
-                            <p class="price">KES 15,500,000</p>
+                            <p class="price">KES 4,600,000</p>
                             <div class="card-details">
-                                <span><i class="fas fa-calendar-alt"></i> 2023</span>
-                                <span><i class="fas fa-tachometer-alt"></i> 3,500 km</span>
-                                <span><i class="fas fa-gas-pump"></i> Petrol</span>
+                                <span><i class="fas fa-calendar-alt"></i> 2016</span>
+                                <span><i class="fas fa-tachometer-alt"></i> 95,000 km</span>
+                                <span><i class="fas fa-gas-pump"></i> 2000cc Petrol-Turbocharged</span>
+                                <span><i class="fas fa-cogs"></i> 9-Speed Automatic</span>
+                                <span><i class="fas fa-car"></i> Double SunRoof | Leather Interior</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn-view"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-view" data-target="kdq-vehicle"><i class="fas fa-eye"></i> View</button>
                                 <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Car 2 -->
-                    <div class="card">
+                        <div class="hidden-gallery">
+                            <img src="images/kdq.jpg" alt="Mercedes Benz KDQ - Main View">
+                            <img src="images/kdq smart back.jpg" alt="Mercedes Benz KDQ - Rear View">
+                            <img src="images/kdq dash.jpg" alt="Mercedes Benz KDQ - Dashboard">
+                            <img src="images/kdq back.jpg" alt="Mercedes Benz KDQ - Back View">
+                            <img src="images/kdq  engine.jpg" alt="Mercedes Benz KDQ - Engine">
+                        </div>
+                    </div>                    <!-- Car 2 -->
+                    <div class="card" data-id="kcy-vehicle" data-type="hatchback" data-make="mazda" data-year="2013" data-price="660000">
                         <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Range Rover Sport">
-                            <div class="card-tag">Locally Used</div>
+                            <img src="images/kcy.jpg" alt="Mazda Demio KCY">
+                            <div class="card-tag">🔥 Locally Used</div>
                         </div>
                         <div class="card-content">
-                            <h3>Range Rover Sport</h3>
-                            <p class="location"><i class="fas fa-map-marker-alt"></i> Mombasa, Kenya</p>
-                            <p class="price">KES 13,900,000</p>
+                            <h3>MAZDA DEMIO | 2013</h3>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+                            <p class="price">KES 660,000</p>
                             <div class="card-details">
-                                <span><i class="fas fa-calendar-alt"></i> 2024</span>
-                                <span><i class="fas fa-tachometer-alt"></i> 1,200 km</span>
-                                <span><i class="fas fa-gas-pump"></i> Diesel</span>
+                                <span><i class="fas fa-calendar-alt"></i> 2013</span>
+                                <span><i class="fas fa-tachometer-alt"></i> Low Mileage</span>
+                                <span><i class="fas fa-gas-pump"></i> 1300cc Automatic</span>
+                                <span><i class="fas fa-cogs"></i> New Tyres | Ready Documents</span>
                             </div>
                             <div class="card-actions">
-                                <button class="btn-view"><i class="fas fa-eye"></i> View</button>
+                                <button class="btn-view" data-target="kcy-vehicle"><i class="fas fa-eye"></i> View</button>
                                 <button class="btn-buy"><i class="fas fa-shopping-cart"></i> Buy Now</button>
                             </div>
+                        </div>
+                        <div class="hidden-gallery">
+                            <img src="images/kcy.jpg" alt="Mazda Demio KCY - Main View">
+                            <img src="images/kcy 1.jpg" alt="Mazda Demio KCY - Side View">
+                            <img src="images/kcy 2.jpg" alt="Mazda Demio KCY - Front View">
+                            <img src="images/kcy dash.jpg" alt="Mazda Demio KCY - Dashboard">
+                            <img src="images/kcy engine.jpg" alt="Mazda Demio KCY - Engine">
                         </div>
                     </div>
 
@@ -876,38 +889,54 @@
                 <h3 class="modal-title" id="purchase-modal-title">Vehicle Purchase Enquiry</h3>
                 <button class="purchase-modal-close"><i class="fas fa-times"></i></button>
             </div>
-            <div class="purchase-modal-body">
-                <div class="purchase-modal-left">
+            <div class="purchase-modal-body">                <div class="purchase-modal-left">
                     <img src="" alt="Vehicle" class="purchase-modal-image" id="purchase-modal-image">
                     <div class="purchase-specs">
-                        <h4 class="purchase-specs-title">Vehicle Specifications</h4>
-                        <div class="spec-row">
+                        <h4 class="purchase-specs-title">Vehicle Specifications</h4>                        <div class="spec-row">
                             <span class="spec-label">Engine</span>
-                            <span class="spec-value" id="spec-engine">-</span>
+                            <span class="spec-value" id="spec-engine">2000cc Petrol-Turbocharged</span>
                         </div>
                         <div class="spec-row">
                             <span class="spec-label">Transmission</span>
-                            <span class="spec-value" id="spec-transmission">-</span>
+                            <span class="spec-value" id="spec-transmission">9-Speed Automatic</span>
                         </div>
                         <div class="spec-row">
                             <span class="spec-label">Drive</span>
-                            <span class="spec-value" id="spec-drive">-</span>
+                            <span class="spec-value" id="spec-drive">All-Wheel Drive (4MATIC)</span>
                         </div>
                         <div class="spec-row">
                             <span class="spec-label">Mileage</span>
-                            <span class="spec-value" id="spec-mileage">-</span>
+                            <span class="spec-value" id="spec-mileage">95,000 km</span>
                         </div>
                         <div class="spec-row">
                             <span class="spec-label">Horsepower</span>
-                            <span class="spec-value" id="spec-horsepower">-</span>
+                            <span class="spec-value" id="spec-horsepower">211 hp</span>
                         </div>
                         <div class="spec-row">
                             <span class="spec-label">Fuel Type</span>
-                            <span class="spec-value" id="spec-fuel">-</span>
+                            <span class="spec-value" id="spec-fuel">Petrol-Turbocharged</span>
                         </div>
                         <div class="spec-row">
                             <span class="spec-label">Year</span>
-                            <span class="spec-value" id="spec-year">-</span>
+                            <span class="spec-value" id="spec-year">2016</span>
+                        </div>
+                        <div id="kdq-features" style="margin-top: 20px; display: block;">
+                            <h4 class="purchase-specs-title">Premium Features</h4>                            <ul style="list-style-type: none; padding: 0; margin: 10px 0;">
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Double SunRoof</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Leather Interior</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Anti-Lock Braking System</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Adjustable Speed Limiter</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Blind Spot Monitoring</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Cruise Control Intelligent/Active</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Electronic Brake Force Distribution</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Hill Holder</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Engine Immobiliser</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Lane Keeping Assist</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Park Assist</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Speed Sensing Auto Door Lock</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Traction Control System</li>
+                                <li style="padding: 5px 0;"><i class="fas fa-check" style="color: #4CAF50; margin-right: 8px;"></i>Daytime Running Lights - LED</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
