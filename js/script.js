@@ -908,21 +908,19 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('spec-mileage').textContent = vehicleMileage;
             document.getElementById('spec-horsepower').textContent = '120 hp';
             document.getElementById('spec-fuel').textContent = vehicleFuel;
-            document.getElementById('spec-year').textContent = vehicleYear;
-        } else if (vehicleId.includes('vehicle-5')) { // Toyota Hilux
-            document.getElementById('spec-engine').textContent = '2.8L Diesel';
-            document.getElementById('spec-transmission').textContent = '6-Speed Automatic';
-            document.getElementById('spec-drive').textContent = '4x4';
+            document.getElementById('spec-year').textContent = vehicleYear;        } else if (vehicleId.includes('vehicle-5')) { // 2019 Porsche Cayenne
+            document.getElementById('spec-engine').textContent = '3.0L V6 Turbocharged Petrol Engine';
+            document.getElementById('spec-transmission').textContent = '8-Speed Tiptronic S Automatic';
+            document.getElementById('spec-drive').textContent = 'All-Wheel Drive (AWD)';
             document.getElementById('spec-mileage').textContent = vehicleMileage;
-            document.getElementById('spec-horsepower').textContent = '201 hp';
+            document.getElementById('spec-horsepower').textContent = '335 hp';
             document.getElementById('spec-fuel').textContent = vehicleFuel;
-            document.getElementById('spec-year').textContent = vehicleYear;
-        } else if (vehicleId.includes('vehicle-6')) { // Toyota Camry
-            document.getElementById('spec-engine').textContent = '2.5L Hybrid';
-            document.getElementById('spec-transmission').textContent = 'CVT';
-            document.getElementById('spec-drive').textContent = 'Front-Wheel Drive';
+            document.getElementById('spec-year').textContent = vehicleYear;        } else if (vehicleId.includes('vehicle-6')) { // 2006 Toyota Land Cruiser Prado TX J120
+            document.getElementById('spec-engine').textContent = '2700cc Petrol Engine';
+            document.getElementById('spec-transmission').textContent = 'Automatic Transmission';
+            document.getElementById('spec-drive').textContent = '4WD System';
             document.getElementById('spec-mileage').textContent = vehicleMileage;
-            document.getElementById('spec-horsepower').textContent = '208 hp';
+            document.getElementById('spec-horsepower').textContent = '163 hp';
             document.getElementById('spec-fuel').textContent = vehicleFuel;
             document.getElementById('spec-year').textContent = vehicleYear;
         } else {
