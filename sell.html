@@ -61,70 +61,67 @@
             background-size: cover;
             background-position: center;
             overflow: hidden;
-        }
-
-        .page-header::before {
+        }        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            background-color: #1a1a1a; /* fallback color */
+            filter: brightness(0.8) contrast(1.1) saturate(1.2);
+        }.page-header::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
-            z-index: 1;
-        }
-
-        .page-header::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 2px,
-                rgba(255,255,255,0.03) 2px,
-                rgba(255,255,255,0.03) 4px
+            background: linear-gradient(
+                135deg, 
+                rgba(0,0,0,0.4) 0%, 
+                rgba(0,0,0,0.3) 50%, 
+                rgba(0,0,0,0.5) 100%
             );
-            animation: floatPattern 20s linear infinite;
-            z-index: 1;
-        }
-
-        @keyframes floatPattern {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .page-header .container {
-            position: relative;
             z-index: 2;
+        }.page-header::after {
+            display: none;
+        }        .page-header .container {
+            position: relative;
+            z-index: 3;
             text-align: center;
-        }
-
-        .page-header h1 {
+        }        .page-header h1 {
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-            background: linear-gradient(45deg, #ffffff, #f0f0f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite alternate;
+            text-shadow: 3px 3px 12px rgba(0,0,0,0.8), 1px 1px 4px rgba(0,0,0,0.6);
+            color: white;
+            position: relative;
         }
 
-        @keyframes titleGlow {
-            from { filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
-            to { filter: drop-shadow(0 0 20px rgba(255,255,255,0.5)); }
-        }
-
-        .breadcrumbs {
+        .page-header h1::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, transparent 70%);
+            z-index: -1;
+            border-radius: 20px;
+        }        .breadcrumbs {
             font-size: 1.1rem;
             opacity: 0.9;
             font-weight: 500;
             letter-spacing: 0.5px;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.2);
+            padding: 8px 16px;
+            border-radius: 25px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: inline-block;
         }
 
         .breadcrumbs a {
@@ -230,9 +227,7 @@
             overflow: hidden;
             transform: translateY(0);
             box-shadow: 0 10px 30px var(--shadow-light);
-        }
-
-        .sell-tab::before {
+        }        .sell-tab::before {
             content: '';
             position: absolute;
             top: 0;
@@ -242,12 +237,16 @@
             background: var(--gradient-primary);
             transition: left var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1;
+            opacity: 0.05;
+        }
+
+        .sell-tab:hover::before {
+            left: 0;
             opacity: 0.1;
         }
 
-        .sell-tab:hover::before,
         .sell-tab.active::before {
-            left: 0;
+            display: none;
         }
 
         .sell-tab:hover {
@@ -303,9 +302,7 @@
             font-size: 1rem;
             line-height: 1.5;
             font-weight: 500;
-        }
-
-        .sell-tab:hover {
+        }        .sell-tab:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 40px var(--shadow-medium);
             border-color: var(--primary-color);
@@ -313,7 +310,7 @@
 
         .sell-tab.active {
             border-color: var(--primary-color);
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: var(--primary-color);
             color: white;
             transform: translateY(-4px);
             box-shadow: 0 15px 30px var(--shadow-medium);
@@ -323,27 +320,47 @@
             display: none;
         }
 
+        .sell-tab.active i {
+            color: white;
+        }
+
+        .sell-tab.active h3 {
+            color: white;
+        }
+
+        .sell-tab.active p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         .sell-tab > * {
             position: relative;
             z-index: 2;
-        }
-
-        .sell-tab i {
+        }        .sell-tab i {
             display: block;
             font-size: 2.5rem;
             margin-bottom: 15px;
-            color: inherit;
-            transition: transform 0.3s ease;
+            color: var(--accent-color);
+            transition: all 0.3s ease;
         }
 
         .sell-tab:hover i {
             transform: scale(1.1);
+            color: var(--primary-color);
+        }
+
+        .sell-tab.active i {
+            color: white !important;
         }
 
         .sell-tab h3 {
             margin: 0 0 8px;
             font-size: 1.4rem;
             font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sell-tab.active h3 {
+            color: white !important;
         }
 
         .sell-tab p {
@@ -351,6 +368,12 @@
             font-size: 0.9rem;
             opacity: 0.8;
             line-height: 1.4;
+            color: var(--text-secondary);
+        }
+
+        .sell-tab.active p {
+            color: rgba(255, 255, 255, 0.9) !important;
+            opacity: 1;
         }
 
         /* Enhanced Form Container */
@@ -843,9 +866,7 @@
                 width: 100%;
                 margin: 5px 0;
             }
-        }
-
-        @media (max-width: 480px) {
+        }        @media (max-width: 480px) {
             .container {
                 padding: 0 15px;
             }
@@ -856,6 +877,10 @@
 
             .page-header h1 {
                 font-size: 1.8rem;
+            }
+
+            .hero-video {
+                object-position: center center;
             }
 
             .intro-section {
@@ -883,16 +908,44 @@
             .file-upload {
                 padding: 25px 10px;
             }
-        }
-
-        /* Enhanced Dark Mode Support */
+        }        /* Enhanced Dark Mode Support */
         .dark-mode .sell-tab {
             border-color: var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-primary);
+        }
+
+        .dark-mode .sell-tab h3 {
+            color: var(--text-primary);
+        }
+
+        .dark-mode .sell-tab p {
+            color: var(--text-secondary);
+        }
+
+        .dark-mode .sell-tab i {
+            color: var(--accent-color);
+        }
+
+        .dark-mode .sell-tab:hover {
+            border-color: var(--primary-color);
+            background: var(--card-bg);
+        }
+
+        .dark-mode .sell-tab:hover i {
+            color: var(--primary-color);
         }
 
         .dark-mode .sell-tab.active {
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-            color: #121212;
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .dark-mode .sell-tab.active i,
+        .dark-mode .sell-tab.active h3,
+        .dark-mode .sell-tab.active p {
+            color: white !important;
         }
 
         .dark-mode .form-step::before {
@@ -1025,14 +1078,18 @@
     </div>
 
     <main>        <!-- Page Header -->
-        <section class="page-header" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1673&q=80'); background-size: cover; background-position: center; color: #fff;">
+        <section class="page-header" style="color: #fff;">
+            <video autoplay muted loop class="hero-video">
+                <source src="images/car vide.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
             <div class="container">
                 <h1>Sell With Us</h1>
                 <div class="breadcrumbs">
                     <a href="index.html">Home</a> / <span>Sell</span>
                 </div>
             </div>
-        </section>        <!-- Sell Content Section -->
+        </section><!-- Sell Content Section -->
         <section class="container">
             <!-- Intro Section -->
             <div class="intro-section">
