@@ -65,7 +65,7 @@
                     <span class="logo-text">ORM</span>
                 </a>
             </div>
-            <button id="mobile-menu-close"><i class="fas fa-times"></i></button>
+            <button id="mobile-menu-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
         </div>
         <div class="mobile-menu-content">
             <ul class="mobile-nav">
@@ -142,7 +142,7 @@
                     </div>
                 </div>
 
-                <div class="search-fields" id="real-estate-fields" style="display: none;">
+                <div class="search-fields hidden" id="real-estate-fields">
                     <div class="field">
                         <label for="property-type">Type</label>
                         <select id="property-type">
@@ -423,17 +423,16 @@
                     <div class="stat-item">
                         <h3>10+</h3>
                         <p>Years Experience</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>500+</</h3>
+                    </div>                    <div class="stat-item">
+                        <h3>500+</h3>
                         <p>Vehicles Sold</p>
                     </div>
                     <div class="stat-item">
-                        <h3>300+</</h3>
+                        <h3>300+</h3>
                         <p>Properties Sold</p>
                     </div>
                     <div class="stat-item">
-                        <h3>98%</</h3>
+                        <h3>98%</h3>
                         <p>Client Satisfaction</p>
                     </div>
                 </div>
@@ -455,7 +454,7 @@
                                 <h3><i class="fas fa-map-marker-alt pulse"></i> Open Road Market</h3>
                                 <p>Embakasi Fedha Stage, Nairobi, Kenya</p>
                                 <div class="map-actions">
-                                    <a href="https://maps.app.goo.gl/4PGuXUSR93wPJjKX9" target="_blank" class="btn-directions">
+                                    <a href="https://maps.app.goo.gl/4PGuXUSR93wPJjKX9" target="_blank" rel="noopener" class="btn-directions">
                                         <i class="fas fa-directions"></i> Get Directions
                                     </a>
                                     <a href="tel:+254721264140" class="btn-call">
@@ -484,12 +483,11 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>Open Road Market</h3>
-                    <p>Luxury vehicles and prime real estate for discerning clients in Kenya.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <p>Luxury vehicles and prime real estate for discerning clients in Kenya.</p>                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -514,7 +512,7 @@
                     <h3>Newsletter</h3>
                     <p>Subscribe to receive updates on our latest listings.</p>                    <form class="newsletter-form" id="newsletter-form">
                         <input type="email" name="email" placeholder="Your Email" required>
-                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        <button type="submit" aria-label="Subscribe to newsletter"><i class="fas fa-paper-plane"></i></button>
                     </form>
                 </div>
             </div>
@@ -528,12 +526,11 @@
         <div class="gallery-content">
             <div class="gallery-header">
                 <h3 class="gallery-title">Item Details</h3>
-                <button class="gallery-close"><i class="fas fa-times"></i></button>
+                <button class="gallery-close" aria-label="Close gallery"><i class="fas fa-times"></i></button>
             </div>
-            <div class="gallery-main">
-                <button class="gallery-arrow prev"><i class="fas fa-chevron-left"></i></button>
+            <div class="gallery-main">                <button class="gallery-arrow prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
                 <img src="" alt="Gallery Image" class="gallery-image">
-                <button class="gallery-arrow next"><i class="fas fa-chevron-right"></i></button>
+                <button class="gallery-arrow next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
             </div>
             <div class="gallery-thumbnails"></div>
             <div class="gallery-info">
@@ -548,13 +545,13 @@
     </div>
 
     <div class="fab-container">
-        <button class="fab-button main-fab"><i class="fas fa-comments"></i></button>
+        <button class="fab-button main-fab" aria-label="Contact options"><i class="fas fa-comments"></i></button>
         <div class="fab-options">
             <a href="tel:+254721264140" class="fab-option call-fab" aria-label="Call us">
                 <i class="fas fa-phone"></i>
                 <span class="fab-label">Call</span>
             </a>
-            <a href="https://wa.me/254721264140" target="_blank" class="fab-option whatsapp-fab" aria-label="WhatsApp">
+            <a href="https://wa.me/254721264140" target="_blank" rel="noopener" class="fab-option whatsapp-fab" aria-label="WhatsApp">
                 <i class="fab fa-whatsapp"></i>
                 <span class="fab-label">WhatsApp</span>
             </a>
@@ -566,7 +563,7 @@
         <div class="purchase-modal-content">
             <div class="purchase-modal-header">
                 <h3 class="modal-title" id="purchase-modal-title">Vehicle Purchase Enquiry</h3>
-                <button class="purchase-modal-close"><i class="fas fa-times"></i></button>
+                <button class="purchase-modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
             </div>
             <div class="purchase-modal-body">
                 <div class="purchase-modal-left">
@@ -658,7 +655,7 @@
         <div class="purchase-modal-content">
             <div class="purchase-modal-header">
                 <h3 class="modal-title" id="property-modal-title">Property Purchase Enquiry</h3>
-                <button class="property-modal-close"><i class="fas fa-times"></i></button>
+                <button class="property-modal-close" aria-label="Close modal"><i class="fas fa-times"></i></button>
             </div>
             <div class="purchase-modal-body">
                 <div class="purchase-modal-left">
