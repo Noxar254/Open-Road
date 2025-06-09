@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Subscription Test - Open Road Market</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .test-header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .newsletter-form button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .newsletter-form button:hover {
+            background: #2980b9;
+        }
+        .status-box {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .status-info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #bbdefb;
+        }
+        .status-success {
+            background: #e8f5e8;
+            color: #388e3c;
+            border: 1px solid #c8e6c9;
+        }
+        .status-error {
+            background: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #ffcdd2;
+        }
+        .test-instructions {
+            background: #fff3e0;
+            border: 1px solid #ffcc02;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .test-instructions h3 {
+            margin-top: 0;
+            color: #f57c00;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>📧 Newsletter Subscription Test</h1>
+            <p>Test the newsletter subscription functionality for Open Road Market</p>
+        </div>
+
+        <div class="test-instructions">
+            <h3>🔧 Test Instructions</h3>
+            <ol>
+                <li>Enter a valid email address in the form below</li>
+                <li>Click "Subscribe" to test the submission</li>
+                <li>Check Firebase Console (Firestore → newsletters collection) for the subscription</li>
+                <li>Check Google Sheets (if configured) for the subscription record</li>
+                <li>Verify you receive a success notification</li>
+            </ol>
+        </div>
+
+        <div id="status" class="status-box status-info">
+            Ready to test newsletter subscription...
+        </div>
+
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #dee2e6;">
+            <h3>📝 Newsletter Subscription Form</h3>
+            <form class="newsletter-form" id="newsletter-test-form">
+                <input type="email" name="email" placeholder="Enter your email address" required>
+                <button type="submit">
+                    <i class="fas fa-paper-plane"></i> Subscribe
+                </button>
+            </form>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <h3>🔍 Form Debug Information</h3>
+            <div id="debug-info" style="background: #f8f9fa; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px;">
+                Firebase Status: <span id="firebase-status">Checking...</span><br>
+                Form Handler Status: <span id="form-handler-status">Checking...</span><br>
+                Google Sheets Handler: <span id="sheets-status">Checking...</span><br>
+            </div>
+        </div>
+    </div>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+    
+    <!-- Main scripts -->
+    <script src="js/firebase-form-handler.js"></script>
+    <script src="js/google-sheets-handler.js"></script>
+
+    <script>
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.className = `status-box status-${type}`;
+            status.innerHTML = message;
+        }
+
+        // Check system status
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('🔄 Newsletter subscription test page loaded. Checking systems...', 'info');
+            
+            // Check Firebase
+            setTimeout(() => {
+                if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+                    document.getElementById('firebase-status').innerHTML = '<span style="color: green;">✅ Connected</span>';
+                } else {
+                    document.getElementById('firebase-status').innerHTML = '<span style="color: red;">❌ Not Connected</span>';
+                }
+            }, 1000);
+
+            // Check Form Handler
+            setTimeout(() => {
+                if (typeof FormHandler !== 'undefined') {
+                    document.getElementById('form-handler-status').innerHTML = '<span style="color: green;">✅ Loaded</span>';
+                    
+                    // Initialize form handler
+                    FormHandler.init();
+                } else {
+                    document.getElementById('form-handler-status').innerHTML = '<span style="color: red;">❌ Not Loaded</span>';
+                }
+            }, 1500);
+
+            // Check Google Sheets Handler
+            setTimeout(() => {
+                if (typeof GoogleSheetsHandler !== 'undefined') {
+                    document.getElementById('sheets-status').innerHTML = '<span style="color: green;">✅ Loaded</span>';
+                } else {
+                    document.getElementById('sheets-status').innerHTML = '<span style="color: orange;">⚠️ Not Loaded</span>';
+                }
+            }, 2000);
+
+            setTimeout(() => {
+                updateStatus('✅ System check complete. Newsletter subscription ready for testing!', 'success');
+            }, 2500);
+        });
+
+        // Custom form submission handler for testing
+        document.getElementById('newsletter-test-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            updateStatus('🔄 Testing newsletter subscription...', 'info');
+            
+            const email = this.querySelector('input[name="email"]').value;
+            console.log('Testing newsletter subscription for:', email);
+            
+            // Let the FormHandler handle the submission
+            if (typeof FormHandler !== 'undefined' && FormHandler.handleNewsletterSubscription) {
+                FormHandler.handleNewsletterSubscription(e);
+            } else {
+                updateStatus('❌ FormHandler not available or newsletter handler not found', 'error');
+            }
+        });
+
+        // Listen for notifications from FormHandler
+        const originalShowNotification = window.FormHandler?.showNotification;
+        if (window.FormHandler) {
+            window.FormHandler.showNotification = function(message, type = 'success') {
+                updateStatus('📧 ' + message, type);
+                if (originalShowNotification) {
+                    originalShowNotification.call(this, message, type);
+                }
+            };
+        }
+    </script>
+</body>
+</html>

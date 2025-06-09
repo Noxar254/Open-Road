@@ -174,12 +174,18 @@ const GoogleSheetsHandler = {
         // Route to the new method
         return this.sendPropertySell(formData);
     },
-    
-    // Send newsletter subscription
-    sendNewsletterSubscription: function(email) {
+      // Send newsletter subscription
+    sendNewsletterSubscription: function(data) {
+        // Handle both old format (just email) and new format (object with data)
+        const email = typeof data === 'string' ? data : data.email;
+        const subscriptionDate = typeof data === 'object' ? data.subscriptionDate : new Date().toISOString();
+        const source = typeof data === 'object' ? data.source : window.location.pathname;
+        
         const sheetData = {
             type: 'Newsletter Subscription',
             email: email,
+            subscriptionDate: subscriptionDate,
+            source: source,
             page: document.title,
             url: window.location.href
         };

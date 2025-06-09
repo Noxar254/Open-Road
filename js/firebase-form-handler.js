@@ -50,13 +50,17 @@ const FormHandler = {
     const testDriveForm = document.getElementById('test-drive-form');
     if (testDriveForm) {
       testDriveForm.addEventListener('submit', this.handleTestDriveBooking.bind(this));
-    }
-
-    // Import tracking form
+    }    // Import tracking form
     const trackingForm = document.getElementById('tracking-form');
     if (trackingForm) {
       trackingForm.addEventListener('submit', this.handleImportTracking.bind(this));
     }
+
+    // Newsletter subscription forms
+    const newsletterForms = document.querySelectorAll('.newsletter-form');
+    newsletterForms.forEach(form => {
+      form.addEventListener('submit', this.handleNewsletterSubscription.bind(this));
+    });
 
     // Gallery modal buy now button
     const galleryBuyBtn = document.querySelector('.gallery-btn.primary');
@@ -946,6 +950,110 @@ const FormHandler = {
       const submitBtn = event.target.querySelector('.form-submit');
       if (submitBtn) {
         submitBtn.textContent = submitBtn.textContent.replace('Tracking...', 'Track Import');
+        submitBtn.disabled = false;
+      }
+      this.isSubmitting = false;
+    }  },
+
+  // Handle newsletter subscription form submission
+  handleNewsletterSubscription: function(event) {
+    event.preventDefault();
+    
+    try {
+      console.log("Newsletter subscription form submission started");
+      
+      // Prevent double submission
+      if (this.isSubmitting) {
+        console.log("Preventing duplicate submission");
+        return;
+      }
+      this.isSubmitting = true;
+      
+      // Show loading indicator
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+      submitBtn.disabled = true;
+      
+      // Get form data
+      const form = event.target;
+      const emailInput = form.querySelector('input[type="email"]');
+      
+      // Validate email field
+      if (!emailInput || !emailInput.value.trim()) {
+        throw new Error('Please enter a valid email address');
+      }
+      
+      const email = emailInput.value.trim();
+      
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        throw new Error('Please enter a valid email address');
+      }
+      
+      const formData = {
+        type: 'newsletter',
+        email: email,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        source: window.location.pathname // Track which page the subscription came from
+      };
+      
+      console.log("Submitting newsletter subscription:", formData);
+      
+      // Save to Firestore and Google Sheets
+      const promises = [
+        firebase.firestore().collection('newsletters').add(formData)
+      ];
+      
+      // Also send to Google Sheets if available
+      if (typeof GoogleSheetsHandler !== 'undefined') {
+        const sheetsData = {
+          email: formData.email,
+          subscriptionDate: new Date().toISOString(),
+          source: formData.source
+        };
+        promises.push(GoogleSheetsHandler.sendNewsletterSubscription(sheetsData));
+      }
+      
+      Promise.allSettled(promises)
+        .then((results) => {
+          const firebaseResult = results[0];
+          const sheetsResult = results[1];
+          
+          if (firebaseResult.status === 'fulfilled') {
+            // Show success message
+            this.showNotification('Thank you for subscribing! You will receive updates on our latest listings.');
+            
+            // Reset form
+            form.reset();
+          } else {
+            throw new Error('Newsletter subscription failed');
+          }
+          
+          // Log Google Sheets result (non-blocking)
+          if (sheetsResult && sheetsResult.status === 'rejected') {
+            console.warn('Google Sheets submission failed:', sheetsResult.reason);
+          }
+        })
+        .catch(error => {
+          console.error('Error submitting newsletter subscription:', error);
+          this.showNotification('There was an error subscribing to our newsletter. Please try again later.', 'error');
+        })
+        .finally(() => {
+          // Restore button state
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.disabled = false;
+          this.isSubmitting = false;
+        });
+    } catch (error) {
+      console.error("Error in newsletter subscription handler:", error);
+      this.showNotification('Error: ' + error.message, 'error');
+      
+      // Restore button state
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.innerHTML = submitBtn.innerHTML.replace('<i class="fas fa-spinner fa-spin"></i>', '<i class="fas fa-paper-plane"></i>');
         submitBtn.disabled = false;
       }
       this.isSubmitting = false;
