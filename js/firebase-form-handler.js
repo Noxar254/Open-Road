@@ -44,13 +44,19 @@ const FormHandler = {
     }    const propertySellForm = document.getElementById('property-sell-form');
     if (propertySellForm) {
       propertySellForm.addEventListener('submit', this.handlePropertySellForm.bind(this));
-    }
-
-    // Test drive booking form
+    }    // Test drive booking form
     const testDriveForm = document.getElementById('test-drive-form');
     if (testDriveForm) {
       testDriveForm.addEventListener('submit', this.handleTestDriveBooking.bind(this));
-    }    // Import tracking form
+    }
+
+    // Contact form
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', this.handleContactForm.bind(this));
+    }
+
+    // Import tracking form
     const trackingForm = document.getElementById('tracking-form');
     if (trackingForm) {
       trackingForm.addEventListener('submit', this.handleImportTracking.bind(this));
@@ -842,6 +848,85 @@ const FormHandler = {
       const submitBtn = event.target.querySelector('.form-submit');
       if (submitBtn) {
         submitBtn.textContent = submitBtn.textContent.replace('Booking...', 'Book Test Drive');
+        submitBtn.disabled = false;
+      }
+      this.isSubmitting = false;    }
+  },
+
+  // Handle contact form submission
+  handleContactForm: function(event) {
+    event.preventDefault();
+    
+    try {
+      console.log("Contact form submission started");
+      
+      // Prevent double submission
+      if (this.isSubmitting) {
+        console.log("Preventing duplicate submission");
+        return;
+      }
+      this.isSubmitting = true;
+      
+      // Show loading indicator
+      const submitBtn = event.target.querySelector('.submit-btn');
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+      
+      // Get form data
+      const form = event.target;
+      
+      // Validate required fields
+      const requiredFields = ['name', 'email', 'subject', 'message'];
+      for (let fieldName of requiredFields) {
+        const field = form.elements[fieldName];
+        if (!field || !field.value.trim()) {
+          throw new Error(`Please fill in the ${fieldName} field`);
+        }
+      }
+      
+      const formData = {
+        type: 'contactMessage',
+        name: form.elements['name'].value,
+        email: form.elements['email'].value,
+        phone: form.elements['phone'] ? form.elements['phone'].value : '',
+        subject: form.elements['subject'].value,
+        message: form.elements['message'].value,
+        status: 'new',
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      
+      console.log("Submitting contact message:", formData);
+      
+      // Save to Firestore
+      firebase.firestore().collection('contactMessages').add(formData)
+        .then((docRef) => {
+          console.log("Contact message saved with ID: ", docRef.id);
+          
+          // Show success message
+          this.showNotification('Thank you for your message! We will get back to you soon.', 'success');
+          
+          // Reset form
+          form.reset();
+        })
+        .catch(error => {
+          console.error('Error submitting contact message:', error);
+          this.showNotification('There was an error sending your message. Please try again later.', 'error');
+        })
+        .finally(() => {
+          // Restore button state
+          submitBtn.textContent = originalBtnText;
+          submitBtn.disabled = false;
+          this.isSubmitting = false;
+        });
+    } catch (error) {
+      console.error("Error in contact form handler:", error);
+      this.showNotification('Error: ' + error.message, 'error');
+      
+      // Restore button state
+      const submitBtn = event.target.querySelector('.submit-btn');
+      if (submitBtn) {
+        submitBtn.textContent = originalBtnText;
         submitBtn.disabled = false;
       }
       this.isSubmitting = false;
