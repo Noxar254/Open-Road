@@ -2178,6 +2178,10 @@ footer {
 }
 
 @media screen and (max-width: 576px) {
+    .container {
+        padding: 0 1px;
+    }
+    
     .cards-container {
         grid-template-columns: 1fr;
     }
