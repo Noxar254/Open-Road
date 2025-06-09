@@ -1054,18 +1054,40 @@
                                 <div class="form-row">
                                     <label for="customer-phone">Phone Number*</label>
                                     <input type="tel" id="customer-phone" name="customer-phone" required>
-                                </div>
-                                <div class="form-row">
+                                </div>                                <div class="form-row">
                                     <label for="vehicle-interest">Vehicle of Interest*</label>
                                     <select id="vehicle-interest" name="vehicle-interest" required>
                                         <option value="">Select a Vehicle</option>
-                                        <option value="mercedes-benz-s-class">Mercedes Benz S-Class</option>
-                                        <option value="range-rover-sport">Range Rover Sport</option>
-                                        <option value="audi-q8">Audi Q8</option>
-                                        <option value="bmw-x5">BMW X5</option>
-                                        <option value="toyota-land-cruiser">Toyota Land Cruiser</option>
-                                        <option value="porsche-cayenne">Porsche Cayenne</option>
-                                        <option value="lexus-lx570">Lexus LX570</option>
+                                        <!-- Toyota Vehicles -->
+                                        <option value="toyota-tx-prado">Toyota TX PRADO (2017)</option>
+                                        <option value="toyota-land-cruiser-prado-tx-j120">2006 Toyota Land Cruiser Prado TX J120</option>
+                                        <option value="toyota-land-cruiser-300">Toyota Land Cruiser 300 (2024)</option>
+                                        <option value="toyota-prado-tx-l">Toyota Prado TX-L (2021)</option>
+                                        <option value="toyota-crown">Toyota Crown (2010)</option>
+                                        <option value="toyota-camry-hybrid">Toyota Camry Hybrid (2022)</option>
+                                        <option value="toyota-hilux-double-cab">Toyota Hilux Double Cab (2023)</option>
+                                        <!-- Mercedes-Benz Vehicles -->
+                                        <option value="mercedes-benz-kdq-glc-250">Mercedes Benz KDQ | GLC 250 (2016)</option>
+                                        <option value="mercedes-benz-c300">Mercedes-Benz C300 (2022)</option>
+                                        <option value="mercedes-benz-2002">Mercedes Benz (2002)</option>
+                                        <!-- BMW Vehicles -->
+                                        <option value="bmw-s-class">BMW S-Class (2019)</option>
+                                        <option value="bmw-x5-xdrive40i">BMW X5 xDrive40i (2024)</option>
+                                        <option value="bmw-7-series-740i">BMW 7 Series 740i (2023)</option>
+                                        <option value="bmw-s1000rr">BMW S1000RR (2024)</option>
+                                        <!-- Audi Vehicles -->
+                                        <option value="audi-a7-sportback">Audi A7 Sportback (2023)</option>
+                                        <option value="audi-a4-premium-plus">Audi A4 Premium Plus (2022)</option>
+                                        <!-- Range Rover Vehicles -->
+                                        <option value="range-rover-velar-p400">Range Rover Velar P400 (2025)</option>
+                                        <!-- Porsche Vehicles -->
+                                        <option value="porsche-cayenne-2019">2019 Porsche Cayenne</option>
+                                        <!-- Lexus Vehicles -->
+                                        <option value="lexus-lx-570">Lexus LX 570 (2009)</option>
+                                        <!-- Other Vehicles -->
+                                        <option value="chrysler-suv">Chrysler SUV (2006)</option>
+                                        <option value="mitsubishi-canter">Mitsubishi Canter (2006)</option>
+                                        <option value="mazda-demio">MAZDA DEMIO (2013)</option>
                                         <option value="other">Other (Specify in comments)</option>
                                     </select>
                                 </div>
@@ -1399,72 +1421,220 @@
             document.querySelector('.main-fab').addEventListener('click', function() {
                 this.classList.toggle('active');
                 document.querySelector('.fab-options').classList.toggle('active');
-            });
-
-            // Vehicle specs database (would come from a real database in production)
+            });            // Vehicle specs database (updated with real vehicles from inventory)
             const vehicleSpecsDatabase = {
-                'mercedes-benz-s-class': {
-                    engine: '4.0L V8 Biturbo',
+                // Toyota Vehicles
+                'toyota-tx-prado': {
+                    engine: '2.7L Petrol',
+                    transmission: '6-Speed Automatic',
+                    drive: '4WD',
+                    mileage: '93,180 km',
+                    horsepower: '160 hp',
+                    fuel: 'Petrol',
+                    year: '2017'
+                },
+                'toyota-land-cruiser-prado-tx-j120': {
+                    engine: '2700cc Petrol',
+                    transmission: 'Automatic',
+                    drive: '4WD System',
+                    mileage: '7 Seater',
+                    horsepower: '163 hp',
+                    fuel: 'Petrol',
+                    year: '2006'
+                },
+                'toyota-land-cruiser-300': {
+                    engine: '3300cc V6 Diesel-Turbo',
+                    transmission: '10-Speed Automatic',
+                    drive: 'Full-Time 4WD',
+                    mileage: '2,100 km',
+                    horsepower: '309 hp',
+                    fuel: 'Diesel-Turbo',
+                    year: '2024'
+                },
+                'toyota-prado-tx-l': {
+                    engine: '2800cc 4-Cylinder Diesel-Turbo',
+                    transmission: '6-Speed Automatic',
+                    drive: '4WD',
+                    mileage: '42,800 km',
+                    horsepower: '201 hp',
+                    fuel: 'Diesel',
+                    year: '2021'
+                },
+                'toyota-crown': {
+                    engine: '2500cc 4-Cylinder',
+                    transmission: 'CVT Automatic',
+                    drive: 'Front-Wheel Drive',
+                    mileage: 'Information Available',
+                    horsepower: '180 hp',
+                    fuel: 'Petrol',
+                    year: '2010'
+                },
+                'toyota-camry-hybrid': {
+                    engine: '2500cc 4-Cylinder Hybrid',
+                    transmission: 'CVT Automatic',
+                    drive: 'Front-Wheel Drive',
+                    mileage: '18,900 km',
+                    horsepower: '208 hp',
+                    fuel: 'Petrol-Hybrid',
+                    year: '2022'
+                },
+                'toyota-hilux-double-cab': {
+                    engine: '2800cc 4-Cylinder Diesel-Turbo',
+                    transmission: '6-Speed Manual/Auto',
+                    drive: '4WD',
+                    mileage: 'New Vehicle',
+                    horsepower: '201 hp',
+                    fuel: 'Diesel-Turbo',
+                    year: '2023'
+                },
+
+                // Mercedes-Benz Vehicles
+                'mercedes-benz-kdq-glc-250': {
+                    engine: '2000cc Petrol-Turbocharged',
                     transmission: '9-Speed Automatic',
                     drive: 'All-Wheel Drive (4MATIC)',
-                    mileage: '3,500 km',
-                    horsepower: '496 hp',
+                    mileage: '95,000 km',
+                    horsepower: '211 hp',
+                    fuel: 'Petrol-Turbocharged',
+                    year: '2016'
+                },
+                'mercedes-benz-c300': {
+                    engine: '2000cc 4-Cylinder Turbo',
+                    transmission: '9-Speed G-TRONIC',
+                    drive: 'Rear-Wheel Drive',
+                    mileage: 'Low Mileage',
+                    horsepower: '255 hp',
+                    fuel: 'Petrol-Turbo',
+                    year: '2022'
+                },
+                'mercedes-benz': {
+                    engine: '1.6L Engine',
+                    transmission: '7-Speed Dual-Clutch Auto',
+                    drive: 'Rear-Wheel Drive',
+                    mileage: 'Classic Vehicle',
+                    horsepower: '120 hp',
+                    fuel: 'Petrol',
+                    year: '2002'
+                },
+
+                // BMW Vehicles
+                'bmw-s-class': {
+                    engine: '3000cc 6-Cylinder Turbo',
+                    transmission: '8-Speed Steptronic',
+                    drive: 'Rear-Wheel Drive',
+                    mileage: 'Information Available',
+                    horsepower: '335 hp',
+                    fuel: 'Petrol-Turbo',
+                    year: '2019'
+                },
+                'bmw-x5-xdrive40i': {
+                    engine: '3000cc 6-Cylinder Turbo',
+                    transmission: '8-Speed Steptronic',
+                    drive: 'xDrive AWD',
+                    mileage: '450 km',
+                    horsepower: '335 hp',
+                    fuel: 'Petrol',
+                    year: '2024'
+                },
+                'bmw-7-series-740i': {
+                    engine: '3000cc 6-Cylinder Turbo',
+                    transmission: '8-Speed Steptronic',
+                    drive: 'Rear-Wheel Drive',
+                    mileage: '5,100 km',
+                    horsepower: '335 hp',
                     fuel: 'Petrol',
                     year: '2023'
                 },
-                'range-rover-sport': {
-                    engine: '3.0L Inline-6 Turbo',
-                    transmission: '8-Speed Automatic',
-                    drive: 'All-Wheel Drive',
-                    mileage: '1,200 km',
-                    horsepower: '395 hp',
-                    fuel: 'Diesel',
+                'bmw-s1000rr': {
+                    engine: '999cc 4-Cylinder',
+                    transmission: '6-Speed Manual',
+                    drive: 'Chain Drive',
+                    mileage: 'New Vehicle',
+                    horsepower: '207 hp',
+                    fuel: 'Petrol',
                     year: '2024'
                 },
-                'audi-q8': {
-                    engine: '3.0L V6 TFSI',
-                    transmission: '8-Speed Tiptronic',
-                    drive: 'Quattro All-Wheel Drive',
-                    mileage: '500 km',
+
+                // Audi Vehicles
+                'audi-a7-sportback': {
+                    engine: '3000cc V6 TFSI',
+                    transmission: '7-Speed S tronic',
+                    drive: 'Quattro AWD',
+                    mileage: 'Information Available',
                     horsepower: '340 hp',
-                    fuel: 'Hybrid',
+                    fuel: 'Petrol-Turbo',
+                    year: '2023'
+                },
+                'audi-a4-premium-plus': {
+                    engine: '2000cc 4-Cylinder TFSI',
+                    transmission: '7-Speed S tronic',
+                    drive: 'Quattro AWD',
+                    mileage: '25,400 km',
+                    horsepower: '248 hp',
+                    fuel: 'Petrol-Turbo',
+                    year: '2022'
+                },
+
+                // Range Rover
+                'range-rover-velar-p400': {
+                    engine: '3000cc V6 Supercharged Hybrid',
+                    transmission: '8-Speed Automatic',
+                    drive: 'All-Wheel Drive',
+                    mileage: 'New Model',
+                    horsepower: '400 hp',
+                    fuel: 'Petrol-Hybrid',
                     year: '2025'
                 },
-                'bmw-x5': {
-                    engine: '3.0L Inline-6 TwinPower Turbo',
-                    transmission: '8-Speed Sport Automatic',
-                    drive: 'xDrive All-Wheel Drive',
-                    mileage: '2,100 km',
-                    horsepower: '335 hp',
-                    fuel: 'Petrol',
-                    year: '2024'
-                },
-                'toyota-land-cruiser': {
-                    engine: '3.3L Twin-Turbo V6',
-                    transmission: '10-Speed Automatic',
-                    drive: 'Four-Wheel Drive',
-                    mileage: '980 km',
-                    horsepower: '409 hp',
-                    fuel: 'Diesel',
-                    year: '2024'
-                },
-                'porsche-cayenne': {
-                    engine: '3.0L Turbocharged V6',
+
+                // Porsche
+                '2019-porsche-cayenne': {
+                    engine: '3.0L V6 Turbocharged Petrol',
                     transmission: '8-Speed Tiptronic S',
                     drive: 'All-Wheel Drive',
-                    mileage: '1,500 km',
+                    mileage: '75,000 km',
                     horsepower: '335 hp',
                     fuel: 'Petrol',
-                    year: '2023'
+                    year: '2019'
                 },
-                'lexus-lx570': {
-                    engine: '5.7L V8',
+
+                // Lexus
+                'lexus-lx-570': {
+                    engine: '5700cc V8',
                     transmission: '8-Speed Automatic',
-                    drive: 'Four-Wheel Drive',
-                    mileage: '3,200 km',
+                    drive: 'Full-Time 4WD',
+                    mileage: 'Information Available',
                     horsepower: '383 hp',
                     fuel: 'Petrol',
-                    year: '2022'
+                    year: '2009'
+                },
+
+                // Other Vehicles
+                'chrysler-suv': {
+                    engine: '3.5L V6',
+                    transmission: '6-Speed Manual',
+                    drive: '4x4',
+                    mileage: '228,180 km',
+                    horsepower: '340-425 hp',
+                    fuel: 'CRD Diesel',
+                    year: '2006'
+                },
+                'mitsubishi-canter': {
+                    engine: '4D33 – 4.2L Diesel',
+                    transmission: '5-Speed Manual',
+                    drive: 'Rear-Wheel Drive',
+                    mileage: '290,100 km',
+                    horsepower: '120–180 hp',
+                    fuel: 'Diesel',
+                    year: '2006'
+                },
+                'mazda-demio': {
+                    engine: '1300cc Petrol',
+                    transmission: 'Automatic',
+                    drive: 'Front-Wheel Drive',
+                    mileage: 'Low Mileage',
+                    horsepower: '90 hp',
+                    fuel: 'Petrol',
+                    year: '2013'
                 }
             };
 
