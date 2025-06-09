@@ -1,5 +1,24 @@
 /* Firebase Form Handler Styles */
 
+/* CSS Variables fallbacks for property modal */
+.property-modal {
+  --bg-color: var(--card-background, #ffffff);
+  --text-color: var(--text-color, #333333);
+  --border-color: var(--border-color, #e5e5e5);
+  --accent-color: var(--primary-color, #1a1a1a);
+  --accent-hover: var(--button-hover, #333333);
+  --accent-rgb: 26, 26, 26;
+}
+
+.dark-mode .property-modal {
+  --bg-color: var(--card-background, #1e1e1e);
+  --text-color: var(--text-color, #f5f5f5);
+  --border-color: var(--border-color, #333333);
+  --accent-color: var(--primary-color, #ffffff);
+  --accent-hover: var(--button-hover, #e5e5e5);
+  --accent-rgb: 255, 255, 255;
+}
+
 /* Notification styles */
 #form-notification {
   position: fixed;
@@ -34,8 +53,19 @@
   z-index: 1000;
   overflow-y: auto;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 20px;
+}
+
+.property-modal.active {
+  display: flex;
+}
+
+/* Center the modal vertically when content is smaller than viewport */
+@media (min-height: 600px) {
+  .property-modal {
+    align-items: center;
+  }
 }
 
 .property-modal .purchase-modal-content {
@@ -43,10 +73,112 @@
   border-radius: 8px;
   width: 100%;
   max-width: 1000px;
+  max-height: 90vh;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
   margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Enhanced Property Modal Styling */
+.property-modal .purchase-specs-title {
+  color: var(--accent-color);
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+.property-modal .spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.property-modal .spec-row:last-child {
+  border-bottom: none;
+}
+
+.property-modal .spec-label {
+  font-weight: 500;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+}
+
+.property-modal .spec-label::before {
+  content: '🏠';
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.property-modal .spec-row:nth-child(2) .spec-label::before { content: '📐'; }
+.property-modal .spec-row:nth-child(3) .spec-label::before { content: '🛏️'; }
+.property-modal .spec-row:nth-child(4) .spec-label::before { content: '🚿'; }
+.property-modal .spec-row:nth-child(5) .spec-label::before { content: '📍'; }
+.property-modal .spec-row:nth-child(6) .spec-label::before { content: '🗓️'; }
+
+.property-modal .spec-value {
+  font-weight: 600;
+  color: var(--accent-color);
+  text-align: right;
+}
+
+/* Property modal close button styling */
+.property-modal-close {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.property-modal-close:hover {
+  background: var(--accent-hover);
+  transform: scale(1.1);
+}
+
+/* Property enquiry form specific styling */
+.property-enquiry-form .form-group {
+  margin-bottom: 20px;
+}
+
+.property-enquiry-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.property-enquiry-form input,
+.property-enquiry-form select,
+.property-enquiry-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.property-enquiry-form input:focus,
+.property-enquiry-form select:focus,
+.property-enquiry-form textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
 }
 
 /* Loading spinner for submit buttons */
@@ -72,4 +204,108 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Property Modal Header Sticky */
+.property-modal .purchase-modal-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-color);
+  z-index: 10;
+  border-bottom: 1px solid var(--border-color);
+  padding: 20px;
+  margin: 0;
+}
+
+/* Property Modal Body Scrollable */
+.property-modal .purchase-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Responsive Layout for Property Modal */
+@media (min-width: 768px) {
+  .property-modal .purchase-modal-body {
+    flex-direction: row;
+  }
+}
+
+/* Property Modal Left and Right Sections */
+.property-modal .purchase-modal-left {
+  flex: 1;
+  min-width: 0; /* Allow flex item to shrink */
+}
+
+.property-modal .purchase-modal-right {
+  flex: 1;
+  min-width: 0; /* Allow flex item to shrink */
+}
+
+/* Property Modal Image */
+.property-modal .purchase-modal-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 767px) {
+  .property-modal {
+    padding: 10px;
+  }
+  
+  .property-modal .purchase-modal-content {
+    max-height: 95vh;
+    width: 100%;
+  }
+  
+  .property-modal .purchase-modal-header {
+    padding: 15px;
+  }
+  
+  .property-modal .purchase-modal-body {
+    padding: 15px;
+  }
+  
+  .property-modal .purchase-modal-image {
+    height: 200px;
+  }
+}
+
+/* Ensure form elements are properly sized */
+.property-modal .enquiry-form {
+  max-width: 100%;
+}
+
+.property-modal .property-enquiry-form {
+  max-width: 100%;
+}
+
+.property-modal .form-group {
+  margin-bottom: 15px;
+}
+
+/* Scrollbar styling for webkit browsers */
+.property-modal .purchase-modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.property-modal .purchase-modal-content::-webkit-scrollbar-track {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.property-modal .purchase-modal-content::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
+
+.property-modal .purchase-modal-content::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover);
 }

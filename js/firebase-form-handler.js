@@ -97,8 +97,7 @@ const FormHandler = {
         document.getElementById('purchase-modal').style.display = 'flex';
       });
     });
-    
-    // Property buy now buttons
+      // Property buy now buttons
     document.querySelectorAll('.card[data-id^="property-"] .btn-buy').forEach(button => {
       button.addEventListener('click', function() {
         const card = this.closest('.card');
@@ -106,6 +105,7 @@ const FormHandler = {
         const propertyName = card.querySelector('h3').textContent;
         const propertyImage = card.querySelector('.card-image img').src;
         const propertyLocation = card.querySelector('.location').textContent;
+        const propertyPrice = card.querySelector('.price').textContent;
         
         // Set modal title
         document.getElementById('property-modal-title').textContent = propertyName + ' - Purchase Enquiry';
@@ -120,19 +120,57 @@ const FormHandler = {
         // Set property details from card data
         document.getElementById('spec-property-location').textContent = propertyLocation;
         
+        // Determine property type based on the property name and details
+        let propertyType = 'Property';
+        if (propertyName.toLowerCase().includes('apartment') || propertyName.toLowerCase().includes('block')) {
+          propertyType = 'Apartment Complex';
+        } else if (propertyName.toLowerCase().includes('house') || propertyName.toLowerCase().includes('bedroom')) {
+          propertyType = 'Residential House';
+        } else if (propertyName.toLowerCase().includes('rental') || propertyName.toLowerCase().includes('unit')) {
+          propertyType = 'Investment Property';
+        } else if (propertyName.toLowerCase().includes('commercial')) {
+          propertyType = 'Commercial Property';
+        }
+        document.getElementById('spec-property-type').textContent = propertyType;
+        
         // Extract and set other details if available
         const detailsContainer = card.querySelector('.card-details');
         if (detailsContainer) {
+          // Reset spec values
+          document.getElementById('spec-property-size').textContent = '-';
+          document.getElementById('spec-property-bedrooms').textContent = '-';
+          document.getElementById('spec-property-bathrooms').textContent = '-';
+          document.getElementById('spec-property-year').textContent = '-';
+          
           // Try to extract common property details
           const details = detailsContainer.querySelectorAll('span');
           details.forEach(detail => {
             const text = detail.textContent.trim();
-            if (text.includes('beds') || text.includes('BR')) {
+            
+            // Extract bedrooms
+            if (text.includes('beds') || text.includes('BR') || text.includes('bedroom')) {
               document.getElementById('spec-property-bedrooms').textContent = text;
-            } else if (text.includes('Acre') || text.includes('Plot') || text.includes('×')) {
+            } 
+            // Extract size/plot information
+            else if (text.includes('Acre') || text.includes('Plot') || text.includes('×') || text.includes('sq')) {
               document.getElementById('spec-property-size').textContent = text;
             }
+            // Extract units for investment properties
+            else if (text.includes('Units') || text.includes('Unit')) {
+              document.getElementById('spec-property-size').textContent = text;
+            }
+            // Extract parking information
+            else if (text.includes('Parking')) {
+              document.getElementById('spec-property-bathrooms').textContent = text; // Use bathrooms field for parking
+            }
           });
+        }
+        
+        // Set estimated property year based on property type and location
+        if (propertyName.toLowerCase().includes('prime') || propertyName.toLowerCase().includes('modern')) {
+          document.getElementById('spec-property-year').textContent = '2015-2020';
+        } else {
+          document.getElementById('spec-property-year').textContent = '2010-2018';
         }
         
         // Show the property modal
@@ -159,12 +197,16 @@ const FormHandler = {
       document.getElementById('purchase-modal-image').src = imageSrc;
       document.getElementById('purchase-modal').style.display = 'flex';
     } else {
-      // Open property modal
-      document.getElementById('property-modal-title').textContent = title + ' - Purchase Enquiry';
+      // Open property modal      document.getElementById('property-modal-title').textContent = title + ' - Purchase Enquiry';
       document.getElementById('enquiry-property-id').value = title;
       document.getElementById('enquiry-property-name').value = title;
       document.getElementById('property-modal-image').src = imageSrc;
-      document.getElementById('property-modal').style.display = 'flex';
+      
+      // Show modal and prevent body scroll
+      const propertyModal = document.getElementById('property-modal');
+      propertyModal.style.display = 'flex';
+      propertyModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
   },  // Handle vehicle enquiry form submission
   handleVehicleEnquiry: function(event) {
@@ -1034,19 +1076,27 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("Firebase apps:", firebase.apps ? firebase.apps.length : 0);
     console.log("Database available:", !!db);
   }, 500); // Increased timeout to 500ms
-  
-  // Close modals when clicking close button
+    // Close modals when clicking close button
   const purchaseModalClose = document.querySelector('.purchase-modal-close');
   if (purchaseModalClose) {
     purchaseModalClose.addEventListener('click', function() {
-      document.getElementById('purchase-modal').style.display = 'none';
+      const purchaseModal = document.getElementById('purchase-modal');
+      if (purchaseModal) {
+        purchaseModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
     });
   }
   
   const propertyModalClose = document.querySelector('.property-modal-close');
   if (propertyModalClose) {
     propertyModalClose.addEventListener('click', function() {
-      document.getElementById('property-modal').style.display = 'none';
+      const propertyModal = document.getElementById('property-modal');
+      if (propertyModal) {
+        propertyModal.style.display = 'none';
+        propertyModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
     });
   }
 
@@ -1057,10 +1107,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (event.target === purchaseModal) {
       purchaseModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
     }
     
     if (event.target === propertyModal) {
       propertyModal.style.display = 'none';
+      propertyModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
     }
   });
 });
