@@ -1184,7 +1184,7 @@ nav {
 
 /* Featured Section Styles */
 .featured-section {
-    padding: 80px 0;
+    padding: 60px 0;
     background-color: var(--background-color);
 }
 
@@ -1884,7 +1884,7 @@ checkout-success button:hover {
 
 /* About Section Styles */
 .about-section {
-    padding: 80px 0;
+    padding: 60px 0;
     background-color: var(--card-background);
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
