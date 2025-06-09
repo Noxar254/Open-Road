@@ -130,18 +130,29 @@ img {
 }
 
 .btn-text {
-    background: none;
-    border: none;
-    padding: 0;
-    color: var(--text-color);
+    background: var(--button-primary);
+    color: var(--button-primary-text);
+    border: 2px solid var(--button-primary);
+    padding: 12px 24px;
+    border-radius: 6px;
     display: inline-flex;
     align-items: center;
-    font-weight: 500;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-text i {
     margin-left: 8px;
     transition: transform 0.3s ease;
+}
+
+.btn-text:hover {
+    background: var(--button-hover);
+    border-color: var(--button-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-text:hover i {
@@ -1901,22 +1912,26 @@ checkout-success button:hover {
 .stats-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: 20px;
 }
 
 .stat-item {
     text-align: center;
+    padding: 15px 10px;
 }
 
 .stat-item h3 {
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    line-height: 1.2;
 }
 
 .stat-item p {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--secondary-color);
+    margin: 0;
+    line-height: 1.3;
 }
 
 /* Footer Styles */
@@ -2061,6 +2076,92 @@ footer {
     color: white;
 }
 
+/* Footer Sell with Us Button Styles */
+.footer-sell-button {
+    background: linear-gradient(135deg, #ff4d4d, #ff6b6b) !important;
+    color: white !important;
+    padding: 10px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+    text-decoration: none;
+    border: none;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+    animation: footerSellGlow 3s ease-in-out infinite;
+}
+
+.footer-sell-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.footer-sell-button:hover::before {
+    left: 100%;
+}
+
+.footer-sell-button i {
+    font-size: 14px;
+    animation: iconWiggle 2s ease-in-out infinite;
+}
+
+.footer-sell-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 77, 77, 0.4);
+    background: linear-gradient(135deg, #ff6b6b, #ff4d4d) !important;
+}
+
+.footer-sell-button:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+/* Glow animation for footer sell button */
+@keyframes footerSellGlow {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(255, 77, 77, 0.5), 0 0 0 3px rgba(255, 77, 77, 0.1);
+    }
+}
+
+@keyframes iconWiggle {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-5deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+}
+
+/* Responsive adjustments for footer sell button */
+@media screen and (max-width: 768px) {
+    .footer-sell-button {
+        padding: 8px 14px;
+        font-size: 13px;
+        border-radius: 18px;
+    }
+    
+    .footer-sell-button i {
+        font-size: 13px;
+    }
+}
+
 /* Responsive Styles */
 @media screen and (max-width: 992px) {
     .main-nav {
@@ -2092,13 +2193,49 @@ footer {
     .hero p {
         font-size: 16px;
     }
-    
-    .stats-container {
-        grid-template-columns: 1fr;
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
     
     .search-category {
         max-width: 100%;
+    }
+      /* Reduce spacing between featured section and about section on mobile */
+    .featured-section {
+        padding: 40px 0;
+    }
+    
+    .about-section {
+        padding: 40px 0;
+    }
+      /* Center the main title in About section on mobile only */
+    .about-content h2 {
+        text-align: center;
+    }
+    
+    /* Center and adjust Learn More button on mobile */
+    .about-content {
+        text-align: center;
+    }
+      .about-content .btn-text {
+        margin-top: 10px;
+        padding: 14px 28px;
+        font-size: 16px;
+    }
+    
+    /* Optimize stats layout on mobile */
+    .stat-item {
+        padding: 10px 5px;
+    }
+    
+    .stat-item h3 {
+        font-size: 28px;
+        margin-bottom: 6px;
+    }
+    
+    .stat-item p {
+        font-size: 12px;
     }
     
     .search-btn {
@@ -2184,6 +2321,15 @@ footer {
     
     .cards-container {
         grid-template-columns: 1fr;
+    }
+    
+    /* Further reduce spacing on smaller mobile devices */
+    .featured-section {
+        padding: 30px 0;
+    }
+    
+    .about-section {
+        padding: 30px 0;
     }
     
     .footer-content {
